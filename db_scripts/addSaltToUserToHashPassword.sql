@@ -1,0 +1,2 @@
+ALTER TABLE [User]
+drop salt NVARCHAR(255) NULL;

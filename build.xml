@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ITSport" default="deploy" basedir=".">
+    <description>Builds, tests, and runs the project ITSport.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+<!--   Các biến dùng cho đường dẫn 
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="web"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="war.file" value="${dist.dir}/ITSport.war"/>
+
+     Tạo thư mục build và dist 
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+     Biên dịch mã nguồn 
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" source="1.8" target="1.8"/>
+    </target>
+
+     Tạo file WAR 
+    <target name="war" depends="compile">
+        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}"/>
+            <classes dir="${build.dir}"/>
+        </war>
+    </target>
+
+     Run (NetBeans dùng hoặc bạn chạy bằng dòng lệnh) 
+    <target name="run" depends="war">
+        <antcall target="-deploy-nb"/>
+    </target>
+
+-->
+
+    
+</project>
