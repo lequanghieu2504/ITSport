@@ -6,10 +6,9 @@
          version="3.0">
     <display-name>ITSport</display-name>
     <welcome-file-list>
-        <welcome-file>index</welcome-file>  <!-- servlet url -->
+        <welcome-file>homepage.jsp</welcome-file> 
     </welcome-file-list>
     
-
 </web-app>
 
 
