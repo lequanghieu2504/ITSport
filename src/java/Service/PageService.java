@@ -84,4 +84,16 @@ public class PageService {
         }
     }
 
+    public void loadEditForm(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setAttribute("section", "editProduct");
+            request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
 }

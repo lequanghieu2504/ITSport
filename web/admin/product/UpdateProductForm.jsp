@@ -6,7 +6,7 @@
     <title>Update Product</title>
 </head>
 <body>
-    <a href="${pageContext.request.contextPath}/MainController?action=loadProductList">← Quay lại danh sách sản phẩm</a>
+    <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Quay lại danh sách sản phẩm</a>
     <h2>Update Product</h2>
 
     <form action="MainController" method="post">

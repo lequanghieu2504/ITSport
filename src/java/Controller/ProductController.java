@@ -36,6 +36,11 @@ public class ProductController extends HttpServlet {
             productService.handleInsertProduct(request,response);
             return;
         }
+        else if("toggleStatus".equalsIgnoreCase(action)){
+            productService.handleToggleStatus(request,response);
+            return;
+        }
+                
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

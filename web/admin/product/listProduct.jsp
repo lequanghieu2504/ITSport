@@ -74,14 +74,14 @@
                         <td>${p.price} đ</td>
                         <td>${p.category_name}</td>
                         <td>${p.brand_name}</td>
-                        <td><form action="${pageContext.request.contextPath}/MainController" method="post">
+                        <td><form action="${pageContext.request.contextPath}/MainController" method="post" style="display:inline;">
                                 <input type="hidden" name="action" value="toggleStatus"/>
-                                <input type="hidden" name="product_id" value="${p.product_id}" />
-
-                                <input type="checkbox" name="status"
-                                       onchange="this.form.submit()"
-                                       <c:if test="${p.status}">checked</c:if> />
-                                <label>${p.status ? 'Active' : 'Inactive'}</label>
+                                <input type="hidden" name="StrProductId" value="${p.product_id}" />
+                                <button type="submit" name="status" value="${!p.status}" 
+                                        style="background: none; border: none;">
+                                    <img src="${pageContext.request.contextPath}/images/${p.status ? 'on.png' : 'off.png'}" 
+                                         alt="${p.status ? 'Active' : 'Inactive'}" width="24" height="24"/>
+                                </button>
                             </form></td>
                         <td class="actions">
                             <a class="button" href="${pageContext.request.contextPath}/MainController?action=loadEditForm&id=${p.product_id}">Sửa</a>

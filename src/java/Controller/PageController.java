@@ -46,6 +46,10 @@ public class PageController extends HttpServlet {
             pageService.loadForListProduct(request,response);
             return;
         }
+        else if("loadEditForm".equalsIgnoreCase(action)){
+            pageService.loadEditForm(request,response);
+            return;
+        }
         
     } 
 

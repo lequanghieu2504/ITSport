@@ -49,9 +49,11 @@
                     <h2>Revenue (Coming soon)</h2>
                 </c:when>
                 <c:when test="${section == 'createProduct'}">
-                    <jsp:include page="product/createProductForm.jsp" />
+                    <jsp:include page="product/createProductForm.jsp"/>
                 </c:when>
-
+                <c:when test="${section == 'editProduct'}">
+                    <jsp:include page="product/UpdateProductForm.jsp"/>   
+                </c:when>
                 <c:otherwise>
                     <h2>Welcome to the Admin Dashboard</h2>
                     <p>Select a section from the menu.</p>

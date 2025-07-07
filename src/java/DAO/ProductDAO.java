@@ -24,6 +24,7 @@ public class ProductDAO {
 
     private final String GET_PRODUCT = "select * from [Product] ";
     private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
+    private final String UPDATE_PRODUCT = "UPDATE [Product] ";
 
     public List<ProductDTO> getNewProducts() {
         String sql = GET_PRODUCT;
@@ -145,5 +146,20 @@ public class ProductDAO {
         }
 
         return list;
+    }
+
+    public void updateStatus(long productId, boolean status) {
+        String sql = UPDATE_PRODUCT + "SET status = ? WHERE product_id = ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBoolean(1, status);         
+            ps.setLong(2, productId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+             Optional: throw new RuntimeException("Error updating status", ex);
+        }
     }
 }

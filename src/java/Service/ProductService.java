@@ -35,18 +35,42 @@ public class ProductService {
 
             if (success) {
                 request.getSession().setAttribute("message", "them san pham thanh cong");
-            }
-            else{
+            } else {
                 request.getSession().setAttribute("message", "them san pham that bai");
             }
-        }
-        else{
+        } else {
             request.getSession().setAttribute("message", "co loi trong qua trinh them san pham");
         }
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleToggleStatus(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+            
+            try {
+                String idStr = request.getParameter("StrProductId");
+                String statusStr = request.getParameter("status");
+                
+                if (idStr != null && statusStr != null) {
+                    long productId = Long.parseLong(idStr);
+                    boolean status = Boolean.parseBoolean(statusStr); // true hoặc false
+
+                    // Gọi DAO để cập nhật
+                    productDAO.updateStatus(productId, status);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            // Quay về lại danh sách sản phẩm
+            response.sendRedirect("MainController?action=loadForListProductForm");
         } catch (IOException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }
