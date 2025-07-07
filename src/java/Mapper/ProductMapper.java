@@ -5,6 +5,7 @@
 package Mapper;
 
 import DTOs.ProductDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -36,6 +37,68 @@ public class ProductMapper {
         product.setStatus(status);
 
         return product;
+    }
+
+    public static ProductDTO toProductDTOFromRequest(HttpServletRequest request) {
+
+        String product_name = request.getParameter("StrProductName");
+
+        String description = request.getParameter("StrDescription");
+
+        String price = request.getParameter("StrPrice");
+
+        String img_url = request.getParameter("StrImgUrl");
+
+        String category_id = request.getParameter("StrCategoryId");
+
+        String brand_id = request.getParameter("StrBrandId");
+
+        String status = request.getParameter("StrStatus");
+
+        ProductDTO dto = new ProductDTO();
+
+       
+
+        dto.setProduct_name(product_name);
+        dto.setDescription(description);
+
+        if (price != null && !price.isEmpty()) {
+            try {
+                dto.setPrice(Double.parseDouble(price));
+            } catch (NumberFormatException e) {
+                dto.setPrice(0.0);
+            }
+        } else {
+            dto.setPrice(0.0);
+        }
+
+        if(img_url!=null){
+        dto.setImg_url(img_url);
+        }
+        if (category_id != null && !category_id.isEmpty()) {
+            try {
+                dto.setCategory_id(Integer.parseInt(category_id));
+            } catch (NumberFormatException e) {
+                dto.setCategory_id(0);
+            }
+        } else {
+            dto.setCategory_id(0);
+        }
+
+        if (brand_id != null && !brand_id.isEmpty()) {
+            try {
+                dto.setBrand_id(Integer.parseInt(brand_id));
+            } catch (NumberFormatException e) {
+                dto.setBrand_id(0);
+            }
+        } else {
+            dto.setBrand_id(0);
+        }
+
+        dto.setStatus(status != null && Boolean.parseBoolean(status));
+
+        return dto;
+
     }
 
 }

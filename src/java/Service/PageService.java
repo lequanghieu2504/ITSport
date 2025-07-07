@@ -4,8 +4,10 @@
  */
 package Service;
 
+import DAO.BrandDAO;
 import DAO.CategoryDAO;
 import DAO.ProductDAO;
+import DTOs.BrandDTO;
 import DTOs.CategoryDTO;
 import DTOs.ProductDTO;
 import jakarta.servlet.ServletException;
@@ -24,6 +26,7 @@ public class PageService {
 
     CategoryDAO categoryDAO = new CategoryDAO();
     ProductDAO productDAO = new ProductDAO();
+    BrandDAO brandDAO = new BrandDAO();
 
     public void loadForHomePage(HttpServletRequest request, HttpServletResponse response) {
 
@@ -43,6 +46,22 @@ public class PageService {
 
 // lay thong tin het thi forward toi trang home de load len
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadForCreateForm(HttpServletRequest request, HttpServletResponse response){
+        try {
+            List<CategoryDTO> listC = categoryDAO.getAllCategories();
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+            
+            request.setAttribute("listB", listB);
+            request.setAttribute("listC", listC);
+            
+            request.getRequestDispatcher("/admin/adminDashboard.jsp?section=product").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

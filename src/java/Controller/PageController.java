@@ -38,7 +38,10 @@ public class PageController extends HttpServlet {
             pageService.loadForHomePage(request,response);
             return;
         }
-        
+        else if("loadForCreateForm".equalsIgnoreCase(action)){
+            pageService.loadForCreateForm(request,response);
+            return;
+        }
         
     } 
 

@@ -21,23 +21,23 @@ import util.JDBCConnection;
  * @author ASUS
  */
 public class ProductDAO {
-    private final String GET_PRODUCT = "select * from Categories ";
-    
-    
+
+    private final String GET_PRODUCT = "select * from [Product] ";
+    private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
+
     public List<ProductDTO> getNewProducts() {
         String sql = GET_PRODUCT;
         List<ProductDTO> listP = new ArrayList<>();
-        try(Connection conn = JDBCConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
                 listP.add(productDTO);
             }
             return listP;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -45,15 +45,14 @@ public class ProductDAO {
     }
 
     public List<ProductDTO> getProductsByCategoryId(long category_id) {
-        
+
         String sql = GET_PRODUCT + " where category_id = ?";
         List<ProductDTO> listP = new ArrayList<>();
-        try(Connection conn = JDBCConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)){
-            
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
                 listP.add(productDTO);
             }
@@ -67,21 +66,42 @@ public class ProductDAO {
     public List<ProductDTO> getSuggestedProducts() {
         List<ProductDTO> listP = new ArrayList<>();
         String sql = GET_PRODUCT + "ORDER BY product_id DESC";
-        
-        try(Connection conn = JDBCConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
-            
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
                 listP.add(productDTO);
             }
             return listP;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
+    public boolean insertProduct(ProductDTO productDTO) {
+        String sql = "INSERT INTO product (product_name, [description], price, category_id, brand_id, [status]) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, productDTO.getProduct_name());
+            ps.setString(2, productDTO.getDescription());
+            ps.setDouble(3, productDTO.getPrice());
+            ps.setLong(4, productDTO.getCategory_id());
+            ps.setLong(5, productDTO.getBrand_id());
+            ps.setBoolean(6, productDTO.isStatus()); // Hoặc setInt nếu status là 0/1
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+
 }
