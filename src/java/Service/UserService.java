@@ -41,7 +41,8 @@ public class UserService {
             } else {
                 if(PasswordUtils.verifyPassword(StrPassword, userDTO.getPassword())){
                 request.getSession().setAttribute("user", userDTO);
-                url = "homepage.jsp";
+                response.sendRedirect("MainController?action=loadForHomePage");
+                return;
                 }
             }
             request.getRequestDispatcher(url).forward(request, response);
