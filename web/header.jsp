@@ -31,13 +31,17 @@
         <!-- Icons -->
         <div class="icon-group d-flex align-items-center ml-3">
             <!-- Cart -->
-            <a href="cart" class="icon-link position-relative mr-3">
-                <i class="fa fa-shopping-cart fa-lg"></i>
-                <span class="cart-badge badge badge-pill badge-danger">${sessionScope.cartSize}</span>
+            <a href="cart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
+                <i class="fa fa-shopping-cart icon-item"></i>
+                <c:if test="${sessionScope.cartSize > 0}">
+                    <span class="cart-badge">${sessionScope.cartSize}</span>
+                </c:if>
             </a>
 
             <!-- Wishlist -->
-            <a href="wishlist" class="icon-link mr-3"><i class="fa-solid fa-heart fa-lg"></i></a>
+            <a href="wishlist" class="icon-wrapper" title="Yêu thích">
+                <i class="fa-solid fa-heart icon-item"></i>
+            </a>
         </div>
 
         <!-- Mobile Toggle -->

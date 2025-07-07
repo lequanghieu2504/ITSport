@@ -1,69 +1,52 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-        }
-        .form-container {
-            width: 400px;
-            margin: 0 auto;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .message {
-            color: red;
-            margin-bottom: 10px;
-        }
-        input[type=submit] {
-            padding: 10px 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h2>User Registration</h2>
+    <head>
+        <meta charset="UTF-8">
+        <title>Register</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css"/>
+    </head>
+    <body class="bg-light d-flex align-items-center justify-content-center vh-100">
+        <div class="container d-flex shadow-sm bg-white p-3 gap-3" style="max-width: 900px;">
 
-        <!-- Hiển thị thông báo nếu có -->
-        <%
-            String message = (String) session.getAttribute("message");
-            if (message != null) {
-        %>
-            <div class="message"><%= message %></div>
-        <%
-                session.removeAttribute("message");
-            }
-        %>
+            <!-- Form bên trái -->
+            <div class="p-4 flex-fill form-side" style="width: 50%;">
+                <h2 class="text-center mb-4 text-danger">Sign Up</h2>
 
-        <!-- Form đăng ký -->
-        <form method="post" action="MainController?action=register">
-            <div class="form-group">
-                <label for="StrUserName">Username:</label>
-                <input type="text" name="StrUserName" id="StrUserName" required>
+                <c:if test="${not empty sessionScope.message}">
+                    <div class="alert alert-success text-center">${sessionScope.message}</div>
+                    <c:remove var="message" scope="session"/>
+                </c:if>
+
+                <form method="post" action="MainController?action=register">
+                    <div class="form-group mb-3">
+                        <label for="StrUserName">Username:</label>
+                        <input type="text" name="StrUserName" id="StrUserName" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="StrFullName">Full Name:</label>
+                        <input type="text" name="StrFullName" id="StrFullName" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="StrPassword">Password:</label>
+                        <input type="password" name="StrPassword" id="StrPassword" class="form-control" required>
+                    </div>
+                    <div class="d-grid">
+                        <input type="submit" value="Register" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="StrFullName">Full Name:</label>
-                <input type="text" name="StrFullName" id="StrFullName" required>
+
+            <!-- Logo bên phải -->
+            <div class="d-none d-md-flex align-items-center justify-content-center bg-dark p-4 logo-side" style="width: 50%;">
+                <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Logo" class="img-fluid" style="max-height: 250px;">
             </div>
-            <div class="form-group">
-                <label for="StrPassword">Password:</label>
-                <input type="password" name="StrPassword" id="StrPassword" required>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Register">
-            </div>
-        </form>
-    </div>
-</body>
+        </div>
+    </body>
+    <jsp:include page="popup.jsp" />
+
 </html>

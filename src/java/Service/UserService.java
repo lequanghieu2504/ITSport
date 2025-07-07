@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Service;
 
 import DAO.UserDAO;
@@ -15,85 +11,77 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.PasswordUtils;
 
-/**
- *
- * @author ASUS
- */
 public class UserService {
 
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
 
-    public void handleLogin(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("vo duoc day roi");
-        try {
-            String url = "login.jsp";
-            
-            String StrUserName = request.getParameter("StrUserName");
-            String StrPassword = request.getParameter("StrPassword");
-            
-            
-            UserDTO userDTO = userDAO.getUserByUserName(StrUserName);
-            
-    
-            
-            if (userDTO == null) {
-                request.setAttribute("message", "Can not login");
-            } else {
-                if(PasswordUtils.verifyPassword(StrPassword, userDTO.getPassword())){
-                request.getSession().setAttribute("user", userDTO);
-                response.sendRedirect("MainController?action=loadForHomePage");
-                return;
-                }
-            }
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void handleRegister(HttpServletRequest request, HttpServletResponse response) {
+    public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Vào handleLogin rồi");
 
         String url = "login.jsp";
 
-        String StrUserName = request.getParameter("StrUserName");
-        String StrFullName = request.getParameter("StrFullName");
-        String StrPassword = request.getParameter("StrPassword");
-//        String StrEmail = request.getParameter("StrEmail");
-        String hashPassword = util.PasswordUtils.hashPassword(StrPassword);
+        try {
+            String username = request.getParameter("StrUserName");
+            String password = request.getParameter("StrPassword");
 
-        UserDTO newUserDTO = new UserDTO();
-        newUserDTO.setUsername(StrUserName);
-        newUserDTO.setFullName(StrFullName);
-        newUserDTO.setPassword(hashPassword);
-        newUserDTO.setRole(Role.CLIENT);
+            UserDTO userDTO = userDAO.getUserByUserName(username);
 
-//neu dang ky cho Admin
-//        newUserDTO.setRole(Role.ADMIN);
-        boolean success = userDAO.insertUser(newUserDTO);
-        if (success) {
-            try {
-                request.getSession().setAttribute("message", "Add Success");
-                request.getRequestDispatcher(url).forward(request, response);
+            if (userDTO == null) {
+                request.getSession().setAttribute("message", "Tài khoản không tồn tại!");
+            } else if (!PasswordUtils.verifyPassword(password, userDTO.getPassword())) {
+                request.getSession().setAttribute("message", "Sai mật khẩu!");
+            } else {
+                request.getSession().setAttribute("user", userDTO);
+
+                // Load dữ liệu trang chủ trước khi forward
+                PageService pageService = new PageService();
+                pageService.loadForHomePage(request, response);
+
+                // Kết thúc sau khi forward trong PageService
                 return;
-            } catch (ServletException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            try {
+
+            // Nếu login fail thì forward về lại login.jsp
+            request.getRequestDispatcher(url).forward(request, response);
+
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void handleRegister(HttpServletRequest request, HttpServletResponse response) {
+        String url = "login.jsp";
+
+        try {
+            String username = request.getParameter("StrUserName");
+            String fullName = request.getParameter("StrFullName");
+            String password = request.getParameter("StrPassword");
+
+            String hashPassword = PasswordUtils.hashPassword(password);
+
+            UserDTO newUser = new UserDTO();
+            newUser.setUsername(username);
+            newUser.setFullName(fullName);
+            newUser.setPassword(hashPassword);
+            newUser.setRole(Role.CLIENT); // default role
+
+            boolean success = userDAO.insertUser(newUser);
+
+            if (success) {
+                request.getSession().setAttribute("message", "Đăng ký thành công! Vui lòng đăng nhập.");
+            } else {
+                request.getSession().setAttribute("message", "Đăng ký thất bại!");
                 url = "register.jsp";
-                request.getSession().setAttribute("message", "Can Not Register Now");
-                request.getRequestDispatcher(url).forward(request, response);
-                return;
-            } catch (ServletException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            request.getRequestDispatcher(url).forward(request, response);
+
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

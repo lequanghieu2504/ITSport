@@ -41,7 +41,7 @@ public class ProductDAO {
 
     public List<ProductDTO> getProductsByCategoryId(long category_id) {
         List<ProductDTO> listP = new ArrayList<>();
-        String sql = GET_PRODUCT + "WHERE category_id = ?";
+        String sql = GET_PRODUCT + " WHERE category_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setLong(1, category_id);
@@ -72,5 +72,13 @@ public class ProductDAO {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listP;
+    }
+    
+    public static void main(String[] args) {
+        ProductDAO dao = new ProductDAO();
+        List<ProductDTO> list  = dao.getProductsByCategoryId(1);
+        for (ProductDTO productDTO : list) {
+            System.out.println(productDTO);
+        }
     }
 }

@@ -95,6 +95,9 @@ public class ProductDTO {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" + "product_id=" + product_id + ", product_name=" + product_name + ", description=" + description + ", price=" + price + ", img_url=" + img_url + ", category_id=" + category_id + ", brand_id=" + brand_id + ", status=" + status + '}';
+    }
 }
