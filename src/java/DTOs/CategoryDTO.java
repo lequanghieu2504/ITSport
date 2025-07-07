@@ -45,6 +45,9 @@ public class CategoryDTO {
     public void setParent_id(long parent_id) {
         this.parent_id = parent_id;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "CategoryDTO{" + "category_id=" + category_id + ", category_name=" + category_name + ", parent_id=" + parent_id + '}';
+    }
 }

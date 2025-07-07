@@ -45,4 +45,12 @@ public class CategoryDAO {
         return null;
     }
     
+    public static void main(String[] args) {
+        CategoryDAO dao = new CategoryDAO();
+        List<CategoryDTO> list = dao.getAllCategories();
+        
+        for (CategoryDTO categoryDTO : list) {
+            System.out.println(categoryDTO);
+        }
+    }
 }

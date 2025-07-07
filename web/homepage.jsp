@@ -7,6 +7,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home Page</title>
+
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -30,22 +31,22 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
     </head>
-    <body>
-        <jsp:include page="header.jsp"></jsp:include>
-        <jsp:include page="banner.jsp"></jsp:include>
 
-            <!-- Category Section -->
-            <div class="category-wrapper section-wrapper">
-                <h2>Danh Mục</h2>
-                <div class="category-container">
+    <body>
+        <jsp:include page="header.jsp"/>
+        <jsp:include page="banner.jsp"/>
+
+        <!-- Danh Mục -->
+        <div class="category-wrapper section-wrapper">
+            <h2>Danh Mục</h2>
+            <div class="category-container">
                 <c:choose>
                     <c:when test="${not empty listC}">
                         <c:forEach var="p" items="${listC}">
-                            <a href="category?id=${p.id}" class="category-item">
+                            <a href="category?id=${p.category_id}" class="category-item">
                                 <img src="assets/images/detail1.png" width="100" />
-                                <h4>${p.name}</h4>
+                                <h4>${p.category_name}</h4>
                             </a>
                         </c:forEach>
                     </c:when>
@@ -56,18 +57,17 @@
             </div>
         </div>
 
-        <!-- New Product Section -->
+        <!-- Sản phẩm mới -->
         <div class="newproduct-wrapper section-wrapper">
             <h2>SẢN PHẨM MỚI</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listNewP}">
-                    <a href="detail?pid=${p.id}" class="product-card-link">
+                    <a href="detail?pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.imgUrl}" alt="${p.productName}" />
+                            <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
-                                <p class="product-name">${p.productName}</p>
+                                <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
-                                <p class="product-quantity">Số lượng: ${p.quantity}</p>
                             </div>
                         </div>
                     </a>
@@ -75,18 +75,17 @@
             </div>
         </div>
 
-        <!-- Áo Section -->
+        <!-- Áo thể thao -->
         <div class="ao-wrapper section-wrapper">
             <h2>ÁO THỂ THAO</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listAo}">
-                    <a href="detail?pid=${p.id}" class="product-card-link">
+                    <a href="detail?pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.imgUrl}" alt="${p.productName}" />
+                            <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
-                                <p class="product-name">${p.productName}</p>
+                                <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
-                                <p class="product-quantity">Số lượng: ${p.quantity}</p>
                             </div>
                         </div>
                     </a>
@@ -94,18 +93,17 @@
             </div>
         </div>
 
-        <!-- Quần Section -->
+        <!-- Quần thể thao -->
         <div class="quan-wrapper section-wrapper">
             <h2>QUẦN THỂ THAO</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listQ}">
-                    <a href="detail?pid=${p.id}" class="product-card-link">
+                    <a href="detail?pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.imgUrl}" alt="${p.productName}" />
+                            <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
-                                <p class="product-name">${p.productName}</p>
+                                <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
-                                <p class="product-quantity">Số lượng: ${p.quantity}</p>
                             </div>
                         </div>
                     </a>
@@ -113,18 +111,17 @@
             </div>
         </div>
 
-        <!-- Suggest Today Section -->
+        <!-- Gợi ý hôm nay -->
         <div class="suggest-wrapper section-wrapper">
             <h2>GỢI Ý HÔM NAY</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${productListP}">
-                    <a href="detail?pid=${p.id}" class="product-card-link">
+                    <a href="detail?pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.imgUrl}" alt="${p.productName}" />
+                            <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
-                                <p class="product-name">${p.productName}</p>
+                                <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
-                                <p class="product-quantity">Số lượng: ${p.quantity}</p>
                             </div>
                         </div>
                     </a>
@@ -132,7 +129,8 @@
             </div>
         </div>
 
-        <jsp:include page="footer.jsp"></jsp:include>
-        <script src="assets/js/Home.js" defer></script>
+        <jsp:include page="footer.jsp"/>
+        <script src="assets/js/home.js" defer></script>
+        <%--<jsp:include page="popup.jsp"/>--%>
     </body>
 </html>

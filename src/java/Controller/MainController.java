@@ -20,13 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name="MainController", urlPatterns={"/MainController","/",""})
 public class MainController extends HttpServlet {
     private static final String LOGIN_PAGE = "login.jsp";
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     private boolean isUserAction(String action) {
         return "login".equals(action)
                 || "logout".equals(action)
