@@ -59,6 +59,7 @@ body {
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .btn-buy:hover {
@@ -66,16 +67,35 @@ body {
     transform: translateY(-2px);
 }
 
-.badge-stock {
-    background-color: green;
-    color: #fff;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+.btn-cart {
+    border: 2px solid #800020;
+    color: #800020;
+    background: transparent;
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 
-@media (max-width: 768px) {
-    .product-container {
-        padding: 1rem;
+.btn-cart:hover {
+    background-color: #800020;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+    align-items: center;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 576px) {
+    .button-group {
+        flex-direction: column;
     }
 }
+

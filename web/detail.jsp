@@ -25,13 +25,24 @@
                     <div class="product-price">${product.price}₫</div>
                     <div class="product-desc">${product.description}</div>
 
+                    <div class="button-group">
+                        <form action="MainController" method="post" class="flex-fill">
+                            <input type="hidden" name="pid" value="${product.product_id}" />
+                            <input type="hidden" name="action" value="buyProduct" />
+                            <button type="submit" class="btn btn-buy">
+                                <i class="fas fa-shopping-cart mr-2"></i> Mua Ngay
+                            </button>
+                        </form>
 
-                    <form action="buyNow" method="post">
-                        <input type="hidden" name="pid" value="${product.product_id}" />
-                        <button type="submit" class="btn btn-buy mt-3">
-                            <i class="fas fa-shopping-cart mr-2"></i>Mua Ngay
-                        </button>
-                    </form>
+                        <form action="MainController" method="post" class="flex-fill">
+                            <input type="hidden" name="pid" value="${product.product_id}" />
+                            <input type="hidden" name="action" value="addToCart" />
+                            <button type="submit" class="btn btn-cart">
+                                <i class="fas fa-cart-plus mr-1"></i> Thêm vào giỏ hàng
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
