@@ -11,6 +11,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.PasswordUtils;
@@ -27,30 +30,30 @@ public class UserService {
         System.out.println("vo duoc day roi");
         try {
             String url = "login.jsp";
-            
+
             String StrUserName = request.getParameter("StrUserName");
             String StrPassword = request.getParameter("StrPassword");
-            
-            
+
             UserDTO userDTO = userDAO.getUserByUserName(StrUserName);
-            
-    
-            
+
             if (userDTO == null) {
-                request.setAttribute("message", "Can not login");
+                request.getSession().setAttribute("message", "Tài khoản không tồn tại!");
+            } else if (!PasswordUtils.verifyPassword(StrPassword, userDTO.getPassword())) {
+                request.getSession().setAttribute("message", "Sai mật khẩu!");
             } else {
-                if(PasswordUtils.verifyPassword(StrPassword, userDTO.getPassword())){
                 request.getSession().setAttribute("user", userDTO);
-                url = "homepage.jsp";
-                }
+                response.sendRedirect("homepage.jsp");
+                return;
             }
+            // Đăng nhập thất bại → quay lại trang login
             request.getRequestDispatcher(url).forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
     }
 
     public void handleRegister(HttpServletRequest request, HttpServletResponse response) {

@@ -1,0 +1,113 @@
+:root {
+    --red: #99333f;
+    --black: #000000;
+    --white: #ffffff;
+    --gray: #f1f1f1;
+    --light-border: #cccccc;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--gray);
+    color: var(--black);
+}
+
+/* Container form */
+.container, .card {
+    background-color: var(--white);
+    gap: 10px;
+}
+
+/* Tiêu đề */
+h2 {
+    text-align: center;
+    color: var(--red);
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 600;
+    color: var(--black);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--light-border);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 5px rgba(153, 51, 63, 0.5);
+}
+
+/* Nút */
+input[type="submit"], .btn-primary {
+    background-color: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+input[type="submit"]:hover,
+.btn-primary:hover {
+    background-color: var(--black);
+}
+
+/* Thông báo */
+.message,
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.message {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.alert-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+/* Bo góc chỉ cho từng phần */
+.logo-side {
+    border-radius: 8px;
+}
+
+.form-side {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .form-container, .card, .container {
+        flex-direction: column;
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .logo-side, .form-side {
+        border-radius: 10px !important;
+    }
+}

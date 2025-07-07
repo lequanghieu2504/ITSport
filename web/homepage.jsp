@@ -131,8 +131,8 @@
                 </c:forEach>
             </div>
         </div>
-
-        <jsp:include page="footer.jsp"></jsp:include>
-        <script src="assets/js/Home.js" defer></script>
+        <script src="assets/js/home.js" defer></script>
     </body>
+    <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="popup.jsp" />
 </html>
