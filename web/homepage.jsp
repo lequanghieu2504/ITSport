@@ -5,15 +5,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <title>Trang Chủ ITSPORT</title>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
 
-        <!-- Font Awesome CSS -->
+        <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
         <!-- Google Fonts -->
@@ -22,26 +21,17 @@
         <!-- Custom CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/homepage.css" type="text/css">
 
-        <!-- jQuery -->
+        <!-- jQuery + Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-        <!-- Popper.js -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-
-        <!-- Bootstrap JS -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
     </head>
 
     <body>
         <jsp:include page="header.jsp"/>
         <jsp:include page="banner.jsp"/>
 
-        <!-- Danh Mục -->
+        <!-- DANH MỤC -->
         <div class="category-wrapper section-wrapper">
             <h2>Danh Mục</h2>
             <div class="category-container">
@@ -61,17 +51,26 @@
             </div>
         </div>
 
-        <!-- Sản phẩm mới -->
+        <!-- SẢN PHẨM MỚI -->
         <div class="newproduct-wrapper section-wrapper">
             <h2>SẢN PHẨM MỚI</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listNewP}">
-                    <a href="detail?pid=${p.product_id}" class="product-card-link">
+                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
+                                <div class="product-actions">
+                                    <form action="ProductController" method="post">
+                                        <input type="hidden" name="pid" value="${p.product_id}" />
+                                        <input type="hidden" name="action" value="viewDetailProduct" />
+                                        <button type="submit" class="btn btn-sm btn-danger w-100">
+                                            Mua ngay
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -79,17 +78,26 @@
             </div>
         </div>
 
-        <!-- Áo thể thao -->
+        <!-- ÁO THỂ THAO -->
         <div class="ao-wrapper section-wrapper">
             <h2>ÁO THỂ THAO</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listAo}">
-                    <a href="detail?pid=${p.product_id}" class="product-card-link">
+                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
+                                <div class="product-actions">
+                                    <form action="ProductController" method="post">
+                                        <input type="hidden" name="pid" value="${p.product_id}" />
+                                        <input type="hidden" name="action" value="viewDetailProduct" />
+                                        <button type="submit" class="btn btn-sm btn-danger w-100">
+                                            Mua ngay
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -97,17 +105,27 @@
             </div>
         </div>
 
-        <!-- Quần thể thao -->
+        <!-- QUẦN THỂ THAO -->
         <div class="quan-wrapper section-wrapper">
             <h2>QUẦN THỂ THAO</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listQ}">
-                    <a href="detail?pid=${p.product_id}" class="product-card-link">
+                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
+                                <div class="product-actions">
+
+                                    <form action="ProductController" method="post">
+                                        <input type="hidden" name="pid" value="${p.product_id}" />
+                                        <input type="hidden" name="action" value="viewDetailProduct" />
+                                        <button type="submit" class="btn btn-sm btn-danger w-100">
+                                            Mua ngay
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -115,17 +133,27 @@
             </div>
         </div>
 
-        <!-- Gợi ý hôm nay -->
+        <!-- GỢI Ý HÔM NAY -->
         <div class="suggest-wrapper section-wrapper">
             <h2>GỢI Ý HÔM NAY</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${productListP}">
-                    <a href="detail?pid=${p.product_id}" class="product-card-link">
+                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
+                                <div class="product-actions">
+
+                                    <form action="ProductController" method="post">
+                                        <input type="hidden" name="pid" value="${p.product_id}" />
+                                        <input type="hidden" name="action" value="viewDetailProduct" />
+                                        <button type="submit" class="btn btn-sm btn-danger w-100">
+                                            Mua ngay
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -134,7 +162,7 @@
         </div>
 
         <script src="assets/js/home.js" defer></script>
-        <jsp:include page="footer.jsp"></jsp:include>
+        <jsp:include page="footer.jsp" />
         <jsp:include page="popup.jsp" />
     </body>
 </html>

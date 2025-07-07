@@ -30,7 +30,6 @@ public class PageService {
         try {
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<ProductDTO> listNewP = productDAO.getNewProducts();
-            //1 la category_id cho ao,2 la category_id cho quan nha may cu dung co lon
             List<ProductDTO> listAo = productDAO.getProductsByCategoryId(1);
             List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();

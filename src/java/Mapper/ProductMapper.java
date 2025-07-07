@@ -57,8 +57,6 @@ public class ProductMapper {
 
         ProductDTO dto = new ProductDTO();
 
-       
-
         dto.setProduct_name(product_name);
         dto.setDescription(description);
 
@@ -72,8 +70,8 @@ public class ProductMapper {
             dto.setPrice(0.0);
         }
 
-        if(img_url!=null){
-        dto.setImg_url(img_url);
+        if (img_url != null) {
+            dto.setImg_url(img_url);
         }
         if (category_id != null && !category_id.isEmpty()) {
             try {
@@ -98,7 +96,5 @@ public class ProductMapper {
         dto.setStatus(status != null && Boolean.parseBoolean(status));
 
         return dto;
-
     }
-
 }

@@ -50,6 +50,7 @@ public class ProductDAO {
         List<ProductDTO> listP = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            ps.setLong(1, category_id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -102,6 +103,24 @@ public class ProductDAO {
         }
 
         return false;
+    }
+
+    public ProductDTO getProductById(String product_id) {
+        String sql = GET_PRODUCT + " WHERE product_id = ?";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, product_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ProductDTO product = ProductMapper.toProductDTOFromResultSet(rs);
+                return product;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

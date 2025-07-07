@@ -12,6 +12,7 @@
     background-color: var(--footer-bg);
     color: var(--footer-text);
     font-size: 0.95rem;
+    padding: 0 10.5rem;
 }
 
 .footer-brand {

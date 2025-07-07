@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="assets/css/footer.css"/>
 
 <footer class="sports-footer pt-5 pb-4">
-  <div class="container">
+  <div class="container-xl">
     <div class="row gy-4">
       <!-- Thương hiệu -->
       <div class="col-md-4">
