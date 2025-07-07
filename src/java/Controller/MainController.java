@@ -96,7 +96,8 @@ public class MainController extends HttpServlet {
 
     private boolean isPageLoadAction(String action) {
         return "loadForHomePage".equalsIgnoreCase(action)
-                || "loadForCreateForm".equalsIgnoreCase(action);
+                || "loadForCreateForm".equalsIgnoreCase(action)
+                ||"loadForListProductForm".equalsIgnoreCase(action);
     }
 
     private boolean isProductDTO(String action) {

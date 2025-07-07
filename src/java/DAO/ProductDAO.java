@@ -104,4 +104,46 @@ public class ProductDAO {
         return false;
     }
 
+    public List<ProductDTO> getAllProduct() {
+        List<ProductDTO> listP = new ArrayList<>();
+        String sql = GET_PRODUCT;
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
+                listP.add(productDTO);
+            }
+            return listP;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<ProductDTO> getAllProductWithCategoryAndBrandName() {
+        List<ProductDTO> list = new ArrayList<>();
+
+        String sql = "SELECT p.product_id, p.product_name, p.description, p.price, p.img_url, "
+                + "p.status, p.category_id, p.brand_id, "
+                + "c.name AS category_name, b.name AS brand_name "
+                + "FROM Product p "
+                + "JOIN Categories c ON p.category_id = c.category_id "
+                + "JOIN Brand b ON p.brand_id = b.brand_id";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ProductDTO dto = ProductMapper.toProductDTOFromRequestWithName(rs);
+                list.add(dto);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
 }

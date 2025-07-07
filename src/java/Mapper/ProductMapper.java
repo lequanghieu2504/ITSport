@@ -8,6 +8,8 @@ import DTOs.ProductDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -57,8 +59,6 @@ public class ProductMapper {
 
         ProductDTO dto = new ProductDTO();
 
-       
-
         dto.setProduct_name(product_name);
         dto.setDescription(description);
 
@@ -72,8 +72,8 @@ public class ProductMapper {
             dto.setPrice(0.0);
         }
 
-        if(img_url!=null){
-        dto.setImg_url(img_url);
+        if (img_url != null) {
+            dto.setImg_url(img_url);
         }
         if (category_id != null && !category_id.isEmpty()) {
             try {
@@ -99,6 +99,27 @@ public class ProductMapper {
 
         return dto;
 
+    }
+
+    public static ProductDTO toProductDTOFromRequestWithName(ResultSet rs) {
+        try {
+            ProductDTO dto = new ProductDTO();
+            dto.setProduct_id(rs.getLong("product_id"));
+            dto.setProduct_name(rs.getString("product_name"));
+            dto.setDescription(rs.getString("description"));
+            dto.setPrice(rs.getDouble("price"));
+            dto.setImg_url(rs.getString("img_url"));
+            dto.setStatus(rs.getInt("status") == 1);
+            dto.setCategory_id(rs.getInt("category_id"));
+            dto.setBrand_id(rs.getInt("brand_id"));
+            dto.setCategory_name(rs.getString("category_name"));
+            dto.setBrand_name(rs.getString("brand_name"));
+            
+            return dto;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

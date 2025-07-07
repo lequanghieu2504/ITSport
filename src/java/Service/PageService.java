@@ -53,15 +53,30 @@ public class PageService {
         }
     }
 
-    public void loadForCreateForm(HttpServletRequest request, HttpServletResponse response){
+    public void loadForCreateForm(HttpServletRequest request, HttpServletResponse response) {
         try {
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<BrandDTO> listB = brandDAO.getAllBrand();
-            
+
             request.setAttribute("listB", listB);
             request.setAttribute("listC", listC);
-            
-            request.getRequestDispatcher("/admin/adminDashboard.jsp?section=product").forward(request, response);
+            request.setAttribute("section", "createProduct");
+            request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadForListProduct(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<ProductDTO> list = productDAO.getAllProductWithCategoryAndBrandName();
+
+            request.setAttribute("productList", list);
+            request.setAttribute("section", "product");
+
+            request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
