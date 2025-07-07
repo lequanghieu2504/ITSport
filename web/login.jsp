@@ -28,17 +28,17 @@
             </c:when>
         </c:choose>
 
-        <form action="UserController" method="post">
+        <form action="MainController" method="post">
             <input type="hidden" name="action" value="login" />
 
             <div class="mb-3">
-                <label for="strUsername" class="form-label">👤 Username</label>
-                <input type="text" id="strUsername" name="strUsername" class="form-control" required />
+                <label for="StrUsername" class="form-label">👤 Username</label>
+                <input type="text" id="StrUsername" name="StrUserName" class="form-control" required />
             </div>
 
             <div class="mb-3">
-                <label for="strPassword" class="form-label">🔒 Password</label>
-                <input type="password" id="strPassword" name="strPassword" class="form-control" required />
+                <label for="StrPassword" class="form-label">🔒 Password</label>
+                <input type="password" id="StrPassword" name="StrPassword" class="form-control" required />
             </div>
 
             <div class="d-grid">

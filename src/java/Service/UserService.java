@@ -24,21 +24,25 @@ public class UserService {
     private UserDAO userDAO = new UserDAO();
 
     public void handleLogin(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("vo duoc day roi");
         try {
             String url = "login.jsp";
             
             String StrUserName = request.getParameter("StrUserName");
             String StrPassword = request.getParameter("StrPassword");
             
-            String rawPassword = PasswordUtils.hashPassword(StrPassword);
             
             UserDTO userDTO = userDAO.getUserByUserName(StrUserName);
+            
+    
             
             if (userDTO == null) {
                 request.setAttribute("message", "Can not login");
             } else {
+                if(PasswordUtils.verifyPassword(StrPassword, userDTO.getPassword())){
                 request.getSession().setAttribute("user", userDTO);
-                url = "welcome.jsp";
+                url = "homepage.jsp";
+                }
             }
             request.getRequestDispatcher(url).forward(request, response);
         } catch (ServletException ex) {
@@ -62,7 +66,7 @@ public class UserService {
         UserDTO newUserDTO = new UserDTO();
         newUserDTO.setUsername(StrUserName);
         newUserDTO.setFullName(StrFullName);
-        newUserDTO.setPassword(StrPassword);
+        newUserDTO.setPassword(hashPassword);
         newUserDTO.setRole(Role.CLIENT);
 
 //neu dang ky cho Admin
