@@ -5,6 +5,7 @@
 
 package Controller;
 
+import Service.ProductService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,9 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ASUS
  */
-@WebServlet(name="MainController", urlPatterns={"/MainController","/",""})
-public class MainController extends HttpServlet {
-    private static final String LOGIN_PAGE = "login.jsp";
+@WebServlet(name="ProductController", urlPatterns={"/ProductController"})
+public class ProductController extends HttpServlet {
+   private ProductService productService = new ProductService();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -27,34 +28,13 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private boolean isUserAction(String action) {
-        return "login".equals(action)
-                || "logout".equals(action)
-                || "register".equals(action);
-    }
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        System.out.println("vo duoc main roi");
         response.setContentType("text/html;charset=UTF-8");
-        String url = LOGIN_PAGE;
-         try {
-            String action = request.getParameter("action");
-            //---- Xu ly cac action cua User -----
-            if (isUserAction(action)) {
-                url = "/UserController";
-            }
-            else if(isPageLoadAction(action)){
-                url = "/PageController";
-            }
-            else if(isProductDTO(action)){
-                url = "/ProductController";
-            }
-        } catch (Exception e) {
-                e.printStackTrace(); 
-        } finally {
-            System.out.println(url);
-            request.getRequestDispatcher(url).forward(request, response);
+        String action = request.getParameter("action");
+        if("insertProduct".equalsIgnoreCase(action)){
+            productService.handleInsertProduct(request,response);
+            return;
         }
     } 
 
@@ -82,7 +62,7 @@ public class MainController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-            processRequest(request, response);
+        processRequest(request, response);
     }
 
     /** 
@@ -94,12 +74,4 @@ public class MainController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private boolean isPageLoadAction(String action) {
-        return "loadForHomePage".equalsIgnoreCase(action)
-                || "loadForCreateForm".equalsIgnoreCase(action);
-    }
-
-    private boolean isProductDTO(String action) {
-        return "insertProduct".equalsIgnoreCase(action);
-    }
 }
