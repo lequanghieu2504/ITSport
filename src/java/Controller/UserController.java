@@ -5,8 +5,8 @@
 
 package Controller;
 
+import Service.UserService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,9 +17,9 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ASUS
  */
-@WebServlet(name="mainController", urlPatterns={"/mainController"})
-public class MainController extends HttpServlet {
-    private static final String LOGIN_PAGE = "login.jsp";
+@WebServlet(name="UserController", urlPatterns={"/UserController"})
+public class UserController extends HttpServlet {
+    private UserService userService = new UserService();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -27,28 +27,16 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private boolean isUserAction(String action) {
-        return "login".equals(action)
-                || "logout".equals(action)
-                || "register".equals(action);
-    }
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        System.out.println("vo duoc main roi");
-        response.setContentType("text/html;charset=UTF-8");
-        String url = LOGIN_PAGE;
-         try {
-            String action = request.getParameter("action");
-            //---- Xu ly cac action cua User -----
-            if (isUserAction(action)) {
-                url = "/UserController";
-            }
-        } catch (Exception e) {
-                e.printStackTrace(); 
-        } finally {
-            System.out.println(url);
-            request.getRequestDispatcher(url).forward(request, response);
+        String action = request.getParameter("action");
+        if("login".equalsIgnoreCase(action)){
+            userService.handleLogin(request,response);
+            return;
+        }
+        else if("register".equalsIgnoreCase(action)){
+            userService.handleRegister(request,response);
+            return;
         }
     } 
 
@@ -76,7 +64,7 @@ public class MainController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-            processRequest(request, response);
+        processRequest(request, response);
     }
 
     /** 
@@ -87,4 +75,5 @@ public class MainController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

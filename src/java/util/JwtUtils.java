@@ -22,9 +22,9 @@
 //
 //    public static String generateToken(UserDTO user) {
 //        return Jwts.builder()
-//                .claim("id", user.getId())
+//                .claim("id", user.getUser_id())
 //                .claim("username", user.getUsername())
-//                .claim("name", user.getName())
+//                .claim("name", user.getFullName())
 //                .claim("role", user.getRole().name())
 //                .claim("phoneNumber", user.getPhoneNumber())
 //                .setIssuedAt(new java.util.Date())

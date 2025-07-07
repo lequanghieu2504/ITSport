@@ -5,6 +5,7 @@
 package util;
 
 import DTOs.UserDTO;
+import Enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -23,13 +24,13 @@ public static boolean isLogin(HttpSession session) {
     public static boolean isAdmin(HttpSession session) {
         if (!isLogin(session)) return false;
         UserDTO user = (UserDTO) session.getAttribute("user");
-        return user.isAdmin();
+        return user.getRole() == Role.ADMIN;
     }
 
     public static boolean isClient(HttpSession session) {
         if (!isLogin(session)) return false;
         UserDTO user = (UserDTO) session.getAttribute("user");
-        return user.isClient();
+        return user.getRole() == Role.CLIENT;
     }
 
     public static UserDTO getCurrentUser(HttpSession session) {
@@ -46,3 +47,4 @@ public static boolean isLogin(HttpSession session) {
         }
     }
 }
+ 
