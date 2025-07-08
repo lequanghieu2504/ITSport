@@ -16,6 +16,7 @@ public class ProductVariantDTO {
     private Size size;
     private int quantity;
     private String sku;
+    private String color;
 
     public ProductVariantDTO() {
     }
@@ -66,6 +67,14 @@ public class ProductVariantDTO {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
     
 }

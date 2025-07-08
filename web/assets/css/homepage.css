@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
-    --primary-color: #8B0000; 
-    --secondary-color: #121212; 
+    --primary-color: #8B0000;
+    --secondary-color: #121212;
     --card-bg: #222;
     --card-text: #fff;
     --muted-text: #ccc;
@@ -134,6 +134,102 @@ html, body {
 
 .product-name {
     font-weight: bold;
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-info {
+    margin-top: 12px;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #222;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-size: 1rem;
+    color: #e53935;
+    font-weight: 600;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.product-actions form {
+    flex: 1;
+}
+
+.product-actions button {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+}
+
+.product-actions button i {
+    margin-right: 6px;
+}
+
+/* Nút Thêm vào giỏ */
+.product-actions .btn-outline-primary {
+    background-color: transparent;
+    border: 2px solid #2196f3;
+    color: #2196f3;
+}
+
+.product-actions .btn-outline-primary:hover {
+    background-color: #2196f3;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+/* Nút Mua ngay */
+.product-actions .btn-danger {
+    background: linear-gradient(135deg, #e53935, #d32f2f);
+    border: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.product-actions .btn-danger:hover {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4);
+    transform: translateY(-2px);
 }
 
 /* --- Responsive --- */

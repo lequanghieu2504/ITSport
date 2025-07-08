@@ -4,10 +4,14 @@
  */
 package Service;
 
+import DAO.BrandDAO;
 import DAO.CategoryDAO;
 import DAO.ProductDAO;
+import DAO.ProductVariantDAO;
+import DTOs.BrandDTO;
 import DTOs.CategoryDTO;
 import DTOs.ProductDTO;
+import DTOs.ProductVariantDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,13 +28,14 @@ public class PageService {
 
     CategoryDAO categoryDAO = new CategoryDAO();
     ProductDAO productDAO = new ProductDAO();
+    BrandDAO brandDAO = new BrandDAO();
+    ProductVariantDAO productVariantDAO = new ProductVariantDAO();
 
     public void loadForHomePage(HttpServletRequest request, HttpServletResponse response) {
 
         try {
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<ProductDTO> listNewP = productDAO.getNewProducts();
-            //1 la category_id cho ao,2 la category_id cho quan nha may cu dung co lon
             List<ProductDTO> listAo = productDAO.getProductsByCategoryId(1);
             List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();
@@ -42,7 +47,7 @@ public class PageService {
             request.setAttribute("productListP", productListP);
 
 // lay thong tin het thi forward toi trang home de load len
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -50,6 +55,139 @@ public class PageService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadForCreateForm(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<CategoryDTO> listC = categoryDAO.getAllCategories();
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+
+            request.setAttribute("listB", listB);
+            request.setAttribute("listC", listC);
+            request.setAttribute("section", "createProduct");
+            request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadForListProduct(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<ProductDTO> list = productDAO.getAllProductWithCategoryAndBrandName();
+
+            request.setAttribute("productList", list);
+            request.setAttribute("section", "product");
+
+            request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void loadEditForm(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setAttribute("section", "editProduct");
+            String StrProductId = request.getParameter("StrProductId");
+            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+            List<CategoryDTO> listC = categoryDAO.getAllCategories();
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+
+            request.setAttribute("product", productDTO);
+            request.setAttribute("listC", listC);
+            request.setAttribute("listB", listB);
+
+            request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void handleCreateForCreateProductVariantForm(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String url = "admin/adminDashboard.jsp";
+
+            String StrProductId = request.getParameter("productId");
+
+            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+
+            if (productDTO != null) {
+                request.setAttribute("product", productDTO);
+                request.setAttribute("section", "'createVariant");
+            } else {
+                request.getSession().setAttribute("message", "can not find product");
+            }
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void LoadViewProductDetail(HttpServletRequest request, HttpServletResponse response) {
+        String url = "admin/adminDashboard.jsp";
+        String StrProductId = request.getAttribute("StrProductId") != null
+                ? (String) request.getAttribute("StrProductId")
+                : request.getParameter("StrProductId");
+
+        if (StrProductId == null || StrProductId.trim().isEmpty()) {
+            request.getSession().setAttribute("message", "Ban can nhap product id");
+        } else {
+            long ProductId = Long.parseLong(StrProductId);
+
+            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+
+            List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(ProductId);
+            if (productDTO != null) {
+                request.setAttribute("section", "viewDetailProduct");
+                request.setAttribute("product", productDTO);
+                request.setAttribute("variantList", variantList);
+            } else {
+                request.getSession().setAttribute("message", "khong tim thay san pham");
+            }
+            try {
+                request.getRequestDispatcher(url).forward(request, response);
+            } catch (ServletException ex) {
+                Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void LoadForcreateVariantForm(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String url = "admin/adminDashboard.jsp";
+
+            String StrProductId = request.getParameter("StrProductId");
+
+            if (StrProductId == null || StrProductId.trim().isEmpty()) {
+                request.getSession().setAttribute("message", "Ban can nhap product id");
+            } else {
+
+                ProductDTO productDTO = productDAO.getProductById(StrProductId);
+
+                if (productDTO != null) {
+                    request.setAttribute("section", "CreateDetailProduct");
+                    request.setAttribute("product", productDTO);
+                } else {
+                    request.getSession().setAttribute("message", "khong tim thay san pham");
+                }
+            }
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

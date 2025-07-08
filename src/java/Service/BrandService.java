@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Enums;
+package Service;
 
 /**
  *
- * @author ASUS
+ * @author SUPPER LOQ
  */
-public enum Size {
-    S,M,L,XL,XXL,XXXL,XXXXL
+public class BrandService {
+    
 }

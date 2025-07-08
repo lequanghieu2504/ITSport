@@ -6,7 +6,7 @@
 <header class="sports-header shadow-sm">
     <div class="container-xl d-flex align-items-center justify-content-between py-2">
         <!-- Logo -->
-        <a href="home" class="logo d-flex align-items-center text-decoration-none">
+        <a href="MainController?action=loadForHomePage" class="logo d-flex align-items-center text-decoration-none">
             <img src="assets/images/logo.png" alt="ITSport" class="logo-img mr-2" />
             <span class="logo-text font-weight-bold text-uppercase">ITSport</span>
         </a>
