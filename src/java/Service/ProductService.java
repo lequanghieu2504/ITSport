@@ -98,4 +98,34 @@ public class ProductService {
         }
     }
 
+    public void handleUpdateProduct(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Long productId = Long.parseLong(request.getParameter("StrProductId"));
+            ProductDTO oldProduct = productDAO.getProductById(String.valueOf(productId));
+
+            if (oldProduct == null) {
+                request.getSession().setAttribute("message", "Không tìm thấy sản phẩm");
+                response.sendRedirect("MainController?action=loadForListProductForm");
+                return;
+            }
+
+            // Sử dụng mapper mới
+            ProductDTO updatedProduct = ProductMapper.toProductDTOFromRequestToUpdate(request, oldProduct);
+
+            boolean success = productDAO.updateProduct(updatedProduct);
+
+            if (success) {
+                request.getSession().setAttribute("message", "Cập nhật thành công");
+            } else {
+                request.getSession().setAttribute("message", "Cập nhật thất bại");
+            }
+
+            response.sendRedirect("MainController?action=loadForListProductForm");
+        } catch (Exception e) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+  
+
 }

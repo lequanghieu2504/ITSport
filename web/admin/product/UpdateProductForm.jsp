@@ -11,7 +11,7 @@
 
     <form action="MainController" method="post">
         <input type="hidden" name="action" value="updateProduct" />
-        <input type="hidden" name="StrproductId" value="${product.product_id}" />
+        <input type="hidden" name="StrProductId" value="${product.product_id}" />
 
         <label for="StrProductName">Product Name:</label><br>
         <input type="text" id="StrProductName" name="StrProductName" value="${product.product_name}" required><br><br>

@@ -114,7 +114,7 @@ public class ProductMapper {
             dto.setBrand_id(rs.getInt("brand_id"));
             dto.setCategory_name(rs.getString("category_name"));
             dto.setBrand_name(rs.getString("brand_name"));
-            
+
             return dto;
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,4 +122,38 @@ public class ProductMapper {
         return null;
     }
 
+    public static ProductDTO toProductDTOFromRequestToUpdate(HttpServletRequest request, ProductDTO oldProduct) {
+        ProductDTO dto = new ProductDTO();
+
+        dto.setProduct_id(oldProduct.getProduct_id()); // luôn giữ ID
+
+        String name = request.getParameter("StrProductName");
+        dto.setProduct_name((name != null && !name.trim().isEmpty()) ? name : oldProduct.getProduct_name());
+
+        String desc = request.getParameter("StrDescription");
+        dto.setDescription((desc != null && !desc.trim().isEmpty()) ? desc : oldProduct.getDescription());
+
+        String priceStr = request.getParameter("StrPrice");
+        dto.setPrice((priceStr != null && !priceStr.trim().isEmpty())
+                ? Double.parseDouble(priceStr)
+                : oldProduct.getPrice());
+
+        String img = request.getParameter("StrImgUrl");
+        dto.setImg_url((img != null && !img.trim().isEmpty()) ? img : oldProduct.getImg_url());
+
+        String categoryId = request.getParameter("StrCategoryId");
+        dto.setCategory_id((categoryId != null && !categoryId.trim().isEmpty())
+                ? Long.parseLong(categoryId)
+                : oldProduct.getCategory_id());
+
+        String brandId = request.getParameter("StrBrandId");
+        dto.setBrand_id((brandId != null && !brandId.trim().isEmpty())
+                ? Long.parseLong(brandId)
+                : oldProduct.getBrand_id());
+
+        String statusParam = request.getParameter("StrStatus");
+        dto.setStatus(statusParam != null); 
+
+        return dto;
+    }
 }

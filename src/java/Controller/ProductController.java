@@ -50,7 +50,10 @@ public class ProductController extends HttpServlet {
             productVariantService.handleCreateProductVariant(request,response);
             return;
         }
-                
+        else if("updateProduct".equalsIgnoreCase(action)){
+            productService.handleUpdateProduct(request,response);
+            return;
+        }        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

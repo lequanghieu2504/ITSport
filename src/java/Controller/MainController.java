@@ -115,6 +115,7 @@ public class MainController extends HttpServlet {
         return "insertProduct".equalsIgnoreCase(action)
                 || "toggleStatus".equalsIgnoreCase(action)
                 || "deleteProduct".equalsIgnoreCase(action)
-                || "createVariant".equalsIgnoreCase(action);
+                || "createVariant".equalsIgnoreCase(action)
+                ||"updateProduct".equalsIgnoreCase(action);
     }
 }

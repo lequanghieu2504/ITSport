@@ -67,6 +67,7 @@
                 <th>ID</th>
                 <th>Size</th>
                 <th>Số lượng</th>
+                <th>màu sắc</th>
                 <th>SKU</th>
             </tr>
             <c:forEach var="v" items="${variantList}">
@@ -74,6 +75,7 @@
                     <td>${v.product_variant_id}</td>
                     <td>${v.size}</td>
                     <td>${v.quantity}</td>
+                    <td>${v.color}</td>
                     <td>${v.sku}</td>
                 </tr>
             </c:forEach>

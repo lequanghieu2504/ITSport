@@ -27,9 +27,9 @@ public class ProductVariantService {
 
             String StrProductId = request.getParameter("StrProductId");
 
-
             ProductVariantDTO productVariantDTO = ProductVariantMapper.toVariantDTOFromRequest(request);
-
+            
+                    
             if (StrProductId == null || StrProductId.trim().isEmpty()) {
                 request.setAttribute("message", "you need to fill product id");
             } else {
@@ -42,10 +42,10 @@ public class ProductVariantService {
                 }
 
             }
-       
+
             response.sendRedirect("MainController?action=LoadViewProductDetail&StrProductId=" + StrProductId);
 
-        }  catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(ProductVariantService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

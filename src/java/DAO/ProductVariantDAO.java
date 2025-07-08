@@ -50,14 +50,15 @@ public class ProductVariantDAO {
     }
 
     public boolean InsertProductVariant(ProductVariantDTO productVariantDTO) {
-        String sql = INSERT_PRODUCT_VARIANT + " (product_id,size,quantity) values (?,?,?)";
+        String sql = INSERT_PRODUCT_VARIANT + " (product_id,size,quantity,color,sku) values (?,?,?,?,?)";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setLong(1, productVariantDTO.getProduct_id());
             ps.setString(2, productVariantDTO.getSize().toString());
             ps.setInt(3, productVariantDTO.getQuantity());
-           
+            ps.setString(4, productVariantDTO.getColor());
+            ps.setString(5, productVariantDTO.getSku());
             int success = ps.executeUpdate();
             if(success>0){
                 return true;

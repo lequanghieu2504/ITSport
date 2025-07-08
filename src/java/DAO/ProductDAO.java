@@ -210,4 +210,54 @@ public class ProductDAO {
         }
         return null;
     }
+
+    public boolean updateProduct(ProductDTO product) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        boolean result = false;
+
+        try {
+            conn = JDBCConnection.getConnection(); // Hàm get connection của bạn
+
+            String sql = "UPDATE Product SET "
+                    + "product_name = ?, "
+                    + "description = ?, "
+                    + "price = ?, "
+                    + "img_url = ?, "
+                    + "category_id = ?, "
+                    + "brand_id = ?, "
+                    + "status = ? "
+                    + "WHERE product_id = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, product.getProduct_name());
+            ps.setString(2, product.getDescription());
+            ps.setDouble(3, product.getPrice());
+            ps.setString(4, product.getImg_url());
+            ps.setLong(5, product.getCategory_id());
+            ps.setLong(6, product.getBrand_id());
+            ps.setBoolean(7, product.isStatus());
+            ps.setLong(8, product.getProduct_id());
+
+            int rows = ps.executeUpdate();
+            result = rows > 0;
+
+        } catch (Exception e) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return result;
+    }
+
 }
