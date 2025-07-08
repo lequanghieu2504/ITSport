@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +25,8 @@ public class ProductDAO {
 
     private final String GET_PRODUCT = "select * from [Product] ";
     private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
+    private final String UPDATE_PRODUCT = "UPDATE [Product] ";
+    private final String DELETE_PRODUCT = "Delete FROM [Product] ";
 
     public List<ProductDTO> getNewProducts() {
         String sql = GET_PRODUCT;
@@ -44,13 +47,13 @@ public class ProductDAO {
         return null;
     }
 
-    public List<ProductDTO> getProductsByCategoryId(String category_id) {
+
+    public List<ProductDTO> getProductsByCategoryId(long category_id) {
 
         String sql = GET_PRODUCT + " where category_id = ?";
         List<ProductDTO> listP = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, category_id);
+            ps.setLong(1, category_id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -83,26 +86,93 @@ public class ProductDAO {
         return null;
     }
 
-    public boolean insertProduct(ProductDTO productDTO) {
+
+    public long insertProduct(ProductDTO productDTO) {
         String sql = "INSERT INTO product (product_name, [description], price, category_id, brand_id, [status]) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, productDTO.getProduct_name());
             ps.setString(2, productDTO.getDescription());
             ps.setDouble(3, productDTO.getPrice());
             ps.setLong(4, productDTO.getCategory_id());
             ps.setLong(5, productDTO.getBrand_id());
-            ps.setBoolean(6, productDTO.isStatus()); // Hoặc setInt nếu status là 0/1
+            ps.setBoolean(6, productDTO.isStatus());
 
             int rows = ps.executeUpdate();
-            return rows > 0;
+
+            if (rows > 0) {
+                try ( ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getLong(1); // Trả về product_id vừa được tạo
+                    }
+                }
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return false;
+        return -1; // Trả về -1 nếu có lỗi hoặc không tạo được
+    }
+
+    public List<ProductDTO> getAllProduct() {
+        List<ProductDTO> listP = new ArrayList<>();
+        String sql = GET_PRODUCT;
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
+                listP.add(productDTO);
+            }
+            return listP;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<ProductDTO> getAllProductWithCategoryAndBrandName() {
+        List<ProductDTO> list = new ArrayList<>();
+
+        String sql = "SELECT p.product_id, p.product_name, p.description, p.price, p.img_url, "
+                + "p.status, p.category_id, p.brand_id, "
+                + "c.name AS category_name, b.name AS brand_name "
+                + "FROM Product p "
+                + "JOIN Categories c ON p.category_id = c.category_id "
+                + "JOIN Brand b ON p.brand_id = b.brand_id";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                ProductDTO dto = ProductMapper.toProductDTOFromRequestWithName(rs);
+                list.add(dto);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public void updateStatus(long productId, boolean status) {
+        String sql = UPDATE_PRODUCT + "SET status = ? WHERE product_id = ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBoolean(1, status);
+            ps.setLong(2, productId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Optional:
+            throw new RuntimeException("Error updating status", ex);
+        }
     }
 
     public ProductDTO getProductById(String product_id) {
@@ -121,6 +191,75 @@ public class ProductDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Boolean deleteProductByProductId(String StrProductId) {
+        String sql = DELETE_PRODUCT + "WHERE product_id = ?";
+        Long productId = Long.parseLong(StrProductId);
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, productId);
+            int success = ps.executeUpdate();
+            if (success > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public boolean updateProduct(ProductDTO product) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        boolean result = false;
+
+        try {
+            conn = JDBCConnection.getConnection(); // Hàm get connection của bạn
+
+            String sql = "UPDATE Product SET "
+                    + "product_name = ?, "
+                    + "description = ?, "
+                    + "price = ?, "
+                    + "img_url = ?, "
+                    + "category_id = ?, "
+                    + "brand_id = ?, "
+                    + "status = ? "
+                    + "WHERE product_id = ?";
+
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, product.getProduct_name());
+            ps.setString(2, product.getDescription());
+            ps.setDouble(3, product.getPrice());
+            ps.setString(4, product.getImg_url());
+            ps.setLong(5, product.getCategory_id());
+            ps.setLong(6, product.getBrand_id());
+            ps.setBoolean(7, product.isStatus());
+            ps.setLong(8, product.getProduct_id());
+
+            int rows = ps.executeUpdate();
+            result = rows > 0;
+
+        } catch (Exception e) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return result;
     }
 
 }

@@ -6,39 +6,35 @@ package DTOs;
 
 /**
  *
- * @author SUPPER LOQ
+
+ * @author ASUS
  */
 public class BrandDTO {
+    private Long brand_id;
+    private String brand_name;
 
-    private int brandId;
-    private String name;
+    public BrandDTO(Long brand_id, String brand_name) {
+        this.brand_id = brand_id;
+        this.brand_name = brand_name;
+    }
 
     public BrandDTO() {
     }
 
-    public BrandDTO(int brandId, String name) {
-        this.brandId = brandId;
-        this.name = name;
+    public Long getBrand_id() {
+        return brand_id;
     }
 
-    public int getBrandId() {
-        return brandId;
+    public void setBrand_id(Long brand_id) {
+        this.brand_id = brand_id;
     }
 
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
+    public String getBrand_name() {
+        return brand_name;
     }
 
-    public String getName() {
-        return name;
+    public void setBrand_name(String brand_name) {
+        this.brand_name = brand_name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "BrandDTO{" + "brandId=" + brandId + ", name=" + name + '}';
-    }
+    
 }
