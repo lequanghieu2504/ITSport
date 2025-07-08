@@ -84,8 +84,8 @@
                                 </button>
                             </form></td>
                         <td class="actions">
-                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=loadEditForm&id=${p.product_id}">Sửa</a>
-                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=deleteProduct&id=${p.product_id}" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">Xóa</a>
+                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=loadEditForm&StrProductId=${p.product_id}">Sửa</a>
+                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=deleteProduct&StrProductId=${p.product_id}" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">Xóa</a>
                         </td>
                     </tr>
                 </c:forEach>

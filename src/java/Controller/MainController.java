@@ -103,6 +103,7 @@ public class MainController extends HttpServlet {
 
     private boolean isProductDTO(String action) {
         return "insertProduct".equalsIgnoreCase(action)
-                ||"toggleStatus".equalsIgnoreCase(action);
+                ||"toggleStatus".equalsIgnoreCase(action)
+                ||"deleteProduct".equalsIgnoreCase(action);
     }
 }

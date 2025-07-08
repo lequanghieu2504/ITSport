@@ -25,6 +25,7 @@ public class ProductDAO {
     private final String GET_PRODUCT = "select * from [Product] ";
     private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
     private final String UPDATE_PRODUCT = "UPDATE [Product] ";
+    private final String DELETE_PRODUCT = "Delete FROM [Product] ";
 
     public List<ProductDTO> getNewProducts() {
         String sql = GET_PRODUCT;
@@ -161,5 +162,42 @@ public class ProductDAO {
             ex.printStackTrace();
              Optional: throw new RuntimeException("Error updating status", ex);
         }
+    }
+     public ProductDTO getProductById(String product_id) {
+        String sql = GET_PRODUCT + " WHERE product_id = ?";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, product_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ProductDTO product = ProductMapper.toProductDTOFromResultSet(rs);
+                return product;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Boolean deleteProductByProductId(String StrProductId) {
+        String sql = DELETE_PRODUCT + "WHERE product_id = ?";
+        Long productId = Long.parseLong(StrProductId);
+        
+        try(Connection conn = JDBCConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            
+            ps.setLong(1, productId);
+            int success = ps.executeUpdate();
+            if(success > 0){
+                return true;
+            }
+            else return false;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

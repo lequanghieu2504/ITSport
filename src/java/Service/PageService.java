@@ -87,6 +87,16 @@ public class PageService {
     public void loadEditForm(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setAttribute("section", "editProduct");
+            String StrProductId = request.getParameter("StrProductId");
+            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+            List<CategoryDTO> listC = categoryDAO.getAllCategories();
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+            
+            request.setAttribute("product", productDTO);
+            request.setAttribute("listC", listC);
+            request.setAttribute("listB", listB);
+            
+            
             request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);

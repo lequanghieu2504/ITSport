@@ -76,4 +76,26 @@ public class ProductService {
         }
     }
 
+    public void handleDeleteProduct(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String StrProductId = request.getParameter("StrProductId");
+            String url = "admin/adminDashboard";
+            Boolean deleteSuccess = productDAO.deleteProductByProductId(StrProductId);
+            
+            request.setAttribute("section", "product");
+            if(deleteSuccess){
+                request.getSession().setAttribute("message", "Deleted product");
+            }
+            else{
+                request.getSession().setAttribute("message", "Can not delete product");
+            }
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+ 
+
 }

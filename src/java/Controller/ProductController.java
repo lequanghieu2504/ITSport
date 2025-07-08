@@ -40,6 +40,10 @@ public class ProductController extends HttpServlet {
             productService.handleToggleStatus(request,response);
             return;
         }
+        else if("deleteProduct".equalsIgnoreCase(action)){
+            productService.handleDeleteProduct(request,response);
+            return;
+        }
                 
     } 
 
