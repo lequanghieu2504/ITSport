@@ -8,15 +8,21 @@
         </group>
         <group>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/ProductDAO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/ProductService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/ProductController.java</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/MainController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/UserService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/category.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/login.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/homepage.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/PageService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/UserController.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/BrandService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/ProductService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Mapper/BrandMapper.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/BrandDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/category.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DTOs/BrandDTO.java</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/PageController.java</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/register.jsp</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Mapper/ProductMapper.java</file>
         </group>
     </open-files>
 </project-private>

@@ -44,13 +44,13 @@ public class ProductDAO {
         return null;
     }
 
-    public List<ProductDTO> getProductsByCategoryId(long category_id) {
+    public List<ProductDTO> getProductsByCategoryId(String category_id) {
 
         String sql = GET_PRODUCT + " where category_id = ?";
         List<ProductDTO> listP = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setLong(1, category_id);
+            ps.setString(1, category_id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

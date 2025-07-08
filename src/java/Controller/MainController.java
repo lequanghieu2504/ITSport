@@ -41,9 +41,10 @@ public class MainController extends HttpServlet {
                 || "loadForCreateForm".equalsIgnoreCase(action);
     }
 
-    private boolean isProductController(String action) {
+    private boolean isProductAction(String action) {
         return "insertProduct".equalsIgnoreCase(action)
-                || "viewDetailProduct".equalsIgnoreCase(action);
+                || "viewDetailProduct".equalsIgnoreCase(action)
+                || "productByCategory".equalsIgnoreCase(action);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -53,12 +54,11 @@ public class MainController extends HttpServlet {
         String url = LOGIN_PAGE;
         try {
             String action = request.getParameter("action");
-            //---- Xu ly cac action cua User -----
             if (isUserAction(action)) {
                 url = "/UserController";
             } else if (isPageLoadAction(action)) {
                 url = "/PageController";
-            } else if (isProductController(action)) {
+            } else if (isProductAction(action)) {
                 url = "/ProductController";
             }
         } catch (Exception e) {

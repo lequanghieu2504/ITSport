@@ -30,8 +30,8 @@ public class PageService {
         try {
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<ProductDTO> listNewP = productDAO.getNewProducts();
-            List<ProductDTO> listAo = productDAO.getProductsByCategoryId(1);
-            List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
+            List<ProductDTO> listAo = productDAO.getProductsByCategoryId("1");
+            List<ProductDTO> listQ = productDAO.getProductsByCategoryId("2");
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();
 
             request.setAttribute("listC", listC);
@@ -41,7 +41,7 @@ public class PageService {
             request.setAttribute("productListP", productListP);
 
 // lay thong tin het thi forward toi trang home de load len
-            request.getRequestDispatcher("homepage.jsp").forward(request, response);
+            request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
