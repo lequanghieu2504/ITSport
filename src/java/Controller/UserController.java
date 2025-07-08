@@ -30,12 +30,33 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String action = request.getParameter("action");
-        if("login".equalsIgnoreCase(action)){
-            userService.handleLogin(request,response);
-            return;
+        String method = request.getMethod();
+        if ("login".equalsIgnoreCase(action)) {
+            if ("GET".equalsIgnoreCase(method)) {
+                // Chỉ hiển thị form login
+                request.getRequestDispatcher("login.jsp")
+                       .forward(request, response);
+                return;
+            } else {
+                // POST mới xử lý login
+                userService.handleLogin(request, response);
+                return;
+            }
         }
-        else if("register".equalsIgnoreCase(action)){
-            userService.handleRegister(request,response);
+        else if ("register".equalsIgnoreCase(action)) {
+            if ("GET".equalsIgnoreCase(method)) {
+                // Chỉ hiển thị form register
+                request.getRequestDispatcher("register.jsp")
+                       .forward(request, response);
+                return;
+            } else {
+                // POST mới xử lý register
+                userService.handleRegister(request, response);
+                return;
+            }
+        }
+        else if ("logout".equalsIgnoreCase(action)) {
+            userService.handleLogout(request, response);
             return;
         }
     } 

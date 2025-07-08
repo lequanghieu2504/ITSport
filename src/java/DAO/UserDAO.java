@@ -5,6 +5,7 @@
 package DAO;
 
 import DTOs.UserDTO;
+import Enums.Role;
 import Mapper.UserMapper;
 import jakarta.servlet.jsp.jstl.sql.Result;
 import java.sql.Connection;
@@ -26,11 +27,12 @@ public class UserDAO {
 
     public boolean insertUser(UserDTO newUserDTO) {
         String sql = INSERT_USER + " (username,fullName,[password],[role]) VALUES (?,?,?,?)";
-        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = JDBCConnection.getConnection();  
+               PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newUserDTO.getUsername());
             ps.setString(2, newUserDTO.getFullName());
             ps.setString(3, newUserDTO.getPassword());
-            ps.setString(4, newUserDTO.getRole().toString().toUpperCase());
+            ps.setString(4, newUserDTO.getRole().name());
 
             int success = ps.executeUpdate();
 
@@ -44,7 +46,7 @@ public class UserDAO {
         }
         return false;
     }
-
+    
     public UserDTO getUserByUserName(String StrUserName) {
         String sql = GET_USER + " WHERE username like ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {

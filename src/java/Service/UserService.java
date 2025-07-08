@@ -6,6 +6,7 @@ import Enums.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,5 +84,15 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void handleLogout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Huỷ phiên đăng nhập hiện tại
+        HttpSession session = request.getSession(false); // false: không tạo session mới nếu chưa có
+        if (session != null) {
+            session.invalidate();
+        }
+        
+        response.sendRedirect("MainController?action=loadForHomePage");
     }
 }
