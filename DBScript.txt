@@ -111,3 +111,8 @@ CREATE TABLE UserAddress (
     address NVARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES [User](user_id)
 );
+
+8/7 16:18 
+//them color cho product variant
+ALTER table ProductVariant
+ADD color VARCHAR(50);
