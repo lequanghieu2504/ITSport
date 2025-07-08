@@ -13,7 +13,7 @@
     </head>
 
     <body>
-        <jsp:include page="header.jsp" />
+        <jsp:include page="/common/header.jsp" />
 
         <div class="container product-container">
             <div class="row">
@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <jsp:include page="footer.jsp" />
-        <jsp:include page="popup.jsp" />
+        <jsp:include page="/common/footer.jsp" />
+        <jsp:include page="/common/popup.jsp" />
     </body>
 </html>

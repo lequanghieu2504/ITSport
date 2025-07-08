@@ -17,7 +17,11 @@ public class ProductDTO {
     private long category_id;
     private long brand_id;
     private boolean status;
-
+    
+    //chi set khi can thiet
+    private String brand_name;
+    private String category_name;
+  
     public ProductDTO() {
     }
 
@@ -30,6 +34,18 @@ public class ProductDTO {
         this.category_id = category_id;
         this.brand_id = brand_id;
         this.status = status;
+    }
+
+    public ProductDTO(Long product_id, String product_name, String description, double price, String img_url, long category_id, long brand_id, boolean status, String category_name) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.description = description;
+        this.price = price;
+        this.img_url = img_url;
+        this.category_id = category_id;
+        this.brand_id = brand_id;
+        this.status = status;
+        this.category_name = category_name;
     }
 
     public Long getProduct_id() {
@@ -96,8 +112,22 @@ public class ProductDTO {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "ProductDTO{" + "product_id=" + product_id + ", product_name=" + product_name + ", description=" + description + ", price=" + price + ", img_url=" + img_url + ", category_id=" + category_id + ", brand_id=" + brand_id + ", status=" + status + '}';
+
+    public String getCategory_name() {
+        return category_name;
     }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public String getBrand_name() {
+        return brand_name;
+    }
+
+    public void setBrand_name(String brand_name) {
+        this.brand_name = brand_name;
+    }
+    
+    
 }

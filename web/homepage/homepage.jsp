@@ -28,7 +28,7 @@
     </head>
 
     <body>
-        <jsp:include page="header.jsp"/>
+        <jsp:include page="/common/header.jsp"/>
         <jsp:include page="banner.jsp"/>
 
         <!-- DANH MỤC -->
@@ -37,10 +37,10 @@
             <div class="category-container">
                 <c:choose>
                     <c:when test="${not empty listC}">
-                        <c:forEach var="p" items="${listC}">
-                            <a href="category?id=${p.category_id}" class="category-item">
+                        <c:forEach var="c" items="${listC}">
+                            <a href="ProductController?action=productByCategory&cid=${c.category_id}" class="category-item">
                                 <img src="assets/images/detail1.png" width="100" />
-                                <h4>${p.category_name}</h4>
+                                <h4>${c.category_name}</h4>
                             </a>
                         </c:forEach>
                     </c:when>
@@ -56,7 +56,7 @@
             <h2>SẢN PHẨM MỚI</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listNewP}">
-                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
+                    <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
@@ -83,7 +83,7 @@
             <h2>ÁO THỂ THAO</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listAo}">
-                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
+                    <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
@@ -110,7 +110,7 @@
             <h2>QUẦN THỂ THAO</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${listQ}">
-                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
+                    <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
@@ -138,7 +138,7 @@
             <h2>GỢI Ý HÔM NAY</h2>
             <div class="product-grid">
                 <c:forEach var="p" items="${productListP}">
-                    <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
+                    <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
                             <img src="${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
@@ -162,7 +162,7 @@
         </div>
 
         <script src="assets/js/home.js" defer></script>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="/common/footer.jsp" />
         <jsp:include page="popup.jsp" />
     </body>
 </html>

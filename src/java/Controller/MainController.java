@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author ASUS
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
+
 public class MainController extends HttpServlet {
 
     private static final String LOGIN_PAGE = "login.jsp";
@@ -36,11 +37,6 @@ public class MainController extends HttpServlet {
                 || "register".equals(action);
     }
 
-    private boolean isPageLoadAction(String action) {
-        return "loadForHomePage".equalsIgnoreCase(action)
-                || "loadForCreateForm".equalsIgnoreCase(action);
-    }
-
     private boolean isProductController(String action) {
         return "insertProduct".equalsIgnoreCase(action)
                 || "viewDetailProduct".equalsIgnoreCase(action);
@@ -53,19 +49,22 @@ public class MainController extends HttpServlet {
                 || "listAddress".equals(action);
     }
 
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("vo duoc main roi");
         response.setContentType("text/html;charset=UTF-8");
         String url = LOGIN_PAGE;
         try {
-            String action = request.getParameter("action");
+                  String action = request.getAttribute("action") != null
+                    ? (String) request.getAttribute("action")
+                    : request.getParameter("action");
             //---- Xu ly cac action cua User -----
             if (isUserAction(action)) {
                 url = "/UserController";
             } else if (isPageLoadAction(action)) {
                 url = "/PageController";
-            } else if (isProductController(action)) {
+            } else if (isProductDTO(action)) {
                 url = "/ProductController";
             }
             else if (isUserAddress(action)) {
@@ -117,4 +116,24 @@ public class MainController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private boolean isPageLoadAction(String action) {
+        return "loadForHomePage".equalsIgnoreCase(action)
+                || "loadForCreateForm".equalsIgnoreCase(action)
+                || "loadForListProductForm".equalsIgnoreCase(action)
+                || "loadEditForm".equalsIgnoreCase(action)
+                || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
+                || "LoadViewProductDetail".equalsIgnoreCase(action)
+                || "LoadForcreateVariantForm".equalsIgnoreCase(action);
+    }
+
+    private boolean isProductDTO(String action) {
+        return "insertProduct".equalsIgnoreCase(action)
+                || "toggleStatus".equalsIgnoreCase(action)
+                || "deleteProduct".equalsIgnoreCase(action)
+                || "createVariant".equalsIgnoreCase(action)
+                || "updateProduct".equalsIgnoreCase(action)
+                || "viewDetailProduct".equalsIgnoreCase(action)
+                || "productByCategory".equalsIgnoreCase(action);
+    }
 }

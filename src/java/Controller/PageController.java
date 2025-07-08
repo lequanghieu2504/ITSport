@@ -33,12 +33,37 @@ public class PageController extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println("vo duoc pageController");
-        String action = request.getParameter("action");
+        String action = request.getAttribute("action") != null
+                    ? (String) request.getAttribute("action")
+                    : request.getParameter("action");
         if("loadForHomePage".equalsIgnoreCase(action)){
             pageService.loadForHomePage(request,response);
             return;
         }
-        
+        else if("loadForCreateForm".equalsIgnoreCase(action)){
+            pageService.loadForCreateForm(request,response);
+            return;
+        }
+        else if("loadForListProductForm".equalsIgnoreCase(action)){
+            pageService.loadForListProduct(request,response);
+            return;
+        }
+        else if("loadEditForm".equalsIgnoreCase(action)){
+            pageService.loadEditForm(request,response);
+            return;
+        }
+        else if("loadForProductCreateVariantForm".equalsIgnoreCase(action)){
+            pageService.handleCreateForCreateProductVariantForm(request,response);
+            return;
+        }
+        else if("LoadViewProductDetail".equalsIgnoreCase(action)){
+            pageService.LoadViewProductDetail(request,response);
+            return;
+        }
+        else if("LoadForcreateVariantForm".equalsIgnoreCase(action)){
+            pageService.LoadForcreateVariantForm(request,response);
+            return;
+        }
         
     } 
 

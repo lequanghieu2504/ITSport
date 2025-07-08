@@ -1,0 +1,207 @@
+:root {
+    --primary-color: #800020;
+    --border-color: #333;
+    --text-color: #fff;
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --muted-text: #ccc;
+    --transition: all 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10rem;
+}
+
+/* Bộ lọc */
+.btn-filter {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: none;
+    transition: var(--transition);
+}
+
+.btn-filter:hover {
+    background-color: #a70026;
+}
+
+/* Sort Bar */
+.filter-sort-bar {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+/* Brand List */
+.brand-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.brand-item {
+    padding: 6px 12px;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.brand-item:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* Sort Options */
+.sort-options {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sort-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-color);
+    line-height: 30px;
+}
+
+.sort-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.sort-btn:hover,
+.sort-btn.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.sort-select {
+    padding: 5px 12px;
+    border: 1px solid var(--border-color);
+    background-color: #1e1e1e;
+    color: var(--text-color);
+    border-radius: 20px;
+    font-size: 14px;
+    transition: var(--transition);
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.sort-select:hover {
+    border-color: var(--primary-color);
+}
+
+.sort-select option {
+    background-color: #1e1e1e;
+    color: var(--text-color);
+}
+
+/* Product Card */
+.product-card {
+    border: 1px solid #2a2a2a;
+    border-radius: 10px;
+    transition: var(--transition);
+    background-color: var(--card-bg);
+    padding: 15px;
+    color: var(--text-color);
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.product-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.product-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ff5e57;
+}
+
+.btn-outline-danger-red {
+    color: #800020;
+    border: 2px solid #800020;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+.btn-outline-danger-red:hover {
+    background-color: #e53935;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+}
+
+
+/* Popup Filter */
+.filter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+}
+
+.filter-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.filter-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    opacity: 0;
+    background: var(--card-bg);
+    color: var(--text-color);
+    width: 500px;
+    max-width: 90%;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    transition: var(--transition);
+    pointer-events: none;
+}
+
+.filter-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
