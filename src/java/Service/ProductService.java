@@ -31,10 +31,12 @@ public class ProductService {
 
         if (productDTO != null) {
 
-            boolean success = productDAO.insertProduct(productDTO);
+            Long success = productDAO.insertProduct(productDTO);
 
-            if (success) {
+            if (success > 0) {
                 request.getSession().setAttribute("message", "them san pham thanh cong");
+                url = "MainController?action=loadForProductCreateVariantForm";
+                request.setAttribute("productId", success);
             } else {
                 request.getSession().setAttribute("message", "them san pham that bai");
             }
@@ -53,11 +55,11 @@ public class ProductService {
     public void handleToggleStatus(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            
+
             try {
                 String idStr = request.getParameter("StrProductId");
                 String statusStr = request.getParameter("status");
-                
+
                 if (idStr != null && statusStr != null) {
                     long productId = Long.parseLong(idStr);
                     boolean status = Boolean.parseBoolean(statusStr); // true hoặc false
@@ -68,7 +70,7 @@ public class ProductService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             // Quay về lại danh sách sản phẩm
             response.sendRedirect("MainController?action=loadForListProductForm");
         } catch (IOException ex) {
@@ -81,12 +83,11 @@ public class ProductService {
             String StrProductId = request.getParameter("StrProductId");
             String url = "admin/adminDashboard";
             Boolean deleteSuccess = productDAO.deleteProductByProductId(StrProductId);
-            
+
             request.setAttribute("section", "product");
-            if(deleteSuccess){
+            if (deleteSuccess) {
                 request.getSession().setAttribute("message", "Deleted product");
-            }
-            else{
+            } else {
                 request.getSession().setAttribute("message", "Can not delete product");
             }
             request.getRequestDispatcher(url).forward(request, response);
@@ -96,6 +97,5 @@ public class ProductService {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- 
 
 }

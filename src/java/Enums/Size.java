@@ -9,5 +9,5 @@ package Enums;
  * @author ASUS
  */
 public enum Size {
-    M,L,XL,XXL,XXXL,XXXXL
+    S,M,L,XL,XXL,XXXL,XXXXL
 }

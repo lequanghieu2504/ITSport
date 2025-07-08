@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -84,26 +85,33 @@ public class ProductDAO {
         return null;
     }
 
-    public boolean insertProduct(ProductDTO productDTO) {
+    public long insertProduct(ProductDTO productDTO) {
         String sql = "INSERT INTO product (product_name, [description], price, category_id, brand_id, [status]) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, productDTO.getProduct_name());
             ps.setString(2, productDTO.getDescription());
             ps.setDouble(3, productDTO.getPrice());
             ps.setLong(4, productDTO.getCategory_id());
             ps.setLong(5, productDTO.getBrand_id());
-            ps.setBoolean(6, productDTO.isStatus()); // Hoặc setInt nếu status là 0/1
+            ps.setBoolean(6, productDTO.isStatus());
 
             int rows = ps.executeUpdate();
-            return rows > 0;
+
+            if (rows > 0) {
+                try ( ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getLong(1); // Trả về product_id vừa được tạo
+                    }
+                }
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return false;
+        return -1; // Trả về -1 nếu có lỗi hoặc không tạo được
     }
 
     public List<ProductDTO> getAllProduct() {
@@ -153,17 +161,19 @@ public class ProductDAO {
         String sql = UPDATE_PRODUCT + "SET status = ? WHERE product_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setBoolean(1, status);         
+            ps.setBoolean(1, status);
             ps.setLong(2, productId);
 
             ps.executeUpdate();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-             Optional: throw new RuntimeException("Error updating status", ex);
+            Optional:
+            throw new RuntimeException("Error updating status", ex);
         }
     }
-     public ProductDTO getProductById(String product_id) {
+
+    public ProductDTO getProductById(String product_id) {
         String sql = GET_PRODUCT + " WHERE product_id = ?";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -184,17 +194,17 @@ public class ProductDAO {
     public Boolean deleteProductByProductId(String StrProductId) {
         String sql = DELETE_PRODUCT + "WHERE product_id = ?";
         Long productId = Long.parseLong(StrProductId);
-        
-        try(Connection conn = JDBCConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
-            
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setLong(1, productId);
             int success = ps.executeUpdate();
-            if(success > 0){
+            if (success > 0) {
                 return true;
+            } else {
+                return false;
             }
-            else return false;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

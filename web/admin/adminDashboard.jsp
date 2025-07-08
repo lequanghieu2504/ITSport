@@ -36,8 +36,8 @@
 
         <div class="sidebar">
             <h3>Admin Menu</h3>
-            <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
             <a href="adminDashBoard.jsp?section=revenue">Revenue</a>
+            <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
         </div>
 
         <div class="content">
@@ -53,6 +53,15 @@
                 </c:when>
                 <c:when test="${section == 'editProduct'}">
                     <jsp:include page="product/UpdateProductForm.jsp"/>   
+                </c:when>
+                <c:when test="${section == 'createVariant'}">
+                    <jsp:include page="product/ProductVariantForm.jsp"/>
+                </c:when>
+                <c:when test="${section == 'viewDetailProduct'}">
+                    <jsp:include page="product/ProductDetail.jsp"/>
+                </c:when>
+                <c:when test="${section == 'CreateDetailProduct'}">
+                    <jsp:include page="product/CreateProductVariantForm.jsp"/>
                 </c:when>
                 <c:otherwise>
                     <h2>Welcome to the Admin Dashboard</h2>

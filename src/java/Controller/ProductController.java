@@ -6,6 +6,7 @@
 package Controller;
 
 import Service.ProductService;
+import Service.ProductVariantService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name="ProductController", urlPatterns={"/ProductController"})
 public class ProductController extends HttpServlet {
    private ProductService productService = new ProductService();
+   private ProductVariantService productVariantService = new ProductVariantService();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -42,6 +44,10 @@ public class ProductController extends HttpServlet {
         }
         else if("deleteProduct".equalsIgnoreCase(action)){
             productService.handleDeleteProduct(request,response);
+            return;
+        }
+        else if("createVariant".equalsIgnoreCase(action)){
+            productVariantService.handleCreateProductVariant(request,response);
             return;
         }
                 
