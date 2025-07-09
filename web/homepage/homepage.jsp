@@ -163,6 +163,6 @@
 
         <script src="assets/js/home.js" defer></script>
         <jsp:include page="/common/footer.jsp" />
-        <jsp:include page="popup.jsp" />
+        <jsp:include page="/common/popup.jsp" />
     </body>
 </html>

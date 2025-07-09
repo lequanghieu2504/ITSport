@@ -37,6 +37,32 @@ public class MainController extends HttpServlet {
                 || "register".equals(action);
     }
 
+    private boolean isPageLoadAction(String action) {
+        return "loadForHomePage".equalsIgnoreCase(action)
+                || "loadForCreateForm".equalsIgnoreCase(action)
+                || "loadForListProductForm".equalsIgnoreCase(action)
+                || "loadEditForm".equalsIgnoreCase(action)
+                || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
+                || "LoadViewProductDetail".equalsIgnoreCase(action)
+                || "LoadForcreateVariantForm".equalsIgnoreCase(action);
+    }
+
+    private boolean isProductAction(String action) {
+        return "insertProduct".equalsIgnoreCase(action)
+                || "toggleStatus".equalsIgnoreCase(action)
+                || "deleteProduct".equalsIgnoreCase(action)
+                || "createVariant".equalsIgnoreCase(action)
+                || "updateProduct".equalsIgnoreCase(action)
+                || "viewDetailProduct".equalsIgnoreCase(action)
+                || "productByCategory".equalsIgnoreCase(action);
+    }
+
+    private boolean isCartAction(String action) {
+        return "addToCart".equalsIgnoreCase(action)
+                || "removeFromCart".equalsIgnoreCase(action)
+                || "updateCart".equalsIgnoreCase(action)
+                || "viewCart".equalsIgnoreCase(action);
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,7 +70,7 @@ public class MainController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = LOGIN_PAGE;
         try {
-                  String action = request.getAttribute("action") != null
+            String action = request.getAttribute("action") != null
                     ? (String) request.getAttribute("action")
                     : request.getParameter("action");
             //---- Xu ly cac action cua User -----
@@ -52,8 +78,10 @@ public class MainController extends HttpServlet {
                 url = "/UserController";
             } else if (isPageLoadAction(action)) {
                 url = "/PageController";
-            } else if (isProductDTO(action)) {
+            } else if (isProductAction(action)) {
                 url = "/ProductController";
+            } else if (isCartAction(action)) {
+                url = "/CartController";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,25 +128,5 @@ public class MainController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
-    private boolean isPageLoadAction(String action) {
-        return "loadForHomePage".equalsIgnoreCase(action)
-                || "loadForCreateForm".equalsIgnoreCase(action)
-                || "loadForListProductForm".equalsIgnoreCase(action)
-                || "loadEditForm".equalsIgnoreCase(action)
-                || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
-                || "LoadViewProductDetail".equalsIgnoreCase(action)
-                || "LoadForcreateVariantForm".equalsIgnoreCase(action);
-    }
-
-    private boolean isProductDTO(String action) {
-        return "insertProduct".equalsIgnoreCase(action)
-                || "toggleStatus".equalsIgnoreCase(action)
-                || "deleteProduct".equalsIgnoreCase(action)
-                || "createVariant".equalsIgnoreCase(action)
-                || "updateProduct".equalsIgnoreCase(action)
-                || "viewDetailProduct".equalsIgnoreCase(action)
-                || "productByCategory".equalsIgnoreCase(action);
-    }
+    }// </editor-fold>    
 }

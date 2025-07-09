@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Service;
 
-
+import DAO.BrandDAO;
 import DAO.ProductDAO;
 import DTOs.BrandDTO;
 import DTOs.ProductDTO;
@@ -17,31 +13,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author ASUS
- */
 public class ProductService {
-    ProductDAO productDAO = new ProductDAO();
-    public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String product_id = request.getParameter("pid");
-        ProductDTO product = productDAO.getProductById(product_id);
-        
-        request.setAttribute("pid", product_id);
-        request.setAttribute("product", product);
-        request.getRequestDispatcher("detail.jsp").forward(request, response);
-    }
-    
-    public void handleViewAllProductByCategory (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String StrCategory_id = request.getParameter("cid");
-        Long category_id = Long.parseLong(StrCategory_id);
-        List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
-        List<BrandDTO> listB = null;
-                
-        request.setAttribute("cid", category_id);
-        request.setAttribute("listP", listP);
-        request.getRequestDispatcher("category.jsp").forward(request, response);
-    }
+
+    private ProductDAO productDAO = new ProductDAO();
+    private BrandDAO brandDAO = new BrandDAO();
 
     public void handleInsertProduct(HttpServletRequest request, HttpServletResponse response) {
         String url = "/admin/adminDashboard.jsp";
@@ -73,26 +48,72 @@ public class ProductService {
         }
     }
 
-    public void handleToggleStatus(HttpServletRequest request, HttpServletResponse response) {
+    public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String product_id = request.getParameter("pid");
+        ProductDTO product = productDAO.getProductById(product_id);
 
+        request.setAttribute("pid", product_id);
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("detail.jsp").forward(request, response);
+    }
+
+    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strCategoryId = request.getParameter("cid");
+        Long category_id = null;
         try {
+            category_id = Long.parseLong(strCategoryId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+            return;
+        }
 
-            try {
-                String idStr = request.getParameter("StrProductId");
-                String statusStr = request.getParameter("status");
+        List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
+        List<BrandDTO> listB = brandDAO.getAllBrand();
 
-                if (idStr != null && statusStr != null) {
-                    long productId = Long.parseLong(idStr);
-                    boolean status = Boolean.parseBoolean(statusStr); // true hoặc false
+        request.setAttribute("listBrand", listB);
+        request.setAttribute("cid", strCategoryId);
+        request.setAttribute("listP", listP);
+        request.getRequestDispatcher("category.jsp").forward(request, response);
+    }
 
-                    // Gọi DAO để cập nhật
-                    productDAO.updateStatus(productId, status);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    public void handleInsertProductAdvanced(HttpServletRequest request, HttpServletResponse response) {
+        String url = "/admin/adminDashboard.jsp";
+        request.setAttribute("section", "createProduct");
+
+        ProductDTO productDTO = ProductMapper.toProductDTOFromRequest(request);
+
+        if (productDTO != null) {
+            Long success = productDAO.insertProduct(productDTO);
+
+            if (success > 0) {
+                request.getSession().setAttribute("message", "them san pham thanh cong");
+                url = "MainController?action=loadForProductCreateVariantForm";
+                request.setAttribute("productId", success);
+            } else {
+                request.getSession().setAttribute("message", "them san pham that bai");
+            }
+        } else {
+            request.getSession().setAttribute("message", "co loi trong qua trinh them san pham");
+        }
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleToggleStatus(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String idStr = request.getParameter("StrProductId");
+            String statusStr = request.getParameter("status");
+
+            if (idStr != null && statusStr != null) {
+                long productId = Long.parseLong(idStr);
+                boolean status = Boolean.parseBoolean(statusStr);
+                productDAO.updateStatus(productId, status);
             }
 
-            // Quay về lại danh sách sản phẩm
             response.sendRedirect("MainController?action=loadForListProductForm");
         } catch (IOException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,9 +133,7 @@ public class ProductService {
                 request.getSession().setAttribute("message", "Can not delete product");
             }
             request.getRequestDispatcher(url).forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -130,9 +149,7 @@ public class ProductService {
                 return;
             }
 
-            // Sử dụng mapper mới
             ProductDTO updatedProduct = ProductMapper.toProductDTOFromRequestToUpdate(request, oldProduct);
-
             boolean success = productDAO.updateProduct(updatedProduct);
 
             if (success) {
@@ -146,7 +163,4 @@ public class ProductService {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
-  
-
 }

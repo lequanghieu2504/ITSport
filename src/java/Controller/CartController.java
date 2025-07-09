@@ -4,8 +4,7 @@
  */
 package Controller;
 
-import Service.ProductService;
-import Service.ProductVariantService;
+import Service.CartService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,43 +13,46 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "ProductController", urlPatterns = {"/ProductController"})
-public class ProductController extends HttpServlet {
+/**
+ *
+ * @author SUPPER LOQ
+ */
+@WebServlet(name = "CartController", urlPatterns = {"/CartController"})
+public class CartController extends HttpServlet {
 
-    private ProductService productService = new ProductService();
-    private ProductVariantService productVariantService = new ProductVariantService();
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    private CartService cartService = new CartService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
-        if ("insertProduct".equalsIgnoreCase(action)) {
-            productService.handleInsertProduct(request, response);
+        if ("addToCart".equalsIgnoreCase(action)) {
+            cartService.handleAddToCart(request, response);
             return;
-        } else if ("toggleStatus".equalsIgnoreCase(action)) {
-            productService.handleToggleStatus(request, response);
+        } else if ("removeFromCart".equalsIgnoreCase(action)) {
+            cartService.handleRemoveFromCart(request, response);
             return;
-        } else if ("deleteProduct".equalsIgnoreCase(action)) {
-            productService.handleDeleteProduct(request, response);
+        } else if ("updateCart".equalsIgnoreCase(action)) {
+            cartService.handleUpdateCart(request, response);
             return;
-        } else if ("createVariant".equalsIgnoreCase(action)) {
-            productVariantService.handleCreateProductVariant(request, response);
-            return;
-        } else if ("updateProduct".equalsIgnoreCase(action)) {
-            productService.handleUpdateProduct(request, response);
-            return;
-        } else if ("viewDetailProduct".equalsIgnoreCase(action)) {
-            productService.handleViewDetailProduct(request, response);
-            return;
-        } else if ("productByCategory".equalsIgnoreCase(action)) {
-            productService.handleViewAllProductByCategory(request, response);
+        } else if ("viewCart".equalsIgnoreCase(action)) {
+            cartService.handleViewCart(request, response);
             return;
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>GET</code> method. >>>>>>> phase1-admin
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -59,18 +61,12 @@ public class ProductController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException , IOException
-
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
-     * ======= throws ServletException, IOException { processRequest(request,
-     * response); } * /** Handles the HTTP <code>POST</code> method. >>>>>>>
-     * phase1-admin
      *
      * @param request servlet request
      * @param response servlet response
@@ -79,20 +75,12 @@ public class ProductController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException , IOException
-
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
     /**
      * Returns a short description of the servlet.
-     *
-     * ======= throws ServletException, IOException { processRequest(request,
-     * response); }
-     *
-     * /**
-     * Returns a short description of the servlet. >>>>>>> phase1-admin
      *
      * @return a String containing servlet description
      */
