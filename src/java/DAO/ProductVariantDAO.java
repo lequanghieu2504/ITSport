@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 import util.JDBCConnection;
 
 /**
@@ -21,6 +22,9 @@ import util.JDBCConnection;
  * @author ASUS
  */
 public class ProductVariantDAO {
+
+    public ProductVariantDAO() {
+    }
 
     private final String GET_PRODUCT_VARIANT = "select * from ProductVariant ";
     private final String INSERT_PRODUCT_VARIANT = "Insert into ProductVariant ";
@@ -47,6 +51,28 @@ public class ProductVariantDAO {
         }
 
         return null;
+    }
+    
+    public int getStock(Connection conn, int variantId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT quantity FROM ProductVariant  WHERE product_variant_id = ?")) {
+            ps.setInt(1, variantId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("quantity");
+                }
+                throw new SQLException("Variant không tồn tại: " + variantId);
+            }
+        }
+    }
+
+    public void updateStock(Connection conn, int variantId, int newStock) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement( "UPDATE ProductVariant SET quantity = ? WHERE product_variant_id = ?")) {
+            ps.setInt(1, newStock);
+            ps.setInt(2, variantId);
+            if (ps.executeUpdate() != 1) {
+                throw new SQLException("Cập nhật stock thất bại cho variant: " + variantId);
+            }
+        }
     }
 
     public boolean InsertProductVariant(ProductVariantDTO productVariantDTO) {

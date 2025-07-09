@@ -175,11 +175,11 @@ public class ProductDAO {
         }
     }
 
-    public ProductDTO getProductById(String product_id) {
+    public ProductDTO getProductById(Long product_id) {
         String sql = GET_PRODUCT + " WHERE product_id = ?";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, product_id);
+            ps.setLong(1, product_id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 ProductDTO product = ProductMapper.toProductDTOFromResultSet(rs);

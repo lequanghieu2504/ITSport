@@ -8,20 +8,54 @@
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/MainController.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/ProductService.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/ProductDAO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/BrandDTO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/PageService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/BrandMapper.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/ProductDTO.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/ProductMapper.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/BrandDAO.java</file>
         </group>
         <group>
-            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/login.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/BuyingService.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/CategoryDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/UserAddressController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Enums/Size.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/BrandDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/PageController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/detail.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Enums/Role.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/ProductController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/ProductService.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/UserController.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/UserAddressService.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Mapper/ProductMapper.java</file>
-            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/UserAddressDAO.java</file>
-            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/UserAddressController.java</file>
-            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/ProductVariantDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Mapper/CategoryMapper.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DTOs/UserDTO.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DTOs/UserAddressDTO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/ProductVariantService.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/BuyingController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/ProductDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/homepage/banner.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/UserAddressDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Enums/PaymentMethod.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/homepage/homepage.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/register.jsp</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/UserService.java</file>
-            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DTOs/ProductDTO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Enums/Status.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Mapper/BrandMapper.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/WEB.xml</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DTOs/BuyingDTO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/PageService.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DTOs/ProductVariantDTO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/BuyingDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DTOs/CategoryDTO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Mapper/ProductVariantMapper.java</file>
         </group>
     </open-files>
 </project-private>

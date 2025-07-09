@@ -48,9 +48,7 @@ public class ProductController extends HttpServlet {
         } else if ("updateProduct".equalsIgnoreCase(action)) {
             productService.handleUpdateProduct(request, response);
             return;
-        } else if ("viewDetailProduct".equalsIgnoreCase(action)) {
-            productService.handleViewDetailProduct(request, response);
-            return;
+       
         } else if ("productByCategory".equalsIgnoreCase(action)) {
             productService.handleViewAllProductByCategory(request, response);
             return;

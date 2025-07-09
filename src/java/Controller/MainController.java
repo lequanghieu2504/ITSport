@@ -31,38 +31,13 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private boolean isUserAction(String action) {
-        return "login".equals(action)
-                || "logout".equals(action)
-                || "register".equals(action);
-    }
-
-    private boolean isProductController(String action) {
-        return "insertProduct".equalsIgnoreCase(action)
-                || "viewDetailProduct".equalsIgnoreCase(action);
-    }
-    
-    private boolean isUserAddress(String action) {
-        return "create".equals(action)
-                || "update".equals(action)
-                || "delete".equals(action)
-                || "listAddress".equals(action);
-    }
-
-    private boolean isBuying(String action) {
-        return "create".equals(action)
-                || "update".equals(action)
-                || "delete".equals(action)
-                || "listAddress".equals(action);
-    }
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("vo duoc main roi");
         response.setContentType("text/html;charset=UTF-8");
         String url = LOGIN_PAGE;
         try {
-                  String action = request.getAttribute("action") != null
+            String action = request.getAttribute("action") != null
                     ? (String) request.getAttribute("action")
                     : request.getParameter("action");
             //---- Xu ly cac action cua User -----
@@ -70,10 +45,12 @@ public class MainController extends HttpServlet {
                 url = "/UserController";
             } else if (isPageLoadAction(action)) {
                 url = "/PageController";
-            } else if (isProductDTO(action)) {
+            } else if (isProductAction(action)) {
                 url = "/ProductController";
-            }else if (isUserAddress(action)) {
+            } else if (isUserAddressAction(action)) {
                 url = "/UserAddressController";
+            } else if (isBuyingAction(action)){
+                url = "/BuyingController";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,16 +106,35 @@ public class MainController extends HttpServlet {
                 || "loadEditForm".equalsIgnoreCase(action)
                 || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
                 || "LoadViewProductDetail".equalsIgnoreCase(action)
-                || "LoadForcreateVariantForm".equalsIgnoreCase(action);
+                || "LoadForcreateVariantForm".equalsIgnoreCase(action)
+                || "viewDetailProduct".equalsIgnoreCase(action);
+
     }
 
-    private boolean isProductDTO(String action) {
+    private boolean isProductAction(String action) {
         return "insertProduct".equalsIgnoreCase(action)
                 || "toggleStatus".equalsIgnoreCase(action)
                 || "deleteProduct".equalsIgnoreCase(action)
                 || "createVariant".equalsIgnoreCase(action)
                 || "updateProduct".equalsIgnoreCase(action)
-                || "viewDetailProduct".equalsIgnoreCase(action)
                 || "productByCategory".equalsIgnoreCase(action);
+    }
+
+    private boolean isUserAddressAction(String action) {
+        return "create".equals(action)
+                || "update".equals(action)
+                || "delete".equals(action)
+                || "listAddress".equals(action);
+    }
+
+    private boolean isUserAction(String action) {
+        return "login".equals(action)
+                || "logout".equals(action)
+                || "register".equals(action);
+    }
+    
+    private boolean isBuyingAction(String action) {
+        return "buyNow".equals(action);
+//                || "updateStatus".equals(action);
     }
 }
