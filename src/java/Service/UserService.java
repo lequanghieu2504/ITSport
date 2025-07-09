@@ -55,13 +55,13 @@ public class UserService {
         }
     }
 
-    public void handleRegister(HttpServletRequest request, HttpServletResponse response) {
+    public void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String url = "login.jsp";
 
         try {
             String username = request.getParameter("StrUserName");
             if (userDAO.isUsernameExists(username)) {
-                request.setAttribute("error", "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.");
+                request.getSession().setAttribute("message", "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.");
                 url = "register.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
                 return;
@@ -93,17 +93,18 @@ public class UserService {
 
                 ClientDAO.insertClient(client);
                 request.getSession().setAttribute("message", "Đăng ký thành công! Vui lòng đăng nhập.");
+                response.sendRedirect("login.jsp");
             } else {
                 request.getSession().setAttribute("message", "Đăng ký thất bại!");
-                url = "register.jsp";
+                response.sendRedirect("register.jsp");
             }
-
-            request.getRequestDispatcher(url).forward(request, response);
 
         } catch (ServletException | IOException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             e.printStackTrace();
+            request.getSession().setAttribute("message", "Đã xảy ra lỗi hệ thống!");
+            response.sendRedirect("register.jsp");
         }
     }
 

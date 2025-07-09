@@ -17,11 +17,6 @@
             <div class="p-4 flex-fill form-side" style="width: 50%;">
                 <h2 class="text-center mb-4 text-danger">Sign Up</h2>
 
-                <c:if test="${not empty sessionScope.message}">
-                    <div class="alert alert-success text-center">${sessionScope.message}</div>
-                    <c:remove var="message" scope="session"/>
-                </c:if>
-
                 <form method="post" action="MainController?action=register">
                     <div class="form-group mb-3">
                         <label for="StrUserName">Username:</label>
@@ -39,10 +34,6 @@
                         <input type="submit" value="Register" class="btn btn-primary" />
                     </div>
                 </form>
-                    
-                <c:if test="${not empty error}">
-                    <p style="color: red">${error}</p>
-                </c:if>
             </div>
 
             <!-- Logo bên phải -->
@@ -50,7 +41,6 @@
                 <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Logo" class="img-fluid" style="max-height: 250px;">
             </div>
         </div>
+        <jsp:include page="/common/popup.jsp" />
     </body>
-    <jsp:include page="/common/popup.jsp" />
-
 </html>
