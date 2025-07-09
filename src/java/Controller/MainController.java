@@ -49,6 +49,12 @@ public class MainController extends HttpServlet {
                 || "listAddress".equals(action);
     }
 
+    private boolean isBuying(String action) {
+        return "create".equals(action)
+                || "update".equals(action)
+                || "delete".equals(action)
+                || "listAddress".equals(action);
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,8 +72,7 @@ public class MainController extends HttpServlet {
                 url = "/PageController";
             } else if (isProductDTO(action)) {
                 url = "/ProductController";
-            }
-            else if (isUserAddress(action)) {
+            }else if (isUserAddress(action)) {
                 url = "/UserAddressController";
             }
         } catch (Exception e) {
