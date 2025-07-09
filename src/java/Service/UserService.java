@@ -1,6 +1,9 @@
 package Service;
 
+import DAO.CartDAO;
+import DAO.ClientDAO;
 import DAO.UserDAO;
+import DTOs.ClientDTO;
 import DTOs.UserDTO;
 import Enums.Role;
 import jakarta.servlet.ServletException;
@@ -57,6 +60,13 @@ public class UserService {
 
         try {
             String username = request.getParameter("StrUserName");
+            if (userDAO.isUsernameExists(username)) {
+                request.setAttribute("error", "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.");
+                url = "register.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+                return;
+            }
+
             String fullName = request.getParameter("StrFullName");
             String password = request.getParameter("StrPassword");
 
@@ -71,6 +81,17 @@ public class UserService {
             boolean success = userDAO.insertUser(newUser);
 
             if (success) {
+                int user_id = userDAO.getUserIdByUsername(username);
+                int cart_id = CartDAO.createCart();
+
+                ClientDTO client = new ClientDTO();
+                client.setUser_id(user_id);
+                client.setCart_id(cart_id);
+                client.setFull_name(fullName);
+                client.setPhone_number("N/A");
+                client.setAddress("N/A");
+
+                ClientDAO.insertClient(client);
                 request.getSession().setAttribute("message", "Đăng ký thành công! Vui lòng đăng nhập.");
             } else {
                 request.getSession().setAttribute("message", "Đăng ký thất bại!");
@@ -85,14 +106,14 @@ public class UserService {
             e.printStackTrace();
         }
     }
-    
+
     public void handleLogout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Huỷ phiên đăng nhập hiện tại
         HttpSession session = request.getSession(false); // false: không tạo session mới nếu chưa có
         if (session != null) {
             session.invalidate();
         }
-        
+
         response.sendRedirect("MainController?action=loadForHomePage");
     }
 }

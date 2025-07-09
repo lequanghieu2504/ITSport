@@ -20,28 +20,44 @@
                     <h2 class="cart-title">GIỎ HÀNG CỦA BẠN</h2>
 
                     <c:choose>
-                        <c:when test="${empty sessionScope.cartItems}">
+                        <c:when test="${empty listCartItem}">
                             <p class="empty-message">Giỏ hàng của bạn đang trống.</p>
                         </c:when>
                         <c:otherwise>
                             <div class="cart-container">
-                                <c:forEach var="item" items="${sessionScope.cartItems}">
+                                <c:forEach var="item" items="${listCartItem}">
                                     <div class="cart-item row align-items-center">
+<!--                                         Hình ảnh 
                                         <div class="col-md-2">
-                                            <img class="product-img img-fluid" src="assets/images/${item.product.image}" alt="${item.product.name}"/>
-                                        </div>
+                                            <img class="product-img img-fluid" src="assets/images/${item.product}" alt="${item.product.product_name}"/>
+                                        </div>-->
+
+                                        <!-- Tên sản phẩm và biến thể -->
                                         <div class="col-md-4">
-                                            <div class="product-name">${item.product.name}</div>
+                                            <div class="product-name">${item.product.product_name}</div>
+                                            <c:if test="${not empty item.variant}">
+                                                <div class="text-muted small">
+                                                    Size: ${item.variant.size} |
+                                                    Màu: ${item.variant.color}
+                                                </div>
+                                            </c:if>
                                         </div>
+
+                                        <!-- Giá -->
                                         <div class="col-md-2">
                                             <div class="product-price">${item.product.price}₫</div>
                                         </div>
+
+                                        <!-- Số lượng -->
                                         <div class="col-md-2">
                                             <input type="number" class="form-control quantity-input" name="quantity" value="${item.quantity}" min="1"/>
                                         </div>
+
+                                        <!-- Xóa -->
                                         <div class="col-md-2 text-end">
                                             <form action="removeFromCart" method="post">
-                                                <input type="hidden" name="productId" value="${item.product.id}"/>
+                                                <input type="hidden" name="product_id" value="${item.product.product_id}"/>
+                                                <input type="hidden" name="variant_id" value="${item.variant.product_variant_id}"/>
                                                 <button class="btn btn-outline-secondary btn-sm">
                                                     <i class="fas fa-trash"></i> Xóa
                                                 </button>
@@ -50,9 +66,12 @@
                                     </div>
                                 </c:forEach>
 
+                                <!-- Tổng tiền -->
                                 <div class="cart-summary">
                                     Tổng cộng: <span>${sessionScope.cartTotal}₫</span>
                                 </div>
+
+                                <!-- Thanh toán -->
                                 <div class="text-end mt-3">
                                     <a href="checkout" class="btn btn-success">Thanh toán</a>
                                 </div>

@@ -72,7 +72,6 @@ public class ProductDAO {
         String sql = GET_PRODUCT + "ORDER BY product_id DESC";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);

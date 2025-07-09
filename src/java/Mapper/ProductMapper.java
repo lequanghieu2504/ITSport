@@ -22,7 +22,6 @@ public class ProductMapper {
         String product_name = rs.getString("product_name");
         String description = rs.getString("description");
         double price = rs.getDouble("price");
-        String img_url = rs.getString("img_url");
         int category_id = rs.getInt("category_id");
         int brand_id = rs.getInt("brand_id");
         boolean status = rs.getBoolean("status");
@@ -33,7 +32,6 @@ public class ProductMapper {
         product.setProduct_name(product_name);
         product.setDescription(description);
         product.setPrice(price);
-        product.setImg_url(img_url);
         product.setCategory_id(category_id);
         product.setBrand_id(brand_id);
         product.setStatus(status);

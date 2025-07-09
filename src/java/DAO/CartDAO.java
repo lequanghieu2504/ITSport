@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.JDBCConnection;
@@ -50,5 +51,22 @@ public class CartDAO {
         } catch (SQLException ex) {
             Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static int createCart() {
+        String sql = "INSERT INTO Cart DEFAULT VALUES";
+        int cart_id = -1;
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                cart_id = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cart_id;
     }
 }

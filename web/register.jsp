@@ -39,6 +39,10 @@
                         <input type="submit" value="Register" class="btn btn-primary" />
                     </div>
                 </form>
+                    
+                <c:if test="${not empty error}">
+                    <p style="color: red">${error}</p>
+                </c:if>
             </div>
 
             <!-- Logo bên phải -->
@@ -47,6 +51,6 @@
             </div>
         </div>
     </body>
-    <jsp:include page="popup.jsp" />
+    <jsp:include page="/common/popup.jsp" />
 
 </html>
