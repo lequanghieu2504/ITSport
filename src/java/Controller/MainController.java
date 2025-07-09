@@ -7,6 +7,7 @@ package Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author ASUS
  */
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-
+@MultipartConfig
 public class MainController extends HttpServlet {
 
     private static final String LOGIN_PAGE = "login.jsp";
@@ -33,22 +34,26 @@ public class MainController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("vo duoc main roi");
         response.setContentType("text/html;charset=UTF-8");
         String url = LOGIN_PAGE;
         try {
             String action = request.getAttribute("action") != null
                     ? (String) request.getAttribute("action")
                     : request.getParameter("action");
+            System.out.println(action);
             //---- Xu ly cac action cua User -----
             if (isUserAction(action)) {
                 url = "/UserController";
             } else if (isPageLoadAction(action)) {
                 url = "/PageController";
             } else if (isProductAction(action)) {
+                System.out.println("check duoc product action");
                 url = "/ProductController";
             } else if (isUserAddressAction(action)) {
                 url = "/UserAddressController";
+            }
+            else if(isImageAction(action)){
+                url = "/ImageController";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,5 +134,10 @@ public class MainController extends HttpServlet {
         return "login".equals(action)
                 || "logout".equals(action)
                 || "register".equals(action);
+    }
+    private boolean isImageAction(String action){
+        return "updateMainProductImage".equalsIgnoreCase(action)
+                ||"insertMainProductImage".equalsIgnoreCase(action)
+                ||"deleteProductImage".equalsIgnoreCase(action);
     }
 }

@@ -38,6 +38,7 @@ public class PageController extends HttpServlet {
         String action = request.getAttribute("action") != null
                 ? (String) request.getAttribute("action")
                 : request.getParameter("action");
+        System.out.println("check trong pageController"+action);
         if ("loadForHomePage".equalsIgnoreCase(action)) {
             pageService.loadForHomePage(request, response);
             return;

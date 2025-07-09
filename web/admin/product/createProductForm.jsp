@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -7,7 +8,7 @@
     <body>
         <h2>Create New Product</h2>
 
-        <form action="MainController" method="post">
+        <form action="MainController" method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="insertProduct" />
 
             <label for="StrProductName">Product Name:</label><br>
@@ -19,8 +20,9 @@
             <label for="StrPrice">Price:</label><br>
             <input type="number" step="0.01" id="StrPrice" name="StrPrice" required><br><br>
 
-            <label for="StrImgUrl">Image URL:</label><br>
-            <input type="text" id="StrImgUrl" name="StrImgUrl"><br><br>
+            <!-- ✅ Upload ảnh đại diện -->
+            <label for="MainImage">Main Product Image:</label><br>
+            <input type="file" id="MainImage" name="MainImage" accept="image/*" required><br><br>
 
             <label for="StrCategoryId">Category:</label><br>
             <select name="StrCategoryId" id="StrCategoryId" required>
@@ -43,7 +45,9 @@
 
             <input type="submit" value="Create Product">
         </form>
-        <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">&larr; Quay l?i danh s�ch</a>
 
+        <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">
+            &larr; Quay lại danh sách
+        </a>
     </body>
 </html>

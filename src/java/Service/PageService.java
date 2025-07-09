@@ -6,12 +6,16 @@ package Service;
 
 import DAO.BrandDAO;
 import DAO.CategoryDAO;
+import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
 import DTOs.CategoryDTO;
+import DTOs.ImageDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
+import Enums.ImageType;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +34,8 @@ public class PageService {
     ProductDAO productDAO = new ProductDAO();
     BrandDAO brandDAO = new BrandDAO();
     ProductVariantDAO productVariantDAO = new ProductVariantDAO();
+    ImageDAO imageDAO = new ImageDAO();
+    
 
     public void loadForHomePage(HttpServletRequest request, HttpServletResponse response) {
 
@@ -40,6 +46,9 @@ public class PageService {
             List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();
 
+            
+            
+            
             request.setAttribute("listC", listC);
             request.setAttribute("listNewP", listNewP);
             request.setAttribute("listAo", listAo);
@@ -89,6 +98,7 @@ public class PageService {
     }
 
     public void loadEditForm(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("co vao load edit form");
         try {
             request.setAttribute("section", "editProduct");
             String StrProductId = request.getParameter("StrProductId");
@@ -96,11 +106,14 @@ public class PageService {
             ProductDTO productDTO = productDAO.getProductById(product_id);
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<BrandDTO> listB = brandDAO.getAllBrand();
-
+            List<ImageDTO> Main_Image_Products = imageDAO.getImagesByTarget(product_id, ImageType.PRODUCT_MAIN);
+            
             request.setAttribute("product", productDTO);
             request.setAttribute("listC", listC);
             request.setAttribute("listB", listB);
-
+            if(!(Main_Image_Products.isEmpty())){
+            request.setAttribute("product_main_image",Main_Image_Products.get(0));
+            }
             request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
@@ -144,13 +157,17 @@ public class PageService {
             long ProductId = Long.parseLong(StrProductId);
 
             ProductDTO productDTO = productDAO.getProductById(ProductId);
-
+            List<ImageDTO> imageDTOs = imageDAO.getImagesByTarget(productDTO.getProduct_id(), ImageType.PRODUCT_MAIN);
             List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(ProductId);
             if (productDTO != null) {
                 request.setAttribute("section", "viewDetailProduct");
                 request.setAttribute("product", productDTO);
                 request.setAttribute("variantList", variantList);
-            } else {
+                request.setAttribute("", url);
+                if(!(imageDTOs.isEmpty())){
+                request.setAttribute("productMainImages", imageDTOs);
+                }
+                } else {
                 request.getSession().setAttribute("message", "khong tim thay san pham");
             }
             try {

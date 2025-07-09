@@ -4,11 +4,13 @@
  */
 package DTOs;
 
+import interfaces.HasImage;
+
 /**
  *
  * @author ASUS
  */
-public class ProductDTO {
+public class ProductDTO  implements HasImage {
     private Long product_id;
     private String product_name;
     private String description;

@@ -47,7 +47,7 @@
                 </form>
             </div>
         </div>
-        <jsp:include page="popup.jsp" />
+        <jsp:include page="common/popup.jsp" />
         <script src="assets/js/popup.js"></script>
     </body>
 </html>

@@ -15,6 +15,18 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .image-gallery img {
+            width: 120px;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -55,6 +67,15 @@
         <p><strong>Trạng thái:</strong> ${product.status ? "Hoạt động" : "Không hoạt động"}</p>
     </div>
 
+    <!-- ✅ Hiển thị ảnh gốc sản phẩm (PRODUCT_MAIN) -->
+    <h3>Ảnh đại diện sản phẩm</h3>
+    <div class="image-gallery">
+        <c:forEach var="img" items="${productMainImages}">
+            <img src="${pageContext.request.contextPath}/${img.file_name}" alt="Main Image">
+        </c:forEach>
+    </div>
+
+    <!-- ✅ Hiển thị danh sách biến thể -->
     <h3>Biến thể sản phẩm</h3>
 
     <c:if test="${empty variantList}">
@@ -67,8 +88,9 @@
                 <th>ID</th>
                 <th>Size</th>
                 <th>Số lượng</th>
-                <th>màu sắc</th>
+                <th>Màu sắc</th>
                 <th>SKU</th>
+                <th>Ảnh</th> <!-- ✅ Thêm cột hiển thị ảnh variant -->
             </tr>
             <c:forEach var="v" items="${variantList}">
                 <tr>
@@ -77,6 +99,11 @@
                     <td>${v.quantity}</td>
                     <td>${v.color}</td>
                     <td>${v.sku}</td>
+                    <td>
+                        <c:forEach var="img" items="${variantImageMap[v.product_variant_id]}">
+                            <img src="${pageContext.request.contextPath}/images/product/variant/${img.file_name}" width="60">
+                        </c:forEach>
+                    </td>
                 </tr>
             </c:forEach>
         </table>

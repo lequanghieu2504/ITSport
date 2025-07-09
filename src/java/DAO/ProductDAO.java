@@ -23,13 +23,16 @@ import util.JDBCConnection;
  */
 public class ProductDAO {
 
+    private final String BASE_GET_PRODUCT_WITH_IMAGE
+            = "SELECT p.*, i.file_name AS img_url FROM Product p LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN'";
+
     private final String GET_PRODUCT = "select * from [Product] ";
     private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
     private final String UPDATE_PRODUCT = "UPDATE [Product] ";
     private final String DELETE_PRODUCT = "Delete FROM [Product] ";
 
     public List<ProductDTO> getNewProducts() {
-        String sql = GET_PRODUCT;
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE;
         List<ProductDTO> listP = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -37,6 +40,7 @@ public class ProductDAO {
 
             while (rs.next()) {
                 ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
+
                 listP.add(productDTO);
             }
             return listP;
@@ -47,10 +51,9 @@ public class ProductDAO {
         return null;
     }
 
-
     public List<ProductDTO> getProductsByCategoryId(long category_id) {
 
-        String sql = GET_PRODUCT + " where category_id = ?";
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " where category_id = ?";
         List<ProductDTO> listP = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, category_id);
@@ -69,7 +72,7 @@ public class ProductDAO {
 
     public List<ProductDTO> getSuggestedProducts() {
         List<ProductDTO> listP = new ArrayList<>();
-        String sql = GET_PRODUCT + "ORDER BY product_id DESC";
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " ORDER BY product_id DESC";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -85,7 +88,6 @@ public class ProductDAO {
         }
         return null;
     }
-
 
     public long insertProduct(ProductDTO productDTO) {
         String sql = "INSERT INTO product (product_name, [description], price, category_id, brand_id, [status]) VALUES (?, ?, ?, ?, ?, ?)";
@@ -138,17 +140,13 @@ public class ProductDAO {
     public List<ProductDTO> getAllProductWithCategoryAndBrandName() {
         List<ProductDTO> list = new ArrayList<>();
 
-        String sql = "SELECT p.product_id, p.product_name, p.description, p.price, p.img_url, "
-                + "p.status, p.category_id, p.brand_id, "
-                + "c.name AS category_name, b.name AS brand_name "
-                + "FROM Product p "
-                + "JOIN Categories c ON p.category_id = c.category_id "
-                + "JOIN Brand b ON p.brand_id = b.brand_id";
+        String sql = "SELECT p.product_id, p.product_name, p.description, p.price, p.status, p.category_id, p.brand_id, c.name AS category_name, b.name AS brand_name FROM Product p JOIN Categories c ON p.category_id = c.category_id JOIN Brand b ON p.brand_id = b.brand_id;";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 ProductDTO dto = ProductMapper.toProductDTOFromRequestWithName(rs);
+
                 list.add(dto);
             }
 
@@ -176,7 +174,7 @@ public class ProductDAO {
     }
 
     public ProductDTO getProductById(Long product_id) {
-        String sql = GET_PRODUCT + " WHERE product_id = ?";
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " WHERE product_id = ?";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, product_id);

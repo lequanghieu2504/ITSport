@@ -22,10 +22,10 @@ public class ProductMapper {
         String product_name = rs.getString("product_name");
         String description = rs.getString("description");
         double price = rs.getDouble("price");
-        String img_url = rs.getString("img_url");
         int category_id = rs.getInt("category_id");
         int brand_id = rs.getInt("brand_id");
         boolean status = rs.getBoolean("status");
+        String url_Main_Product_Image = rs.getString("img_url");
 
         // Tạo ProductDTO
         ProductDTO product = new ProductDTO();
@@ -33,11 +33,15 @@ public class ProductMapper {
         product.setProduct_name(product_name);
         product.setDescription(description);
         product.setPrice(price);
-        product.setImg_url(img_url);
         product.setCategory_id(category_id);
         product.setBrand_id(brand_id);
         product.setStatus(status);
-
+        if(url_Main_Product_Image==null||url_Main_Product_Image.trim().isEmpty()){
+            product.setImg_url("images/default.jpg");
+        }
+        else{
+            product.setImg_url(url_Main_Product_Image);
+        }
         return product;
     }
 
@@ -99,23 +103,24 @@ public class ProductMapper {
 
         return dto;
 
-
     }
 
     public static ProductDTO toProductDTOFromRequestWithName(ResultSet rs) {
         try {
             ProductDTO dto = new ProductDTO();
             dto.setProduct_id(rs.getLong("product_id"));
+
             dto.setProduct_name(rs.getString("product_name"));
             dto.setDescription(rs.getString("description"));
             dto.setPrice(rs.getDouble("price"));
-            dto.setImg_url(rs.getString("img_url"));
             dto.setStatus(rs.getInt("status") == 1);
             dto.setCategory_id(rs.getInt("category_id"));
             dto.setBrand_id(rs.getInt("brand_id"));
             dto.setCategory_name(rs.getString("category_name"));
             dto.setBrand_name(rs.getString("brand_name"));
-
+            System.out.println(dto.getProduct_id());
+            System.out.println(dto.getProduct_name());
+            
             return dto;
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,7 +158,7 @@ public class ProductMapper {
                 : oldProduct.getBrand_id());
 
         String statusParam = request.getParameter("StrStatus");
-        dto.setStatus(statusParam != null); 
+        dto.setStatus(statusParam != null);
 
         return dto;
     }

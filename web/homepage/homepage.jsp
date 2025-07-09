@@ -85,7 +85,7 @@
                 <c:forEach var="p" items="${listAo}">
                     <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.img_url}" alt="${p.product_name}" />
+                            <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
@@ -112,7 +112,7 @@
                 <c:forEach var="p" items="${listQ}">
                     <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.img_url}" alt="${p.product_name}" />
+                            <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
@@ -140,7 +140,7 @@
                 <c:forEach var="p" items="${productListP}">
                     <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.img_url}" alt="${p.product_name}" />
+                            <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
@@ -163,6 +163,6 @@
 
         <script src="assets/js/home.js" defer></script>
         <jsp:include page="/common/footer.jsp" />
-        <jsp:include page="popup.jsp" />
+        <jsp:include page="/common/popup.jsp" />
     </body>
 </html>
