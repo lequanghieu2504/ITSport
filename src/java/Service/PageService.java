@@ -92,7 +92,8 @@ public class PageService {
         try {
             request.setAttribute("section", "editProduct");
             String StrProductId = request.getParameter("StrProductId");
-            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+            Long product_id = Long.parseLong(StrProductId);
+            ProductDTO productDTO = productDAO.getProductById(product_id);
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<BrandDTO> listB = brandDAO.getAllBrand();
 
@@ -114,8 +115,8 @@ public class PageService {
             String url = "admin/adminDashboard.jsp";
 
             String StrProductId = request.getParameter("productId");
-
-            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+            Long product_id = Long.parseLong(StrProductId);
+            ProductDTO productDTO = productDAO.getProductById(product_id);
 
             if (productDTO != null) {
                 request.setAttribute("product", productDTO);
@@ -142,7 +143,7 @@ public class PageService {
         } else {
             long ProductId = Long.parseLong(StrProductId);
 
-            ProductDTO productDTO = productDAO.getProductById(StrProductId);
+            ProductDTO productDTO = productDAO.getProductById(ProductId);
 
             List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(ProductId);
             if (productDTO != null) {
@@ -167,12 +168,12 @@ public class PageService {
             String url = "admin/adminDashboard.jsp";
 
             String StrProductId = request.getParameter("StrProductId");
-
+            Long productId = Long.parseLong(StrProductId);
             if (StrProductId == null || StrProductId.trim().isEmpty()) {
                 request.getSession().setAttribute("message", "Ban can nhap product id");
             } else {
 
-                ProductDTO productDTO = productDAO.getProductById(StrProductId);
+                ProductDTO productDTO = productDAO.getProductById(productId);
 
                 if (productDTO != null) {
                     request.setAttribute("section", "CreateDetailProduct");
@@ -188,6 +189,17 @@ public class PageService {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String StrProduct_id = request.getParameter("pid");
+        Long product_id = Long.parseLong(StrProduct_id);
+        ProductDTO product = productDAO.getProductById(product_id);
+        List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(product_id);
+
+        request.setAttribute("pid", product_id);
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
 }

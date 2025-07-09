@@ -4,10 +4,11 @@
  */
 package Service;
 
-
 import DAO.ProductDAO;
+import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
 import DTOs.ProductDTO;
+import DTOs.ProductVariantDTO;
 import Mapper.ProductMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,22 +23,17 @@ import java.util.logging.Logger;
  * @author ASUS
  */
 public class ProductService {
+
     ProductDAO productDAO = new ProductDAO();
-    public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String product_id = request.getParameter("pid");
-        ProductDTO product = productDAO.getProductById(product_id);
-        
-        request.setAttribute("pid", product_id);
-        request.setAttribute("product", product);
-        request.getRequestDispatcher("detail.jsp").forward(request, response);
-    }
     
-    public void handleViewAllProductByCategory (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 
+
+    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String StrCategory_id = request.getParameter("cid");
         Long category_id = Long.parseLong(StrCategory_id);
         List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
         List<BrandDTO> listB = null;
-                
+
         request.setAttribute("cid", category_id);
         request.setAttribute("listP", listP);
         request.getRequestDispatcher("category.jsp").forward(request, response);
@@ -122,7 +118,7 @@ public class ProductService {
     public void handleUpdateProduct(HttpServletRequest request, HttpServletResponse response) {
         try {
             Long productId = Long.parseLong(request.getParameter("StrProductId"));
-            ProductDTO oldProduct = productDAO.getProductById(String.valueOf(productId));
+            ProductDTO oldProduct = productDAO.getProductById(productId);
 
             if (oldProduct == null) {
                 request.getSession().setAttribute("message", "Không tìm thấy sản phẩm");
@@ -146,7 +142,5 @@ public class ProductService {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
         }
     }
-
-  
 
 }

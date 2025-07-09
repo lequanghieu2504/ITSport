@@ -18,7 +18,6 @@
                 <li><a href="shop">Cửa hàng</a></li>
                 <li><a href="about">Về chúng tôi</a></li>
                 <li><a href="new">Sản phẩm mới</a></li>
-                <li><a href="sale">Khuyến mãi</a></li>
             </ul>
         </nav>
 
@@ -28,8 +27,8 @@
             <button type="submit" class="btn btn-primary search-btn"><i class="fa fa-search"></i></button>
         </form>
 
-        <!-- Icons -->
-        <div class="icon-group d-flex align-items-center ml-3">
+        <!-- Icons & Auth -->
+        <div class="d-flex align-items-center ml-3">
             <!-- Cart -->
             <a href="cart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
                 <i class="fa fa-shopping-cart icon-item"></i>
@@ -37,11 +36,31 @@
                     <span class="cart-badge">${sessionScope.cartSize}</span>
                 </c:if>
             </a>
-
             <!-- Wishlist -->
-            <a href="wishlist" class="icon-wrapper" title="Yêu thích">
+            <a href="wishlist" class="icon-wrapper mr-3" title="Yêu thích">
                 <i class="fa-solid fa-heart icon-item"></i>
             </a>
+            
+            <!-- Login / Register or Username / Logout -->
+            <c:choose>
+                <c:when test="${not empty sessionScope.user}">
+                    <!-- Nếu đã login -->
+                    <span class="mr-2">Xin chào, ${sessionScope.user.fullName}</span>
+                    <a href="MainController?action=logout" class="btn btn-outline-light btn-sm">Logout</a>
+                </c:when>
+                <c:otherwise>
+                    <!-- Nếu chưa login -->
+                    <form action="MainController" method="get" class="d-inline">
+                        <input type="hidden" name="action" value="login">
+                        <button type="submit" class="btn btn-outline-light btn-sm mr-2">Login</button>
+                    </form>
+
+                    <form action="MainController" method="get" class="d-inline">
+                        <input type="hidden" name="action" value="register">
+                        <button type="submit" class="btn btn-primary btn-sm">Register</button>
+                    </form>
+                </c:otherwise>
+            </c:choose>
         </div>
 
         <!-- Mobile Toggle -->
@@ -59,6 +78,8 @@
                 <li class="py-1"><a href="about">Về chúng tôi</a></li>
                 <li class="py-1"><a href="new">Sản phẩm mới</a></li>
                 <li class="py-1"><a href="sale">Khuyến mãi</a></li>
+                <li class="py-1"><a href="MainController?action=login">Login</a></li>
+                <li class="py-1"><a href="MainController?action=register">Register</a></li>
             </ul>
         </nav>
     </div>
