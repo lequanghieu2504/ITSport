@@ -116,3 +116,15 @@ CREATE TABLE UserAddress (
 //them color cho product variant
 ALTER table ProductVariant
 ADD color VARCHAR(50);
+
+9/7 10:19
+//them bang Image
+ALTER TABLE product
+DROP COLUMN img_url;
+CREATE TABLE image (
+    image_id     INT IDENTITY(1,1) PRIMARY KEY,
+    file_name    VARCHAR(255) NOT NULL,
+    target_id    INT NOT NULL,  -- ID của Product / Brand / Category
+    target_type  VARCHAR(20) NOT NULL,  -- dùng VARCHAR thay vì ENUM
+    uploaded_at  DATETIME DEFAULT GETDATE()
+);
