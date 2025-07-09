@@ -128,3 +128,15 @@ CREATE TABLE image (
     target_type  VARCHAR(20) NOT NULL,  -- dùng VARCHAR thay vì ENUM
     uploaded_at  DATETIME DEFAULT GETDATE()
 );
+
+9/7 
+// them product_variant_id vào table cart_item
+ALTER TABLE Cart_Item
+ADD product_variant_id INT;
+
+-- Và thêm FK
+ALTER TABLE Cart_Item
+ADD FOREIGN KEY (product_variant_id) REFERENCES ProductVariant(product_variant_id);
+
+
+
