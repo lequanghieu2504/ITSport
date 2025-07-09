@@ -48,14 +48,16 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-left: 10px;
+    
 }
 
 .brand-item {
-    padding: 6px 12px;
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    border-radius: 20px;
+    padding: 6px 16px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 18px;
     font-size: 14px;
     text-decoration: none;
     transition: var(--transition);
@@ -64,6 +66,8 @@ body {
 .brand-item:hover {
     background-color: var(--primary-color);
     color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
 }
 
 /* Sort Options */

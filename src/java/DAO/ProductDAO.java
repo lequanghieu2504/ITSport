@@ -175,7 +175,7 @@ public class ProductDAO {
         }
     }
 
-    public ProductDTO getProductById(Long product_id) {
+    public ProductDTO getProductById(long product_id) {
         String sql = GET_PRODUCT + " WHERE product_id = ?";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {

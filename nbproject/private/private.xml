@@ -29,16 +29,21 @@
         </group>
         <group>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/ProductDAO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/ProductService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/ProductController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/MainController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/login.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/homepage.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/ProductVariantDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/CartService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/homepage/homepage.jsp</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/UserDAO.java</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/header.css</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/PageService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/PageController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/register.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Mapper/ProductMapper.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/cart.jsp</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/common/header.jsp</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/footer.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/CategoryDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/cart.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/BrandDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/homepage.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/CartDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/CartItemDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/base.css</file>
         </group>
     </open-files>
 </project-private>

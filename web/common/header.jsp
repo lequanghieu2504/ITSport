@@ -30,7 +30,7 @@
         <!-- Icons & Auth -->
         <div class="d-flex align-items-center ml-3">
             <!-- Cart -->
-            <a href="cart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
+            <a href="MainController?action=viewCart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
                 <i class="fa fa-shopping-cart icon-item"></i>
                 <c:if test="${sessionScope.cartSize > 0}">
                     <span class="cart-badge">${sessionScope.cartSize}</span>

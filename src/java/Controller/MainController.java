@@ -31,6 +31,46 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private boolean isUserAction(String action) {
+        return "login".equals(action)
+                || "logout".equals(action)
+                || "register".equals(action);
+    }
+
+    private boolean isPageLoadAction(String action) {
+        return "loadForHomePage".equalsIgnoreCase(action)
+                || "loadForCreateForm".equalsIgnoreCase(action)
+                || "loadForListProductForm".equalsIgnoreCase(action)
+                || "loadEditForm".equalsIgnoreCase(action)
+                || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
+                || "LoadViewProductDetail".equalsIgnoreCase(action)
+                || "LoadForcreateVariantForm".equalsIgnoreCase(action);
+    }
+
+    private boolean isProductAction(String action) {
+        return "insertProduct".equalsIgnoreCase(action)
+                || "toggleStatus".equalsIgnoreCase(action)
+                || "deleteProduct".equalsIgnoreCase(action)
+                || "createVariant".equalsIgnoreCase(action)
+                || "updateProduct".equalsIgnoreCase(action)
+                || "viewDetailProduct".equalsIgnoreCase(action)
+                || "productByCategory".equalsIgnoreCase(action);
+    }
+
+    private boolean isCartAction(String action) {
+        return "addToCart".equalsIgnoreCase(action)
+                || "removeFromCart".equalsIgnoreCase(action)
+                || "updateCart".equalsIgnoreCase(action)
+                || "viewCart".equalsIgnoreCase(action);
+    }
+
+    private boolean isUserAddressAction(String action) {
+        return "create".equals(action)
+                || "update".equals(action)
+                || "delete".equals(action)
+                || "listAddress".equals(action);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("vo duoc main roi");
@@ -49,6 +89,8 @@ public class MainController extends HttpServlet {
                 url = "/ProductController";
             } else if (isUserAddressAction(action)) {
                 url = "/UserAddressController";
+            } else if (isCartAction(action)) {
+                url = "/CartController";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,38 +138,4 @@ public class MainController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private boolean isPageLoadAction(String action) {
-        return "loadForHomePage".equalsIgnoreCase(action)
-                || "loadForCreateForm".equalsIgnoreCase(action)
-                || "loadForListProductForm".equalsIgnoreCase(action)
-                || "loadEditForm".equalsIgnoreCase(action)
-                || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
-                || "LoadViewProductDetail".equalsIgnoreCase(action)
-                || "LoadForcreateVariantForm".equalsIgnoreCase(action)
-                || "viewDetailProduct".equalsIgnoreCase(action);
-
-    }
-
-    private boolean isProductAction(String action) {
-        return "insertProduct".equalsIgnoreCase(action)
-                || "toggleStatus".equalsIgnoreCase(action)
-                || "deleteProduct".equalsIgnoreCase(action)
-                || "createVariant".equalsIgnoreCase(action)
-                || "updateProduct".equalsIgnoreCase(action)
-                || "productByCategory".equalsIgnoreCase(action);
-    }
-
-    private boolean isUserAddressAction(String action) {
-        return "create".equals(action)
-                || "update".equals(action)
-                || "delete".equals(action)
-                || "listAddress".equals(action);
-    }
-
-    private boolean isUserAction(String action) {
-        return "login".equals(action)
-                || "logout".equals(action)
-                || "register".equals(action);
-    }
 }

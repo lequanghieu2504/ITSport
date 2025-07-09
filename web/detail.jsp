@@ -26,7 +26,7 @@
 
             <form action="MainController" method="post" class="mt-3">
                 <input type="hidden" name="action" value="addToCart" />
-                <input type="hidden" name="pid" value="${product.product_id}" />
+                <input type="hidden" name="product_id" value="${product.product_id}" />
                 <input type="hidden" name="variant_id" id="variantIdInput" />
 
                 <!-- Chọn màu -->
