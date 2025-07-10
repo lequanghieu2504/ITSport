@@ -5,6 +5,7 @@
 package DTOs;
 
 import Enums.Size;
+import java.util.List;
 
 /**
  *
@@ -17,6 +18,7 @@ public class ProductVariantDTO {
     private int quantity;
     private String sku;
     private String color;
+    private List<ImageDTO> listImage;
 
     public ProductVariantDTO() {
     }
@@ -75,6 +77,14 @@ public class ProductVariantDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public List<ImageDTO> getListImage() {
+        return listImage;
+    }
+
+    public void setListImage(List<ImageDTO> listImage) {
+        this.listImage = listImage;
     }
     
 }
