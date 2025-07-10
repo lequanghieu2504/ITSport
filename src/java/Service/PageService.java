@@ -27,6 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -44,7 +48,7 @@ public class PageService {
     ImageDAO imageDAO = new ImageDAO();
     ImageService imageService;
 
-       public PageService(ServletContext context) {
+    public PageService(ServletContext context) {
         this.imageService = new ImageService(context);
     }
 
@@ -229,28 +233,124 @@ public class PageService {
 
     public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String StrProduct_id = request.getParameter("pid");
-            Long product_id = Long.parseLong(StrProduct_id);
-            ProductDTO product = productDAO.getProductById(product_id);
-            List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(product_id);
+            String strProductId = request.getParameter("pid");
+            String selectedColor = request.getParameter("color");
+            String selectedSize = request.getParameter("size");
 
-                List<ImageDTO> mainImageDTOs = imageService.getImagesByTarget(product_id, ImageType.PRODUCT_MAIN);
-            if (!(mainImageDTOs.isEmpty())) {
+            // Validate product ID
+            if (strProductId == null || strProductId.trim().isEmpty()) {
+                request.setAttribute("error", "ID sản phẩm không hợp lệ");
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
+
+            Long productId = Long.parseLong(strProductId);
+            ProductDTO product = productDAO.getProductById(productId);
+
+            if (product == null) {
+                request.setAttribute("error", "Không tìm thấy sản phẩm");
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+                return;
+            }
+
+            // Lấy tất cả variants của sản phẩm
+            List<ProductVariantDTO> allVariants = productVariantDAO.getByProductVariantId(productId);
+
+            // Khởi tạo collections
+            Set<String> availableColors = new HashSet<>();
+            Set<String> availableSizes = new HashSet<>();
+
+            // Lấy danh sách unique colors và sizes với null safety
+            if (allVariants != null && !allVariants.isEmpty()) {
+                for (ProductVariantDTO variant : allVariants) {
+                    // Kiểm tra variant không null trước khi truy cập thuộc tính
+                    if (variant != null) {
+                        // Xử lý color an toàn
+                        String color = variant.getColor();
+                        if (color != null && !color.trim().isEmpty()) {
+                            availableColors.add(color.trim());
+                        }
+
+                        // Xử lý size an toàn
+                        Object size = variant.getSize();
+                        if (size != null) {
+                            String sizeStr = size.toString().trim();
+                            if (!sizeStr.isEmpty()) {
+                                availableSizes.add(sizeStr);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Lọc variants theo color và size đã chọn
+            List<ProductVariantDTO> filteredVariants = new ArrayList<>();
+
+            if (allVariants != null && !allVariants.isEmpty()) {
+                // Bắt đầu với tất cả variants hợp lệ
+                filteredVariants = allVariants.stream()
+                        .filter(Objects::nonNull) // Lọc bỏ null variants
+                        .collect(Collectors.toList());
+
+                // Lọc theo color nếu có
+                if (selectedColor != null && !selectedColor.trim().isEmpty()) {
+                    filteredVariants = filteredVariants.stream()
+                            .filter(v -> v.getColor() != null && selectedColor.trim().equals(v.getColor().trim()))
+                            .collect(Collectors.toList());
+                }
+
+                // Lọc theo size nếu có
+                if (selectedSize != null && !selectedSize.trim().isEmpty()) {
+                    filteredVariants = filteredVariants.stream()
+                            .filter(v -> v.getSize() != null && selectedSize.trim().equals(v.getSize().toString().trim()))
+                            .collect(Collectors.toList());
+                }
+            }
+
+            // Lấy ảnh chính
+            List<ImageDTO> mainImageDTOs = imageService.getImagesByTarget(productId, ImageType.PRODUCT_MAIN);
+            if (mainImageDTOs != null && !mainImageDTOs.isEmpty()) {
                 ImageDTO mainImage = mainImageDTOs.get(0);
                 request.setAttribute("mainImage", mainImage);
             }
-            List<ProductVariantDTO> listVariant = productVariantDAO.getByProductVariantId(product_id);
 
-            List<ImageDTO> listProductVariantImage = convertFromProductVariantToListProductVariantImage(listVariant);
+            // Lấy ảnh của variants đã lọc
+            List<ImageDTO> listProductVariantImage = convertFromProductVariantToListProductVariantImage(filteredVariants);
 
+            // Set attributes
             request.setAttribute("variantImageList", listProductVariantImage);
-
-            request.setAttribute("pid", product_id);
+            request.setAttribute("variantList", filteredVariants);
+            request.setAttribute("availableColors", availableColors);
+            request.setAttribute("availableSizes", availableSizes);
+            request.setAttribute("selectedColor", selectedColor);
+            request.setAttribute("selectedSize", selectedSize);
+            request.setAttribute("pid", productId);
             request.setAttribute("product", product);
+
             request.getRequestDispatcher("detail.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, "Invalid product ID format", e);
+            request.setAttribute("error", "ID sản phẩm không hợp lệ");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, "Error in handleViewDetailProduct", ex);
+            request.setAttribute("error", "Đã xảy ra lỗi khi tải thông tin sản phẩm");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
+    }
+
+// Phương thức helper để kiểm tra null safety
+    private boolean isValidVariant(ProductVariantDTO variant) {
+        return variant != null;
+    }
+
+    private boolean isValidColor(String color) {
+        return color != null && !color.trim().isEmpty();
+    }
+
+    private boolean isValidSize(Object size) {
+        return size != null && !size.toString().trim().isEmpty();
     }
 
     private List<ImageDTO> convertFromProductVariantToListProductVariantImage(List<ProductVariantDTO> listVariant) {

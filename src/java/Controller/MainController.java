@@ -145,7 +145,8 @@ public class MainController extends HttpServlet {
                 ||"DeleteProductVariantImage".equalsIgnoreCase(action);
     }
     private boolean isBuyingAction(String action) {
-        return "buyNow".equals(action);
+        return "buyNow".equals(action)
+                || "checkout".equalsIgnoreCase(action);
 //                || "updateStatus".equals(action);
     }
 }

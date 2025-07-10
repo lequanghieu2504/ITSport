@@ -30,13 +30,13 @@ public class UserAddressDAO {
     }
 
     // READ
-    public List<UserAddressDTO> getAddressesByUserId(int userId) {
+    public List<UserAddressDTO> getAddressesByUserId(Long userId) {
         List<UserAddressDTO> list = new ArrayList<>();
         String sql = "SELECT * FROM UserAddress WHERE user_id = ?";
         try (Connection conn = JDBCConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, userId);
+            ps.setLong(1, userId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

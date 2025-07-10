@@ -26,24 +26,12 @@ public class BuyingController extends HttpServlet {
         String action = req.getParameter("action");
         System.out.println(">> Enter BuyingController, action=" + action);
 
-        if (!"buyNow".equalsIgnoreCase(action)) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action");
-            return;
+        if ("buyNow".equalsIgnoreCase(action)) {
+            buyingService.handleBuyNowProcess(req, resp);
         }
-
-        try {
-            // Gọi handleCreateBuying, luôn trả về buyingId
-            int buyingId = buyingService.handleCreateBuying(req);
-
-            req.setAttribute("buyingId", buyingId);
-            req.getRequestDispatcher("/orderConfirmation.jsp")
-               .forward(req, resp);
-
-        } catch (Exception e) {
-            req.setAttribute("errorMessage", e.getMessage());
-            req.getRequestDispatcher("/productDetail.jsp")
-               .forward(req, resp);
-        }
+//        else if("checkout".equalsIgnoreCase(action)){
+//            buyingService.handleCheckout(req,resp);
+//        }
     }
 
     @Override protected void doGet (HttpServletRequest r, HttpServletResponse s)

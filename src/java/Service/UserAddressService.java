@@ -49,7 +49,7 @@ public class UserAddressService {
     }
 
     public void handleList(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int userId = Integer.parseInt(request.getParameter("user_id"));
+        Long userId = Long.parseLong(request.getParameter("user_id"));
         List<UserAddressDTO> addresses = userAddressDAO.getAddressesByUserId(userId);
         request.setAttribute("addresses", addresses);
         request.setAttribute("user_id", userId);
