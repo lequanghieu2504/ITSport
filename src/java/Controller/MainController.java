@@ -51,6 +51,8 @@ public class MainController extends HttpServlet {
                 url = "/ProductController";
             } else if (isUserAddressAction(action)) {
                 url = "/UserAddressController";
+            } else if (isBuyingAction(action)){
+                url = "/BuyingController";
             }
             else if(isImageAction(action)){
                 url = "/ImageController";
@@ -139,5 +141,9 @@ public class MainController extends HttpServlet {
         return "updateMainProductImage".equalsIgnoreCase(action)
                 ||"insertMainProductImage".equalsIgnoreCase(action)
                 ||"deleteProductImage".equalsIgnoreCase(action);
+    }
+    private boolean isBuyingAction(String action) {
+        return "buyNow".equals(action);
+//                || "updateStatus".equals(action);
     }
 }

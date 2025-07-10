@@ -83,5 +83,16 @@ public class UserAddressDAO {
         }
         return false;
     }
+    
+      public boolean exists(Connection conn, int addressId, int userId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM UserAddress WHERE id = ? AND user_id = ?")) {
+            ps.setInt(1, addressId);
+            ps.setInt(2, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
 }
 

@@ -47,6 +47,6 @@
             </div>
         </div>
     </body>
-    <jsp:include page="popup.jsp" />
+    <jsp:include page="common/popup.jsp" />
 
 </html>
