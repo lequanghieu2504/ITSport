@@ -58,7 +58,8 @@
                 <c:forEach var="p" items="${listNewP}">
                     <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
                         <div class="product-card">
-                            <img src="${p.img_url}" alt="${p.product_name}" />
+                            <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
+
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
