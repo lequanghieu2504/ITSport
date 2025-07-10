@@ -28,7 +28,7 @@ public class CartService {
 
     public void handleAddToCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        ClientDTO client = (ClientDTO) session.getAttribute("user"); // đã login
+        ClientDTO client = (ClientDTO) session.getAttribute("client"); // đã login
         if (client == null) {
             response.sendRedirect("login.jsp");
             return;
@@ -60,16 +60,18 @@ public class CartService {
             return;
         }
 
-        ClientDTO client = ClientDAO.getClientByUserId(user.getUser_id());
+        ClientDTO client = (ClientDTO) session.getAttribute("client");
         if (client == null) {
             response.sendRedirect("error.jsp");
             return;
         }
         int cart_id = client.getCart_id();
         List<CartItemDTO> listCI = cartItemDAO.getAllCartItems(cart_id);
-//        ProductDTO product = 
+        int cartSize = cartDAO.cartSize(listCI);
+        
+        request.setAttribute("cartSize", cartSize);
         request.setAttribute("listCartItem", listCI);
         request.getRequestDispatcher(CART_PAGE).forward(request, response);
     }
-
+    
 }

@@ -4,11 +4,13 @@
  */
 package DAO;
 
+import DTOs.CartItemDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.JDBCConnection;
@@ -68,5 +70,15 @@ public class CartDAO {
             e.printStackTrace();
         }
         return cart_id;
+    }
+
+    public int cartSize(List<CartItemDTO> list) {
+        int size = 0;
+        for (CartItemDTO cartItemDTO : list) {
+            if (cartItemDTO != null) {
+                size++;
+            }
+        }
+        return size;
     }
 }

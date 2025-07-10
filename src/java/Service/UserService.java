@@ -35,8 +35,14 @@ public class UserService {
             } else if (!PasswordUtils.verifyPassword(password, userDTO.getPassword())) {
                 request.getSession().setAttribute("message", "Sai mật khẩu!");
             } else {
-                request.getSession().setAttribute("user", userDTO);
+                HttpSession session = request.getSession();
+                session.setAttribute("user", userDTO);
 
+                ClientDTO client = ClientDAO.getClientByUserId(userDTO.getUser_id());
+                if (client != null || userDTO.getRole().equals("CLIENT")) {
+                    session.setAttribute("client", client);
+                }
+                
                 // Load dữ liệu trang chủ trước khi forward
                 PageService pageService = new PageService();
                 pageService.loadForHomePage(request, response);

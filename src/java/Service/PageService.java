@@ -5,16 +5,21 @@
 package Service;
 
 import DAO.BrandDAO;
+import DAO.CartDAO;
+import DAO.CartItemDAO;
 import DAO.CategoryDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
+import DTOs.CartItemDTO;
 import DTOs.CategoryDTO;
+import DTOs.ClientDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +35,8 @@ public class PageService {
     ProductDAO productDAO = new ProductDAO();
     BrandDAO brandDAO = new BrandDAO();
     ProductVariantDAO productVariantDAO = new ProductVariantDAO();
+    CartDAO cartDAO = new CartDAO();
+    CartItemDAO cartItemDAO = new CartItemDAO();
 
     public void loadForHomePage(HttpServletRequest request, HttpServletResponse response) {
 
@@ -40,13 +47,23 @@ public class PageService {
             List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();
 
+            HttpSession session = request.getSession();
+            ClientDTO client = (ClientDTO) session.getAttribute("client");
+
+            if (client != null) {
+                int cart_id = client.getCart_id();
+                List<CartItemDTO> cartItems = cartItemDAO.getAllCartItems(cart_id);
+                int cartSize = cartDAO.cartSize(cartItems);
+                session.setAttribute("cartSize", cartSize); // Gán vào session để hiện ở header
+            }
+
             request.setAttribute("listC", listC);
             request.setAttribute("listNewP", listNewP);
             request.setAttribute("listAo", listAo);
             request.setAttribute("listQ", listQ);
             request.setAttribute("productListP", productListP);
 
-// lay thong tin het thi forward toi trang home de load len
+        // lay thong tin het thi forward toi trang home de load len
             request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
