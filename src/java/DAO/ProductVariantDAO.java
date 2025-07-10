@@ -96,4 +96,6 @@ public class ProductVariantDAO {
 
         }
         return false;
-    }}
+    }
+
+}

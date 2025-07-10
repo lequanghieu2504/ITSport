@@ -70,7 +70,11 @@
                 <c:forEach var="p" items="${productList}">
                     <tr>
                         <td>${p.product_id}</td>
-                        <td>${p.product_name}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/MainController?action=LoadViewProductDetail&StrProductId=${p.product_id}">
+                                ${p.product_name}
+                            </a>
+                        </td>                  
                         <td>${p.price} đ</td>
                         <td>${p.category_name}</td>
                         <td>${p.brand_name}</td>
@@ -86,8 +90,6 @@
                         <td class="actions">
                             <a class="button" href="${pageContext.request.contextPath}/MainController?action=loadEditForm&StrProductId=${p.product_id}">Sửa</a>
                             <a class="button" href="${pageContext.request.contextPath}/MainController?action=deleteProduct&StrProductId=${p.product_id}" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">Xóa</a>
-                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=LoadViewProductDetail&StrProductId=${p.product_id}">Chi tiết</a>
-
                         </td>
                     </tr>
                 </c:forEach>

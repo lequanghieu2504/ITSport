@@ -138,6 +138,26 @@ public class ImageDAO {
         return null;
     }
 
+    public List<ImageDTO> getByVariantId(Long product_variant_id) {
+        String sql = GET_IMAGE + " where target_id = ? and target_type like 'PRODUCT_VARIANT'";
+        List<ImageDTO> listImage = new ArrayList<>();
+        try(Connection conn =JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setLong(1, product_variant_id);
+            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ImageDTO imageDTO = ImageMapper.toImageDTOFromResultSet(rs);
+                listImage.add(imageDTO);
+            }
+            return listImage;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ImageDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 
 
 }

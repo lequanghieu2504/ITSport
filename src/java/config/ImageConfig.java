@@ -1,15 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package config;
 
-/**
- *
- * @author ASUS
- */
-public class ImageConfig {
+import jakarta.servlet.ServletContext;
 
+public class ImageConfig {
 
     public static final String BASE_IMAGE_PATH = "/images";
 
@@ -31,5 +24,21 @@ public class ImageConfig {
                 return "/others";
         }
     }
-    
+
+    /**
+     * ✅ Thư mục lưu ảnh kèm entityId
+     */
+    public static String getUploadFolder(String imageType, Long entityId) {
+        return BASE_IMAGE_PATH + getFolderByType(imageType) + "/" + entityId;
+    }
+
+    /**
+     * ✅ Tính realPath tuyệt đối để xoá file
+     */
+    public static String getAbsolutePath(ServletContext context, String relativePath) {
+        if (!relativePath.startsWith("/")) {
+            relativePath = "/" + relativePath;
+        }
+        return context.getRealPath(relativePath);
+    }
 }

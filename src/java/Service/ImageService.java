@@ -201,8 +201,9 @@ public class ImageService {
             if (image != null) {
                 boolean dbDeleted = imageDAO.deleteImageById(imageId);
                 if (dbDeleted) {
-                    // Xóa file ảnh trên server
-                    String fullPath = context.getRealPath("/") + image.getFile_name();
+                    // ✅ Lấy real path đúng chuẩn
+                    String fullPath = ImageConfig.getAbsolutePath(context, image.getFile_name());
+
                     File file = new File(fullPath);
                     if (file.exists()) {
                         file.delete();
@@ -218,9 +219,18 @@ public class ImageService {
 
     public void handleDeleteImage(HttpServletRequest request, HttpServletResponse response) {
         try {
+            String productId = request.getParameter("StrProductId");
+
+            String url = "MainController?action=loadEditForm&StrProductId=" + productId;
+
+            String action = request.getParameter("action");
+            if (action.equalsIgnoreCase("DeleteProductVariantImage")) {
+                url = "MainController?action=LoadViewProductDetail&StrProductId=" + productId;
+            }
+
             Long imageId = Long.parseLong(request.getParameter("StrImageId"));
             System.out.println(imageId);
-            
+
             boolean success = deleteImageById(imageId);
 
             if (success) {
@@ -230,10 +240,35 @@ public class ImageService {
             }
 
             // Điều hướng lại trang chi tiết sản phẩm hoặc nơi hiển thị ảnh
-            String productId = request.getParameter("StrProductId");
-            response.sendRedirect("MainController?action=loadEditForm&StrProductId=" + productId);
+            response.sendRedirect(url);
         } catch (Exception e) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void handleAddVariantImage(HttpServletRequest request, HttpServletResponse response) {
+        try {
+
+            String StrVariantId = request.getParameter("StrVariantId");
+
+            String StrProductId = request.getParameter("StrProductId");
+            Long variantId = Long.parseLong(StrVariantId);
+            String url = "MainController?action=LoadViewProductDetail&StrProductId=" + StrProductId;
+
+            Part mainImagePart = request.getPart("variantImage");
+            request.setAttribute("StrProductId", StrProductId);
+
+            boolean success = saveImageByType(ImageType.PRODUCT_VARIANT.toString(), variantId, mainImagePart, request.getServletContext());
+            if (success) {
+                request.setAttribute("message", "them anh thanh cong");
+            } else {
+                request.setAttribute("message", "them anh khong thanh cong");
+            }
+            response.sendRedirect(url);
+        } catch (IOException ex) {
+            Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ServletException ex) {
+            Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

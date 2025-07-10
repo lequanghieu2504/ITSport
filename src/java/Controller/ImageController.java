@@ -56,6 +56,12 @@ public class ImageController extends HttpServlet {
         else if("deleteProductImage".equalsIgnoreCase(action)){
             imageService.handleDeleteImage(request,response);
         }
+        else if("AddToProductVariantImage".equalsIgnoreCase(action)){
+            imageService.handleAddVariantImage(request,response);
+        }
+        else if("DeleteProductVariantImage".equalsIgnoreCase(action)){
+            imageService.handleDeleteImage(request, response);
+        }
 
     }
 

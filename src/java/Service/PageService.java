@@ -20,9 +20,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -30,12 +34,19 @@ import java.util.logging.Logger;
  */
 public class PageService {
 
+    public PageService() {
+    }
+
     CategoryDAO categoryDAO = new CategoryDAO();
     ProductDAO productDAO = new ProductDAO();
     BrandDAO brandDAO = new BrandDAO();
     ProductVariantDAO productVariantDAO = new ProductVariantDAO();
     ImageDAO imageDAO = new ImageDAO();
-    
+    ImageService imageService;
+
+       public PageService(ServletContext context) {
+        this.imageService = new ImageService(context);
+    }
 
     public void loadForHomePage(HttpServletRequest request, HttpServletResponse response) {
 
@@ -46,9 +57,6 @@ public class PageService {
             List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();
 
-            
-            
-            
             request.setAttribute("listC", listC);
             request.setAttribute("listNewP", listNewP);
             request.setAttribute("listAo", listAo);
@@ -107,12 +115,12 @@ public class PageService {
             List<CategoryDTO> listC = categoryDAO.getAllCategories();
             List<BrandDTO> listB = brandDAO.getAllBrand();
             List<ImageDTO> Main_Image_Products = imageDAO.getImagesByTarget(product_id, ImageType.PRODUCT_MAIN);
-            
+
             request.setAttribute("product", productDTO);
             request.setAttribute("listC", listC);
             request.setAttribute("listB", listB);
-            if(!(Main_Image_Products.isEmpty())){
-            request.setAttribute("product_main_image",Main_Image_Products.get(0));
+            if (!(Main_Image_Products.isEmpty())) {
+                request.setAttribute("product_main_image", Main_Image_Products.get(0));
             }
             request.getRequestDispatcher("/admin/adminDashboard.jsp").forward(request, response);
         } catch (ServletException ex) {
@@ -159,15 +167,26 @@ public class PageService {
             ProductDTO productDTO = productDAO.getProductById(ProductId);
             List<ImageDTO> imageDTOs = imageDAO.getImagesByTarget(productDTO.getProduct_id(), ImageType.PRODUCT_MAIN);
             List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(ProductId);
+
+            // Lấy ảnh của từng biến thể
+            Map<Long, List<ImageDTO>> variantImageMap = new HashMap<>();
+
+            for (ProductVariantDTO v : variantList) {
+                List<ImageDTO> imgList = imageDAO.getByVariantId(v.getProduct_variant_id());
+                variantImageMap.put(v.getProduct_variant_id(), imgList);
+            }
+
             if (productDTO != null) {
                 request.setAttribute("section", "viewDetailProduct");
                 request.setAttribute("product", productDTO);
                 request.setAttribute("variantList", variantList);
                 request.setAttribute("", url);
-                if(!(imageDTOs.isEmpty())){
-                request.setAttribute("productMainImages", imageDTOs);
+                request.setAttribute("variantImageMap", variantImageMap);
+
+                if (!(imageDTOs.isEmpty())) {
+                    request.setAttribute("productMainImages", imageDTOs);
                 }
-                } else {
+            } else {
                 request.getSession().setAttribute("message", "khong tim thay san pham");
             }
             try {
@@ -209,14 +228,38 @@ public class PageService {
     }
 
     public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String StrProduct_id = request.getParameter("pid");
-        Long product_id = Long.parseLong(StrProduct_id);
-        ProductDTO product = productDAO.getProductById(product_id);
-        List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(product_id);
+        try {
+            String StrProduct_id = request.getParameter("pid");
+            Long product_id = Long.parseLong(StrProduct_id);
+            ProductDTO product = productDAO.getProductById(product_id);
+            List<ProductVariantDTO> variantList = productVariantDAO.getByProductVariantId(product_id);
 
-        request.setAttribute("pid", product_id);
-        request.setAttribute("product", product);
-        request.getRequestDispatcher("detail.jsp").forward(request, response);
+                List<ImageDTO> mainImageDTOs = imageService.getImagesByTarget(product_id, ImageType.PRODUCT_MAIN);
+            if (!(mainImageDTOs.isEmpty())) {
+                ImageDTO mainImage = mainImageDTOs.get(0);
+                request.setAttribute("mainImage", mainImage);
+            }
+            List<ProductVariantDTO> listVariant = productVariantDAO.getByProductVariantId(product_id);
+
+            List<ImageDTO> listProductVariantImage = convertFromProductVariantToListProductVariantImage(listVariant);
+
+            request.setAttribute("variantImageList", listProductVariantImage);
+
+            request.setAttribute("pid", product_id);
+            request.setAttribute("product", product);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private List<ImageDTO> convertFromProductVariantToListProductVariantImage(List<ProductVariantDTO> listVariant) {
+        List<ImageDTO> listResult = new ArrayList<>();
+
+        for (ProductVariantDTO productVariantDTO : listVariant) {
+            listResult.addAll(imageDAO.getByVariantId(productVariantDTO.getProduct_variant_id()));
+        }
+        return listResult;
     }
 
 }

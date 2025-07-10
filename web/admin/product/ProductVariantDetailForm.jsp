@@ -45,7 +45,7 @@
         <!-- Form upload ảnh -->
         <form action="${pageContext.request.contextPath}/MainController?action=AddVariantImage" method="post" enctype="multipart/form-data">
             <!-- Gửi kèm variantId -->
-            <input type="hidden" name="variantId" value="${variantId}"/>
+            <input type="hidden" name="StrVariantId" value="${variantId}"/>
 
             <label>Chọn ảnh:</label><br/>
             <input type="file" name="variantImage" required accept="image/*"/>

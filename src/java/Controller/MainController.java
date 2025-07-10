@@ -140,7 +140,9 @@ public class MainController extends HttpServlet {
     private boolean isImageAction(String action){
         return "updateMainProductImage".equalsIgnoreCase(action)
                 ||"insertMainProductImage".equalsIgnoreCase(action)
-                ||"deleteProductImage".equalsIgnoreCase(action);
+                ||"deleteProductImage".equalsIgnoreCase(action)
+                ||"AddToProductVariantImage".equalsIgnoreCase(action)
+                ||"DeleteProductVariantImage".equalsIgnoreCase(action);
     }
     private boolean isBuyingAction(String action) {
         return "buyNow".equals(action);
