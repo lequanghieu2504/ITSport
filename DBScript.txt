@@ -167,4 +167,23 @@ CREATE TABLE BuyingItems (
     FOREIGN KEY (variant_id) REFERENCES ProductVariant(product_variant_id)
 );
 
+//Khang thay doi 11/07/2025
+	ALTER TABLE Buyings DROP CONSTRAINT FK__Buyings__address__70DDC3D8;
+	DROP TABLE UserAddress;
 
+DROP TABLE IF EXISTS BuyingUserInfor;
+
+-- Tạo lại bảng BuyingUserInfor
+CREATE TABLE dbo.BuyingUserInfor (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    user_id BIGINT NULL,
+    recipient_name NVARCHAR(255) NOT NULL,
+    province NVARCHAR(255) NOT NULL,
+    district NVARCHAR(255) NOT NULL,
+    ward NVARCHAR(255) NOT NULL,
+    street NVARCHAR(500) NOT NULL,
+    phone NVARCHAR(50) NOT NULL,
+    created_at DATETIME DEFAULT GETDATE(),
+    updated_at DATETIME DEFAULT GETDATE()
+    -- Foreign key sẽ thêm sau vì có thể cần kiểm tra bảng User
+);
