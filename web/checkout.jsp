@@ -31,6 +31,7 @@
 </head>
 <body>
     <jsp:include page="/common/header.jsp"/>
+    <jsp:include page="/common/popup.jsp"/>
     
     <div class="container my-5">
         <div class="row">
@@ -38,40 +39,46 @@
                 <h3>Thông tin thanh toán</h3>
                 
                 <form action="MainController" method="post">
-                    <input type="hidden" name="action" value="processCheckout"/>
-                    
+                <input type="hidden" name="action"        value="checkout"/>
+                <input type="hidden" name="userId"        value="${sessionScope.user.user_id}"/>
+                <input type="hidden" name="productId"     value="${sessionScope.buyNowInfo.productId}"/>
+                <input type="hidden" name="variantId"     value="${sessionScope.buyNowInfo.variantId}"/>
+                <input type="hidden" name="quantity"      value="${sessionScope.buyNowInfo.quantity}"/>
+                <input type="hidden" name="priceEach"     value="${sessionScope.buyNowInfo.price}"/>
+
                     <!-- Địa chỉ giao hàng -->
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <h5>Địa chỉ giao hàng</h5>
-                        </div>
-                        <div class="card-body">
-                            <c:choose>
-                                <c:when test="${not empty userAddresses}">
-                                    <c:forEach var="address" items="${userAddresses}" varStatus="status">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="addressId" 
-                                                   value="${address.addressId}" id="address${status.index}" 
-                                                   ${status.first ? 'checked' : ''}>
-                                            <label class="form-check-label" for="address${status.index}">
-                                                <strong>${address.recipientName}</strong><br>
-                                                ${address.street}, ${address.city}<br>
-                                                Điện thoại: ${address.phone}
-                                            </label>
-                                        </div>
-                                        <hr>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="alert alert-warning">
-                                        Bạn chưa có địa chỉ giao hàng. 
-                                        <a href="MainController?action=addAddress" class="alert-link">Thêm địa chỉ mới</a>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
+                      <div class="card-header">
+                        <h5>Địa chỉ giao hàng</h5>
+                      </div>
+                      <div class="card-body">
+                        <c:choose>
+                          <c:when test="${not empty userAddresses}">
+                            <c:forEach var="addr" items="${userAddresses}" varStatus="st">
+                              <div class="form-check">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="addressId"
+                                       id="addr${st.index}"
+                                       value="${addr.id}"
+                                       ${st.first ? 'checked' : ''}/>
+                                <label class="form-check-label" for="addr${st.index}">
+                                  ${addr.address}
+                                </label>
+                              </div>
+                              <hr/>
+                            </c:forEach>
+                            <p><a href="#" class="text-primary">+ Thêm địa chỉ mới</a></p>
+                          </c:when>
+                          <c:otherwise>
+                            <div class="alert alert-warning">
+                              Bạn chưa có địa chỉ giao hàng.
+                              <p><a href="#" class="alert-link">+ Thêm địa chỉ mới</a></p>
+                            </div>
+                          </c:otherwise>
+                        </c:choose>
+                      </div>
                     </div>
-                    
                     <!-- Phương thức thanh toán -->
                     <div class="card mb-4">
                         <div class="card-header">
@@ -92,21 +99,17 @@
                                     Chuyển khoản ngân hàng
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" 
-                                       value="CREDIT_CARD" id="credit">
-                                <label class="form-check-label" for="credit">
-                                    Thẻ tín dụng
-                                </label>
-                            </div>
                         </div>
                     </div>
                     
                     <!-- Nút đặt hàng -->
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            Đặt hàng ngay
-                        </button>
+                    <div class="text-center">                        
+                        <form action="BuyingController" method="post">
+                            <input type="hidden" name="action" value="checkout"/>
+                            <input type="hidden" name="addressId" value="${selectedAddressId}"/>
+                            <input type="hidden" name="paymentMethod" value="${selectedPaymentMethod}"/>
+                            <button type="submit" class="btn btn-primary btn-lg">Đặt hàng ngay</button>
+                          </form>
                         <a href="MainController?action=viewDetailProduct&pid=${buyNowInfo.productId}" 
                            class="btn btn-secondary btn-lg ml-2">
                             Quay lại
