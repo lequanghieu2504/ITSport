@@ -10,8 +10,16 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
         <!-- Custom CSS -->
         <link rel="stylesheet" href="assets/css/category.css"/>
+        <link rel="stylesheet" href="assets/css/homepage.css" type="text/css">
+
+        <!-- jQuery + Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <jsp:include page="/common/header.jsp"/>
@@ -55,7 +63,6 @@
             </form>
         </div>
 
-
         <div class="container my-5 px-4">
 
             <!-- Sort Bar -->
@@ -89,20 +96,27 @@
                 </div>
             </div>
 
-            <!-- Product List -->
-            <div class="row product-list">
+            <!-- Product List - Updated to match homepage style -->
+            <div class="product-grid">
                 <c:forEach var="p" items="${listP}">
-                    <div class="col-md-4 mb-4">
-                        <div class="product-card text-center p-3 h-100">
-                            <img src="${p.img_url}" class="img-fluid rounded mb-2" alt="${p.product_name}">
-                            <h6 class="product-name">${p.product_name}</h6>
-                            <p class="text-danger font-weight-bold">${p.price}₫</p>
-                            <a href="ProductController?action=viewDetailProduct&pid=${p.product_id}" class="btn btn-sm btn-outline-danger-red">
-                                Xem chi tiết
-                            </a>
-
+                    <a href="MainController?action=viewDetailProduct&pid=${p.product_id}" class="product-card-link">
+                        <div class="product-card">
+                            <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
+                            <div class="product-info">
+                                <p class="product-name">${p.product_name}</p>
+                                <p class="product-price">${p.price}₫</p>
+                                <div class="product-actions">
+                                    <form action="MainController" method="post">
+                                        <input type="hidden" name="pid" value="${p.product_id}" />
+                                        <input type="hidden" name="action" value="viewDetailProduct" />
+                                        <button type="submit" class="btn btn-sm btn-danger w-100">
+                                            Mua ngay
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </c:forEach>
             </div>
         </div>
