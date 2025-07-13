@@ -50,10 +50,23 @@
                         <input type="hidden" name="action" value="checkout"/>
 
                         <!-- ✅ THÊM CÁC TRƯỜNG HIDDEN CHO THÔNG TIN SẢN PHẨM -->
-                        <input type="hidden" name="productId" value="${buyNowInfo.productId}"/>
-                        <input type="hidden" name="variantId" value="${buyNowInfo.variantId}"/>
-                        <input type="hidden" name="quantity" value="${buyNowInfo.quantity}"/>
-                        <input type="hidden" name="priceEach" value="${buyNowInfo.price}"/>
+                          <!-- Nếu mua ngay -->
+                        <c:if test="${not empty buyNowInfo}">
+                          <input type="hidden" name="productId" value="${buyNowInfo.productId}"/>
+                          <input type="hidden" name="variantId" value="${buyNowInfo.variantId}"/>
+                          <input type="hidden" name="quantity" value="${buyNowInfo.quantity}"/>
+                          <input type="hidden" name="priceEach" value="${buyNowInfo.price}"/>
+                        </c:if>
+
+                        <!-- Nếu thanh toán giỏ hàng -->
+                        <c:if test="${not empty cartInfos}">
+                          <c:forEach var="item" items="${cartInfos}">
+                            <input type="hidden" name="productId"  value="${item.productId}"/>
+                            <input type="hidden" name="variantId"  value="${item.variantId}"/>
+                            <input type="hidden" name="quantity"   value="${item.quantity}"/>
+                            <input type="hidden" name="priceEach"  value="${item.price}"/>
+                          </c:forEach>
+                        </c:if>
 
                         <!-- Địa chỉ giao hàng -->
                         <div class="card mb-4">
@@ -112,13 +125,6 @@
                                         Chuyển khoản ngân hàng
                                     </label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod"
-                                           value="CREDIT_CARD" id="credit">
-                                    <label class="form-check-label" for="credit">
-                                        Thẻ tín dụng
-                                    </label>
-                                </div>
                             </div>
                         </div>
 
@@ -138,45 +144,75 @@
                 <!-- Tóm tắt đơn hàng -->
                 <div class="col-md-4">
                     <div class="order-summary">
-                        <h4>Tóm tắt đơn hàng</h4>
+                      <h4>Tóm tắt đơn hàng</h4>
 
-                        <div class="product-info">
-                            <h6>${buyNowInfo.productName}</h6>
-                            <p class="text-muted mb-1">
-                                <c:if test="${not empty buyNowInfo.color}">
-                                    Màu: ${buyNowInfo.color}
-                                </c:if>
-                                <c:if test="${not empty buyNowInfo.size}">
-                                    | Size: ${buyNowInfo.size}
-                                </c:if>
+                      <!-- Luồng cart -->
+                      <c:if test="${not empty cartInfos}">
+                        <c:set var="cartTotal" value="0"/>
+                        <c:forEach var="item" items="${cartInfos}">
+                          <div class="product-info">
+                            <h6>${item.productName}</h6>
+                            <p class="text-muted mb-1">${item.color} | ${item.size}</p>
+                            <p class="mb-1">${item.quantity} x 
+                              <fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/>
                             </p>
-                            <p class="mb-1">
-                                Số lượng: ${buyNowInfo.quantity}
-                            </p>
-                            <p class="mb-0">
-                                Giá: <fmt:formatNumber value="${buyNowInfo.price}" type="currency" currencySymbol="₫"/>
-                            </p>
-                        </div>
-
+                          </div>
+                          <c:set var="cartTotal" value="${cartTotal + item.totalPrice}"/>
+                        </c:forEach>
                         <div class="total-section">
-                            <div class="d-flex justify-content-between">
-                                <span>Tạm tính:</span>
-                                <span><fmt:formatNumber value="${buyNowInfo.totalPrice}" type="currency" currencySymbol="₫"/></span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span>Phí vận chuyển:</span>
-                                <span>Miễn phí</span>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between">
-                                <strong>Tổng cộng:</strong>
-                                <strong class="text-danger">
-                                    <fmt:formatNumber value="${buyNowInfo.totalPrice}" type="currency" currencySymbol="₫"/>
-                                </strong>
-                            </div>
+                          <div class="d-flex justify-content-between">
+                            <span>Tạm tính:</span>
+                            <span><fmt:formatNumber value="${cartTotal}" type="currency" currencySymbol="₫"/></span>
+                          </div>
+                          <div class="d-flex justify-content-between">
+                            <span>Phí vận chuyển:</span>
+                            <span>Miễn phí</span>
+                          </div>
+                          <hr>
+                          <div class="d-flex justify-content-between">
+                            <strong>Tổng cộng:</strong>
+                            <strong class="text-danger">
+                              <fmt:formatNumber value="${cartTotal}" type="currency" currencySymbol="₫"/>
+                            </strong>
+                          </div>
                         </div>
+                      </c:if>
+
+                      <!-- Luồng buyNow -->
+                      <c:if test="${not empty buyNowInfo}">
+                        <div class="product-info">
+                          <h6>${buyNowInfo.productName}</h6>
+                          <p class="text-muted mb-1">
+                            <c:if test="${not empty buyNowInfo.color}">Màu: ${buyNowInfo.color}</c:if>
+                            <c:if test="${not empty buyNowInfo.size}">| Size: ${buyNowInfo.size}</c:if>
+                          </p>
+                          <p class="mb-1">Số lượng: ${buyNowInfo.quantity}</p>
+                          <p class="mb-0">
+                            Giá: <fmt:formatNumber value="${buyNowInfo.price}" type="currency" currencySymbol="₫"/>
+                          </p>
+                        </div>
+                        <div class="total-section">
+                          <div class="d-flex justify-content-between">
+                            <span>Tạm tính:</span>
+                            <span><fmt:formatNumber value="${buyNowInfo.totalPrice}" type="currency" currencySymbol="₫"/></span>
+                          </div>
+                          <div class="d-flex justify-content-between">
+                            <span>Phí vận chuyển:</span>
+                            <span>Miễn phí</span>
+                          </div>
+                          <hr>
+                          <div class="d-flex justify-content-between">
+                            <strong>Tổng cộng:</strong>
+                            <strong class="text-danger">
+                              <fmt:formatNumber value="${buyNowInfo.totalPrice}" type="currency" currencySymbol="₫"/>
+                            </strong>
+                          </div>
+                        </div>
+                      </c:if>
+
                     </div>
-                </div>
+                  </div>
+
             </div>
         </div>
 

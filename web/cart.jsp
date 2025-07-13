@@ -12,8 +12,8 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css"/>
     </head>
     <body>
+        <jsp:include page="/common/header.jsp"/>
         <div class="page-wrapper d-flex flex-column min-vh-100">
-            <jsp:include page="/common/header.jsp"/>
 
             <main class="flex-grow-1">
                 <div class="container-xl py-5">
@@ -73,9 +73,16 @@
                                 </div>
 
                                 <!-- Thanh toán -->
-                                <div class="text-end mt-3">
-                                    <a href="checkout" class="btn btn-success">Thanh toán</a>
-                                </div>
+                                <form action="BuyingController" method="post" class="text-end mt-3">
+                                    <input type="hidden" name="action" value="cartCheckout"/>
+                                    <c:forEach var="item" items="${listCartItem}">
+                                        <input type="hidden" name="StrProductId" value="${item.product.product_id}"/>
+                                        <input type="hidden" name="StrColor"     value="${item.variant.color}"/>
+                                        <input type="hidden" name="StrSize"      value="${item.variant.size}"/>
+                                        <input type="hidden" name="StrQuantity"  value="${item.quantity}"/>
+                                    </c:forEach>
+                                    <button type="submit" class="btn btn-success">Thanh toán</button>
+                                </form>
                             </div>
                         </c:otherwise>
                     </c:choose>

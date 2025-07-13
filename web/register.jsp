@@ -43,9 +43,4 @@
         </div>
         <jsp:include page="/common/popup.jsp" />
     </body>
-<<<<<<< HEAD
-    <jsp:include page="common/popup.jsp" />
-
-=======
->>>>>>> feature/addToCart2
 </html>

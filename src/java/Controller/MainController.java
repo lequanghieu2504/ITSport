@@ -151,8 +151,8 @@ public class MainController extends HttpServlet {
 
     private boolean isBuyingAction(String action) {
         return "buyNow".equals(action)
-                || "checkout".equalsIgnoreCase(action);
-//                || "updateStatus".equals(action);
+                || "checkout".equalsIgnoreCase(action)
+                || "cartCheckout".equals(action);
     }
 
     private boolean isCartAction(String action) {
