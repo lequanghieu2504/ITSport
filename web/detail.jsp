@@ -256,9 +256,13 @@
                     body: formData
                 })
                         .then(response => {
+                            if (response.status === 401) {
+                                window.location.href = "login.jsp";
+                                return;
+                            }
                             if (!response.ok)
                                 throw new Error("Lỗi khi thêm giỏ hàng");
-                            return response.text();
+                            return response.json(); 
                         })
                         .then(data => {
                             showToast("Đã thêm vào giỏ hàng!");

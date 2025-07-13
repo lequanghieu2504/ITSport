@@ -46,6 +46,10 @@
                         <input type="submit" value="Login" class="btn btn-primary" />
                     </div>
                 </form>
+                <div class="text-center mt-3">
+                    <span>Bạn chưa có tài khoản? </span>
+                    <a href="MainController?action=register">Đăng ký ngay</a>
+                </div>
             </div>
         </div>
         <jsp:include page="/common/popup.jsp" />
