@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/popup.css"/>
 
 <c:if test="${not empty sessionScope.message}">
     <div id="toast-message" class="toast">${sessionScope.message}</div>
@@ -12,7 +11,7 @@
                 toast.style.transform = "translateY(-20px)";
                 setTimeout(() => toast.remove(), 500);
             }
-        }, 2000);
+        }, 5000);
     </script>
 
     <c:remove var="message" scope="session" />

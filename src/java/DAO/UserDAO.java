@@ -7,7 +7,6 @@ package DAO;
 import DTOs.UserDTO;
 import Enums.Role;
 import Mapper.UserMapper;
-import jakarta.servlet.jsp.jstl.sql.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
