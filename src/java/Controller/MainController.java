@@ -162,5 +162,4 @@ public class MainController extends HttpServlet {
                 || "viewCart".equalsIgnoreCase(action)
                 || "getCartSize".equalsIgnoreCase(action);
     }
-
 }
