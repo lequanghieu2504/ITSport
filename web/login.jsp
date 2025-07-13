@@ -9,6 +9,7 @@
         <title>Login Page</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/popup.css"/>
     </head>
     <body class="bg-light d-flex align-items-center justify-content-center vh-100">
         <div class="container d-flex shadow-sm bg-white p-3 gap-3" style="max-width: 900px;">
@@ -45,6 +46,10 @@
                         <input type="submit" value="Login" class="btn btn-primary" />
                     </div>
                 </form>
+                <div class="text-center mt-3">
+                    <span>Bạn chưa có tài khoản? </span>
+                    <a href="MainController?action=register">Đăng ký ngay</a>
+                </div>
             </div>
         </div>
         <jsp:include page="/common/popup.jsp" />

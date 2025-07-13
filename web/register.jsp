@@ -34,6 +34,10 @@
                         <input type="submit" value="Register" class="btn btn-primary" />
                     </div>
                 </form>
+                <div class="text-center mt-3">
+                    <span>Bạn đã có tài khoản? </span>
+                    <a href="MainController?action=login">Đăng nhập ngay</a>
+                </div>
             </div>
 
             <!-- Logo bên phải -->
