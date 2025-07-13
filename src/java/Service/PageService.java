@@ -323,6 +323,46 @@ public class PageService {
                 }
             }
 
+            // *** PHẦN QUAN TRỌNG: Tìm selectedVariant ***
+            ProductVariantDTO selectedVariant = null;
+
+            // Nếu đã chọn đủ color và size
+            if (selectedColor != null && !selectedColor.trim().isEmpty()
+                    && selectedSize != null && !selectedSize.trim().isEmpty()) {
+
+                // Tìm variant chính xác với color và size đã chọn
+                selectedVariant = filteredVariants.stream()
+                        .filter(v -> v.getColor() != null && selectedColor.trim().equals(v.getColor().trim())
+                        && v.getSize() != null && selectedSize.trim().equals(v.getSize().toString().trim()))
+                        .findFirst()
+                        .orElse(null);
+            } // Nếu chỉ chọn color (không có size requirements)
+            else if (selectedColor != null && !selectedColor.trim().isEmpty() && availableSizes.isEmpty()) {
+                selectedVariant = filteredVariants.stream()
+                        .filter(v -> v.getColor() != null && selectedColor.trim().equals(v.getColor().trim()))
+                        .findFirst()
+                        .orElse(null);
+            } // Nếu chỉ chọn size (không có color requirements)
+            else if (selectedSize != null && !selectedSize.trim().isEmpty() && availableColors.isEmpty()) {
+                selectedVariant = filteredVariants.stream()
+                        .filter(v -> v.getSize() != null && selectedSize.trim().equals(v.getSize().toString().trim()))
+                        .findFirst()
+                        .orElse(null);
+            } // Nếu sản phẩm không có variants (chỉ có 1 variant duy nhất)
+            else if (availableColors.isEmpty() && availableSizes.isEmpty() && !filteredVariants.isEmpty()) {
+                selectedVariant = filteredVariants.get(0);
+            }
+
+            // Tính tổng số lượng available
+            int totalQuantity = 0;
+            if (selectedVariant != null) {
+                totalQuantity = selectedVariant.getQuantity();
+            } else {
+                totalQuantity = filteredVariants.stream()
+                        .mapToInt(ProductVariantDTO::getQuantity)
+                        .sum();
+            }
+
             // Lấy ảnh chính
             List<ImageDTO> mainImageDTOs = imageService.getImagesByTarget(productId, ImageType.PRODUCT_MAIN);
             if (mainImageDTOs != null && !mainImageDTOs.isEmpty()) {
@@ -340,6 +380,8 @@ public class PageService {
             request.setAttribute("availableSizes", availableSizes);
             request.setAttribute("selectedColor", selectedColor);
             request.setAttribute("selectedSize", selectedSize);
+            request.setAttribute("selectedVariant", selectedVariant); // *** THÊM DÒNG NÀY ***
+            request.setAttribute("totalQuantity", totalQuantity);      // *** THÊM DÒNG NÀY ***
             request.setAttribute("pid", productId);
             request.setAttribute("product", product);
 
