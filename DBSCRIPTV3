@@ -1,0 +1,262 @@
+-- ========================================
+-- COMPLETE DATABASE SCHEMA WITH SAMPLE DATA
+-- ========================================
+CREATE DATABASE ITSPORTVERSION3
+Use  ITSPORTVERSION3
+-- 1. User Table (đã bỏ email)
+CREATE TABLE [User] (
+    user_id INT PRIMARY KEY IDENTITY(1,1),
+    username VARCHAR(50) NOT NULL UNIQUE,
+    fullName VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL
+);
+
+-- 2. Cart Table
+CREATE TABLE Cart (
+    cart_id INT PRIMARY KEY IDENTITY(1,1)
+);
+
+-- 3. Client Table
+CREATE TABLE Client (
+    client_id INT PRIMARY KEY IDENTITY(1,1),
+    user_id INT UNIQUE,
+    cart_id INT UNIQUE,
+    full_name NVARCHAR(100),
+    phone_number VARCHAR(20),
+    address NVARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES [User](user_id),
+    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id)
+);
+
+-- 4. Categories Table
+CREATE TABLE Categories (
+    category_id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(100),
+    parent_id INT NULL,
+    FOREIGN KEY (parent_id) REFERENCES Categories(category_id)
+);
+
+-- 5. Brand Table
+CREATE TABLE Brand (
+    brand_id INT PRIMARY KEY IDENTITY(1,1),
+    name NVARCHAR(100)
+);
+
+-- 6. Product Table (đã bỏ img_url)
+CREATE TABLE Product (
+    product_id INT PRIMARY KEY IDENTITY(1,1),
+    product_name NVARCHAR(100),
+    description NVARCHAR(MAX),
+    price DECIMAL(10,2),
+    category_id INT,
+    brand_id INT,
+    status VARCHAR(50),
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id),
+    FOREIGN KEY (brand_id) REFERENCES Brand(brand_id)
+);
+
+-- 7. ProductVariant Table (đã thêm color)
+CREATE TABLE ProductVariant (
+    product_variant_id INT PRIMARY KEY IDENTITY(1,1),
+    product_id INT,
+    size VARCHAR(10),
+    color VARCHAR(50),
+    quantity INT,
+    sku VARCHAR(50) UNIQUE,
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+-- 8. Image Table (thay thế img_url)
+CREATE TABLE image (
+    image_id     INT IDENTITY(1,1) PRIMARY KEY,
+    file_name    VARCHAR(255) NOT NULL,
+    target_id    INT NOT NULL,
+    target_type  VARCHAR(20) NOT NULL,
+    uploaded_at  DATETIME DEFAULT GETDATE()
+);
+
+-- 9. Cart_Item Table (đã thêm product_variant_id)
+CREATE TABLE Cart_Item (
+    cart_item_id INT PRIMARY KEY IDENTITY(1,1),
+    cart_id INT,
+    product_id INT,
+    product_variant_id INT,
+    quantity INT,
+    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (product_variant_id) REFERENCES ProductVariant(product_variant_id)
+);
+
+-- 10. BuyingUserInfor Table (thay thế UserAddress)
+CREATE TABLE BuyingUserInfor (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NULL,
+    recipient_name NVARCHAR(255) NOT NULL,
+    province NVARCHAR(255) NOT NULL,
+    district NVARCHAR(255) NOT NULL,
+    ward NVARCHAR(255) NOT NULL,
+    street NVARCHAR(500) NOT NULL,
+    phone NVARCHAR(50) NOT NULL,
+    created_at DATETIME DEFAULT GETDATE(),
+    updated_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (user_id) REFERENCES [User](user_id)
+);
+
+-- 11. Buyings Table (thay thế Order)
+CREATE TABLE Buyings (
+    buying_id      INT PRIMARY KEY IDENTITY(1,1),
+    user_id        INT NOT NULL,
+    total_price    DECIMAL(12,2) NOT NULL,
+    userBuyingInfor_Id BIGINT NOT NULL,
+    payment_method VARCHAR(30)  NOT NULL,
+    status         VARCHAR(30)  NOT NULL,
+    created_at     DATETIME     DEFAULT GETDATE(),
+    updated_at     DATETIME     DEFAULT GETDATE(),
+    FOREIGN KEY (user_id) REFERENCES [User](user_id),
+    FOREIGN KEY (userBuyingInfor_Id) REFERENCES BuyingUserInfor(id)
+);
+
+-- 12. BuyingItems Table (thay thế Order_Item)
+CREATE TABLE BuyingItems (
+    buying_item_id INT PRIMARY KEY IDENTITY(1,1),
+    buying_id      INT NOT NULL,
+    product_id     INT NOT NULL,
+    variant_id     INT NOT NULL,
+    quantity       INT NOT NULL,
+    price_each     DECIMAL(12,2) NOT NULL,
+    FOREIGN KEY (buying_id)  REFERENCES Buyings(buying_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (variant_id) REFERENCES ProductVariant(product_variant_id)
+);
+
+-- ========================================
+-- SAMPLE DATA INSERTION
+-- ========================================
+
+-- Insert Users (mật khẩu chung: $2a$12$w/58v718bNcuEtB5/bbGpeszyfa/DHUAEChhMGVleNKKTOi4fOoJK)
+INSERT INTO [User] (username, fullName, password, role) VALUES
+('admin', 'Administrator', '$2a$12$w/58v718bNcuEtB5/bbGpeszyfa/DHUAEChhMGVleNKKTOi4fOoJK', 'admin'),
+('user1', 'Nguyen Van A', '$2a$12$w/58v718bNcuEtB5/bbGpeszyfa/DHUAEChhMGVleNKKTOi4fOoJK', 'user'),
+('user2', 'Tran Thi B', '$2a$12$w/58v718bNcuEtB5/bbGpeszyfa/DHUAEChhMGVleNKKTOi4fOoJK', 'user'),
+('user3', 'Le Van C', '$2a$12$w/58v718bNcuEtB5/bbGpeszyfa/DHUAEChhMGVleNKKTOi4fOoJK', 'user');
+
+-- Insert Categories
+INSERT INTO Categories (name, parent_id) VALUES
+('Clothing', NULL),
+('Áo', 1),
+('Quần', 1),
+('Accessories', NULL);
+
+-- Insert Brands
+INSERT INTO Brand (name) VALUES
+('Nike'),
+('Adidas'),
+('Zara'),
+('H&M'),
+('Uniqlo');
+
+-- Insert Products
+INSERT INTO Product (product_name, description, price, category_id, brand_id, status) VALUES
+('Áo Thun Nam Basic', 'Áo thun nam chất liệu cotton thoáng mát', 199000, 2, 5, 'active'),
+('Áo Sơ Mi Trắng', 'Áo sơ mi trắng công sở', 299000, 2, 3, 'active'),
+('Quần Jeans Slim Fit', 'Quần jeans nam form slim fit', 599000, 3, 1, 'active'),
+('Quần Jogger', 'Quần jogger thể thao', 399000, 3, 2, 'active'),
+('Áo Hoodie Unisex', 'Áo hoodie unisex form rộng', 449000, 2, 4, 'active');
+
+-- Insert Product Variants
+INSERT INTO ProductVariant (product_id, size, color, quantity, sku) VALUES
+(1, 'M', 'Trắng', 50, 'AT-M-WHITE-001'),
+(1, 'L', 'Trắng', 30, 'AT-L-WHITE-001'),
+(1, 'M', 'Đen', 45, 'AT-M-BLACK-001'),
+(1, 'L', 'Đen', 25, 'AT-L-BLACK-001'),
+(2, 'M', 'Trắng', 40, 'SM-M-WHITE-001'),
+(2, 'L', 'Trắng', 35, 'SM-L-WHITE-001'),
+(3, '30', 'Xanh', 20, 'QJ-30-BLUE-001'),
+(3, '32', 'Xanh', 15, 'QJ-32-BLUE-001'),
+(4, 'M', 'Đen', 60, 'QG-M-BLACK-001'),
+(4, 'L', 'Xám', 40, 'QG-L-GRAY-001'),
+(5, 'M', 'Đỏ', 30, 'HD-M-RED-001'),
+(5, 'L', 'Đỏ', 25, 'HD-L-RED-001');
+
+-- Insert Images
+INSERT INTO image (file_name, target_id, target_type) VALUES
+('ao-thun-basic-white.jpg', 1, 'product'),
+('ao-thun-basic-black.jpg', 1, 'product'),
+('ao-somi-trang.jpg', 2, 'product'),
+('quan-jeans-slim.jpg', 3, 'product'),
+('quan-jogger.jpg', 4, 'product'),
+('ao-hoodie-unisex.jpg', 5, 'product'),
+('nike-logo.png', 1, 'brand'),
+('adidas-logo.png', 2, 'brand'),
+('zara-logo.png', 3, 'brand');
+
+-- Insert Carts
+INSERT INTO Cart DEFAULT VALUES;
+INSERT INTO Cart DEFAULT VALUES;
+INSERT INTO Cart DEFAULT VALUES;
+
+-- Insert Clients
+INSERT INTO Client (user_id, cart_id, full_name, phone_number, address) VALUES
+(2, 1, 'Nguyen Van A', '0912345678', '123 Nguyen Trai, Q1, HCM'),
+(3, 2, 'Tran Thi B', '0987654321', '456 Le Loi, Q3, HCM'),
+(4, 3, 'Le Van C', '0901234567', '789 Tran Hung Dao, Q5, HCM');
+
+-- Insert Cart Items
+INSERT INTO Cart_Item (cart_id, product_id, product_variant_id, quantity) VALUES
+(1, 1, 1, 2),
+(1, 3, 7, 1),
+(2, 2, 5, 1),
+(2, 4, 9, 1),
+(3, 5, 11, 1);
+
+-- Insert Buying User Info
+INSERT INTO BuyingUserInfor (user_id, recipient_name, province, district, ward, street, phone) VALUES
+(2, 'Nguyen Van A', 'TP. Hồ Chí Minh', 'Quận 1', 'Phường Bến Nghé', '123 Nguyen Trai', '0912345678'),
+(3, 'Tran Thi B', 'TP. Hồ Chí Minh', 'Quận 3', 'Phường 6', '456 Le Loi', '0987654321'),
+(4, 'Le Van C', 'TP. Hồ Chí Minh', 'Quận 5', 'Phường 5', '789 Tran Hung Dao', '0901234567');
+
+-- Insert Buyings
+INSERT INTO Buyings (user_id, total_price, userBuyingInfor_Id, payment_method, status) VALUES
+(2, 797000, 1, 'COD', 'pending'),
+(3, 698000, 2, 'bank_transfer', 'confirmed'),
+(4, 449000, 3, 'credit_card', 'shipped');
+
+-- Insert Buying Items
+INSERT INTO BuyingItems (buying_id, product_id, variant_id, quantity, price_each) VALUES
+(1, 1, 1, 2, 199000),
+(1, 3, 7, 1, 599000),
+(2, 2, 5, 1, 299000),
+(2, 4, 9, 1, 399000),
+(3, 5, 11, 1, 449000);
+
+-- ========================================
+-- VERIFICATION QUERIES
+-- ========================================
+
+-- Kiểm tra dữ liệu đã insert
+SELECT 'Users' as TableName, COUNT(*) as RecordCount FROM [User]
+UNION ALL
+SELECT 'Categories', COUNT(*) FROM Categories
+UNION ALL
+SELECT 'Brands', COUNT(*) FROM Brand
+UNION ALL
+SELECT 'Products', COUNT(*) FROM Product
+UNION ALL
+SELECT 'ProductVariants', COUNT(*) FROM ProductVariant
+UNION ALL
+SELECT 'Images', COUNT(*) FROM image
+UNION ALL
+SELECT 'Carts', COUNT(*) FROM Cart
+UNION ALL
+SELECT 'Clients', COUNT(*) FROM Client
+UNION ALL
+SELECT 'Cart_Items', COUNT(*) FROM Cart_Item
+UNION ALL
+SELECT 'BuyingUserInfor', COUNT(*) FROM BuyingUserInfor
+UNION ALL
+SELECT 'Buyings', COUNT(*) FROM Buyings
+UNION ALL
+SELECT 'BuyingItems', COUNT(*) FROM BuyingItems;
+
+select * from [User]
