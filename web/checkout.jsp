@@ -44,8 +44,16 @@
                 <div class="col-md-8">
                     <h3>Thông tin thanh toán</h3>
 
+                    <!-- Thêm vào trong thẻ <form> sau dòng <input type="hidden" name="action" value="checkout"/> -->
+
                     <form action="MainController" method="post">
-                        <input type="hidden" name="action" value="processCheckout"/>
+                        <input type="hidden" name="action" value="checkout"/>
+
+                        <!-- ✅ THÊM CÁC TRƯỜNG HIDDEN CHO THÔNG TIN SẢN PHẨM -->
+                        <input type="hidden" name="productId" value="${buyNowInfo.productId}"/>
+                        <input type="hidden" name="variantId" value="${buyNowInfo.variantId}"/>
+                        <input type="hidden" name="quantity" value="${buyNowInfo.quantity}"/>
+                        <input type="hidden" name="priceEach" value="${buyNowInfo.price}"/>
 
                         <!-- Địa chỉ giao hàng -->
                         <div class="card mb-4">
@@ -55,32 +63,22 @@
                             <div class="card-body">
                                 <c:choose>
                                     <c:when test="${not empty userBuyingInfoDTOs}">
-                                        <c:forEach var="userBuyingInfo" items="${userBuyingInfoDTOs}" varStatus="status">
+                                        <c:forEach var="address" items="${userBuyingInfoDTOs}" varStatus="status">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="selectedAddress"
-                                                       value="${userBuyingInfo.userBuyingInforId}"  
-                                                id="address${status.index}"
-                                                ${status.first ? 'checked' : ''}>
+                                                       value="${address.userBuyingInforId}" id="address${status.index}"
+                                                       ${status.first ? 'checked' : ''}>
                                                 <label class="form-check-label" for="address${status.index}">
                                                     <div style="margin-bottom: 5px;">
-                                                        <strong>${userBuyingInfo.recipientName} (+84) ${userBuyingInfo.phone}</strong>
+                                                        <strong>${address.recipientName} (+84) ${address.phone}</strong>
                                                     </div>
                                                     <div style="color: #666;">
-                                                        ${userBuyingInfo.street}, ${userBuyingInfo.ward}, ${userBuyingInfo.district}, ${userBuyingInfo.province}
+                                                        ${address.street}, ${address.ward}, ${address.district}, ${address.province}
                                                     </div>
                                                 </label>
-                                                <div style="margin-top: 8px;">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary" 
-                                                            style="border: 1px solid #ccc; color: #666; padding: 2px 8px; font-size: 12px;">
-                                                        Thay Đổi
-                                                    </button>
-                                                </div>
                                             </div>
                                             <hr>
                                         </c:forEach>
-                                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addAddressModal">
-                                            Thêm địa chỉ mới
-                                        </button>
                                     </c:when>
                                     <c:otherwise>
                                         <div class="alert alert-warning">

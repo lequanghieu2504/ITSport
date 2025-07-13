@@ -73,6 +73,25 @@ public class UserBuyingInforDAO {
         return null;
     }
 
+    public UserBuyingInfoDTO getUserBuyingInforById(long userBuyingInfoId) {
+        String sql = GET_USER_BUYING_INFORMATION + "and id = ?";
+         UserBuyingInfoDTO userBuyingInfor = new UserBuyingInfoDTO();
+        try(Connection conn = JDBCConnection.getConnection();PreparedStatement ps = conn.prepareStatement(sql)){
+            
+            ps.setLong(1,userBuyingInfoId);
+            ResultSet rs = ps.executeQuery();
+          
+            if(rs.next()){
+                userBuyingInfor = UserBuyingInforMapper.toUserBuyingInforFromResultSet(rs);
+            }
+            return userBuyingInfor;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBuyingInforDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
 
 
