@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class JDBCConnection {
 
-    private static final String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=ITSPORTV1.2;encrypt=true;trustServerCertificate=true"; // đổi tên DB cho bạn
+    private static final String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=ITSPORTVERSION3;encrypt=true;trustServerCertificate=true"; // đổi tên DB cho bạn
     private static final String JDBC_USERNAME = "sa";
     private static final String JDBC_PASSWORD = "12345";  // mật khẩu DB của bạn
 
