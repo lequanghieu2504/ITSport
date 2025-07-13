@@ -1,54 +1,41 @@
-/*
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Service;
 
+import DAO.BrandDAO;
+import DAO.CartDAO;
 import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
+import DTOs.ClientDTO;
 import DTOs.ImageDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
 import Enums.ImageType;
+import Enums.Size;
 import Mapper.ProductMapper;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author ASUS
- */
+import java.util.List;
+
 public class ProductService {
 
-    ProductDAO productDAO = new ProductDAO();
-    private final ImageService imageService;
-    private ImageDAO imageDAO = new ImageDAO();
+    private static final CartDAO cartDAO = new CartDAO();
+    private static final ProductDAO productDAO = new ProductDAO();
+    private static final BrandDAO brandDAO = new BrandDAO();
+    private ImageService imageService;
+    private static final ImageDAO imageDAO = new ImageDAO();
 
     public ProductService(ServletContext context) {
         this.imageService = new ImageService(context);
-    }
-
-    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String StrCategory_id = request.getParameter("cid");
-        Long category_id = Long.parseLong(StrCategory_id);
-
-        List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
-        
-        
-        List<BrandDTO> listB = null;
-
-        request.setAttribute("cid", category_id);
-        request.setAttribute("listP", listP);
-        request.getRequestDispatcher("category.jsp").forward(request, response);
     }
 
     public void handleInsertProduct(HttpServletRequest request, HttpServletResponse response) {
@@ -67,7 +54,7 @@ public class ProductService {
                 try {
                     //sau khi them thanh cong thi moi add anh
                     Part mainImagePart = request.getPart("MainImage");
-                    boolean imageSaved = imageService.saveImageByType(ImageType.PRODUCT_MAIN.toString(),success,mainImagePart,request.getServletContext());
+                    boolean imageSaved = imageService.saveImageByType(ImageType.PRODUCT_MAIN.toString(), success, mainImagePart, request.getServletContext());
                     if (imageSaved) {
                         request.getSession().setAttribute("message", "them san pham thanh cong");
                     } else {
@@ -97,26 +84,106 @@ public class ProductService {
         }
     }
 
-    public void handleToggleStatus(HttpServletRequest request, HttpServletResponse response) {
+    public void handleViewDetailProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String product_id = request.getParameter("pid");
+        String selectedColor = request.getParameter("color");
+        String selectedSize = request.getParameter("size");
 
+        if (product_id == null || product_id.isEmpty()) {
+            response.sendRedirect("MainController?action=loadForHomePage");
+            return;
+        }
+
+        long pid = Long.parseLong(product_id);
+        ProductDTO product = productDAO.getProductById(pid);
+        ProductVariantDAO variantDAO = new ProductVariantDAO();
+
+        List<ProductVariantDTO> variantList = variantDAO.getByProductVariantId(pid);
+        List<String> availableColors = variantDAO.getAvailableColors(pid);
+        List<Size> availableSizes = variantDAO.getAvailableSizes(pid);
+
+        ProductVariantDTO selectedVariant = null;
+        if (selectedColor != null && selectedSize != null) {
+            selectedVariant = variantDAO.getVariant(pid, selectedColor, selectedSize);
+        }
+
+        HttpSession session = request.getSession();
+        ClientDTO client = (ClientDTO) session.getAttribute("client");
+        int cartSize = 0;
+        if (client != null) {
+            cartSize = cartDAO.getCartSize(client.getCart_id());
+        }
+
+        request.setAttribute("cartSize", cartSize);
+        request.setAttribute("pid", product_id);
+        request.setAttribute("product", product);
+        request.setAttribute("variantList", variantList);
+        request.setAttribute("availableColors", availableColors);
+        request.setAttribute("availableSizes", availableSizes);
+        request.setAttribute("selectedColor", selectedColor);
+        request.setAttribute("selectedSize", selectedSize);
+        request.setAttribute("selectedVariant", selectedVariant);
+
+        request.getRequestDispatcher("detail.jsp").forward(request, response);
+    }
+
+    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strCategoryId = request.getParameter("cid");
+        Long category_id = null;
         try {
+            category_id = Long.parseLong(strCategoryId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+            return;
+        }
 
-            try {
-                String idStr = request.getParameter("StrProductId");
-                String statusStr = request.getParameter("status");
+        List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
+        List<BrandDTO> listB = brandDAO.getAllBrand();
 
-                if (idStr != null && statusStr != null) {
-                    long productId = Long.parseLong(idStr);
-                    boolean status = Boolean.parseBoolean(statusStr); // true hoặc false
+        request.setAttribute("listBrand", listB);
+        request.setAttribute("cid", strCategoryId);
+        request.setAttribute("listP", listP);
+        request.getRequestDispatcher("category.jsp").forward(request, response);
+    }
 
-                    // Gọi DAO để cập nhật
-                    productDAO.updateStatus(productId, status);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    public void handleInsertProductAdvanced(HttpServletRequest request, HttpServletResponse response) {
+        String url = "/admin/adminDashboard.jsp";
+        request.setAttribute("section", "createProduct");
+
+        ProductDTO productDTO = ProductMapper.toProductDTOFromRequest(request);
+
+        if (productDTO != null) {
+            Long success = productDAO.insertProduct(productDTO);
+
+            if (success > 0) {
+                request.getSession().setAttribute("message", "them san pham thanh cong");
+                url = "MainController?action=loadForProductCreateVariantForm";
+                request.setAttribute("productId", success);
+            } else {
+                request.getSession().setAttribute("message", "them san pham that bai");
+            }
+        } else {
+            request.getSession().setAttribute("message", "co loi trong qua trinh them san pham");
+        }
+        try {
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleToggleStatus(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String idStr = request.getParameter("StrProductId");
+            String statusStr = request.getParameter("status");
+
+            if (idStr != null && statusStr != null) {
+                long productId = Long.parseLong(idStr);
+                boolean status = Boolean.parseBoolean(statusStr);
+                productDAO.updateStatus(productId, status);
             }
 
-            // Quay về lại danh sách sản phẩm
             response.sendRedirect("MainController?action=loadForListProductForm");
         } catch (IOException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,9 +203,7 @@ public class ProductService {
                 request.getSession().setAttribute("message", "Can not delete product");
             }
             request.getRequestDispatcher(url).forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -154,9 +219,7 @@ public class ProductService {
                 return;
             }
 
-            // Sử dụng mapper mới
             ProductDTO updatedProduct = ProductMapper.toProductDTOFromRequestToUpdate(request, oldProduct);
-
             boolean success = productDAO.updateProduct(updatedProduct);
 
             if (success) {
@@ -191,5 +254,4 @@ public class ProductService {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

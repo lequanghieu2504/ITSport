@@ -1,23 +1,26 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link rel="stylesheet" href="assets/css/header.css"/>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css"/>
 
 <header class="sports-header shadow-sm">
     <div class="container-xl d-flex align-items-center justify-content-between py-2">
         <!-- Logo -->
         <a href="MainController?action=loadForHomePage" class="logo d-flex align-items-center text-decoration-none">
-            <img src="assets/images/logo.png" alt="ITSport" class="logo-img mr-2" />
+            <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="ITSport" class="logo-img mr-2" />
             <span class="logo-text font-weight-bold text-uppercase">ITSport</span>
         </a>
 
         <!-- Navigation -->
         <nav class="main-nav d-none d-lg-block">
             <ul class="nav-list list-unstyled d-flex mb-0">
-                <li><a href="home">Trang chủ</a></li>
-                <li><a href="shop">Cửa hàng</a></li>
-                <li><a href="about">Về chúng tôi</a></li>
-                <li><a href="new">Sản phẩm mới</a></li>
+                <li><a href="${pageContext.request.contextPath}/home">Trang chủ</a></li>
+                <li><a href="${pageContext.request.contextPath}/shop">Cửa hàng</a></li>
+                <li><a href="${pageContext.request.contextPath}/about">Về chúng tôi</a></li>
+                <li><a href="${pageContext.request.contextPath}/new">Sản phẩm mới</a></li>
             </ul>
         </nav>
 
@@ -30,17 +33,17 @@
         <!-- Icons & Auth -->
         <div class="d-flex align-items-center ml-3">
             <!-- Cart -->
-            <a href="cart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
+            <a href="MainController?action=viewCart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
                 <i class="fa fa-shopping-cart icon-item"></i>
                 <c:if test="${sessionScope.cartSize > 0}">
-                    <span class="cart-badge">${sessionScope.cartSize}</span>
+                    <span id="cart-size" class="cart-badge">${sessionScope.cartSize}</span>
                 </c:if>
             </a>
             <!-- Wishlist -->
             <a href="wishlist" class="icon-wrapper mr-3" title="Yêu thích">
                 <i class="fa-solid fa-heart icon-item"></i>
             </a>
-            
+
             <!-- Login / Register or Username / Logout -->
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">

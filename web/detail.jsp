@@ -6,80 +6,9 @@
         <meta charset="UTF-8">
         <title>Chi tiết sản phẩm</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-        <style>
-            .product-img {
-                width: 100%;
-                max-height: 500px;
-                object-fit: contain;
-                border: 1px solid #ddd;
-                margin-bottom: 15px;
-            }
-            .variant-thumb {
-                cursor: pointer;
-                border: 2px solid #eee;
-                width: 100%;
-                height: auto;
-            }
-            .variant-thumb:hover {
-                border: 2px solid #3498db;
-            }
-            .filter-option {
-                display: inline-block;
-                margin: 5px;
-                padding: 8px 16px;
-                border: 2px solid #ddd;
-                border-radius: 4px;
-                cursor: pointer;
-                text-decoration: none;
-                color: #333;
-                background-color: #fff;
-                transition: all 0.3s ease;
-            }
-            .filter-option:hover {
-                border-color: #3498db;
-                text-decoration: none;
-                color: #3498db;
-            }
-            .filter-option.active {
-                border-color: #3498db;
-                background-color: #3498db;
-                color: #fff;
-            }
-            .filter-section {
-                margin-bottom: 20px;
-            }
-            .filter-title {
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
-            .clear-filter {
-                color: #dc3545;
-                font-size: 14px;
-                margin-left: 10px;
-            }
-            .d-flex {
-                display: flex;
-            }
-            .gap-2 {
-                gap: 0.5rem;
-            }
-            .mr-2 {
-                margin-right: 0.5rem;
-            }
-            .required-selection {
-                color: #dc3545;
-                font-size: 14px;
-                margin-top: 5px;
-            }
-            .selection-warning {
-                background-color: #fff3cd;
-                border: 1px solid #ffeaa7;
-                border-radius: 4px;
-                padding: 10px;
-                margin-bottom: 15px;
-                color: #856404;
-            }
-        </style>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/detail.css"/>
     </head>
     <body>
         <jsp:include page="/common/header.jsp"/>
@@ -101,13 +30,13 @@
                         </c:forEach>
                     </div>
                 </div>
-                
+
                 <!-- Thông tin sản phẩm -->
                 <div class="col-md-6">
                     <h2>${product.product_name}</h2>
                     <h4 class="text-danger">${product.price} &#8363;</h4>
                     <p>${product.description}</p>
-                    
+
                     <!-- Cảnh báo nếu chưa chọn đủ màu/size -->
                     <c:if test="${(not empty availableColors and empty selectedColor) or (not empty availableSizes and empty selectedSize)}">
                         <div class="selection-warning">
@@ -115,10 +44,10 @@
                             <c:if test="${not empty availableColors and empty selectedColor}">màu sắc</c:if>
                             <c:if test="${(not empty availableColors and empty selectedColor) and (not empty availableSizes and empty selectedSize)}"> và </c:if>
                             <c:if test="${not empty availableSizes and empty selectedSize}">kích thước</c:if>
-                            để có thể mua hàng.
-                        </div>
+                                để có thể mua hàng.
+                            </div>
                     </c:if>
-                    
+
                     <!-- Filter Color -->
                     <c:if test="${not empty availableColors}">
                         <div class="filter-section">
@@ -141,7 +70,7 @@
                             </c:if>
                         </div>
                     </c:if>
-                    
+
                     <!-- Filter Size -->
                     <c:if test="${not empty availableSizes}">
                         <div class="filter-section">
@@ -149,8 +78,8 @@
                                 Kích thước: <span class="text-danger">*</span>
                                 <c:if test="${not empty selectedSize}">
                                     <a href="MainController?action=viewDetailProduct&pid=${pid}<c:if test='${not empty selectedColor}'>&color=${selectedColor}</c:if>" class="clear-filter">
-                                        (Xóa bộ lọc)
-                                    </a>
+                                            (Xóa bộ lọc)
+                                        </a>
                                 </c:if>
                             </div>
                             <c:forEach var="size" items="${availableSizes}">
@@ -164,24 +93,29 @@
                             </c:if>
                         </div>
                     </c:if>
-                    
-                    <!-- Thông tin variants hiện tại -->
-                    <div class="mt-3">
-                        <p><strong>Số lượng có sẵn:</strong> 
-                            <c:set var="totalQuantity" value="0"/>
-                            <c:forEach var="variant" items="${variantList}">
-                                <c:set var="totalQuantity" value="${totalQuantity + variant.quantity}"/>
-                            </c:forEach>
-                            ${totalQuantity} sản phẩm
-                        </p>
-                    </div>
-                    
+
+                    <p><strong>Số lượng có sẵn:</strong> 
+                        <c:choose>
+                            <c:when test="${not empty selectedVariant}">
+                                ${selectedVariant.quantity} sản phẩm
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="totalQuantity" value="0"/>
+                                <c:forEach var="variant" items="${variantList}">
+                                    <c:set var="totalQuantity" value="${totalQuantity + variant.quantity}"/>
+                                </c:forEach>
+                                ${totalQuantity} sản phẩm
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+
+
                     <!-- Form thêm giỏ hàng và mua ngay -->
                     <div class="form-group">
                         <label for="quantity">Số lượng:</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="${totalQuantity}" style="width: 100px;">
                     </div>
-                    
+
                     <!-- Kiểm tra điều kiện cho phép mua -->
                     <c:set var="canPurchase" value="true"/>
                     <c:if test="${not empty availableColors and empty selectedColor}">
@@ -193,17 +127,19 @@
                     <c:if test="${totalQuantity <= 0}">
                         <c:set var="canPurchase" value="false"/>
                     </c:if>
-                    
+
                     <div class="d-flex gap-2">
                         <!-- Form thêm giỏ hàng -->
-                        <form action="MainController" method="post" class="mr-2" onsubmit="return validateSelection('cart')">
+                        <form id="addToCartForm" class="mr-2" onsubmit="return addToCartAjax(event)">
                             <input type="hidden" name="action" value="addToCart"/>
-                            <input type="hidden" name="pid" value="${product.product_id}"/>
+                            <input type="hidden" name="product_id" value="${product.product_id}"/>
+                            <input type="hidden" name="variant_id" value="${selectedVariant.product_variant_id}"/>
                             <input type="hidden" name="color" value="${selectedColor}"/>
-                            <input type="hidden" name="size" value="${selectedSize}"/>
                             <input type="hidden" name="quantity" id="cartQuantity" value="1"/>
-                            
-                            <button type="submit" class="btn btn-outline-primary" ${canPurchase ? '' : 'disabled'}>
+
+                            <button type="submit"
+                                    class="btn btn-cart btn-purchase"
+                                    ${canPurchase ? '' : 'disabled'}>
                                 <c:choose>
                                     <c:when test="${totalQuantity <= 0}">Hết hàng</c:when>
                                     <c:when test="${not canPurchase}">Chọn màu/size</c:when>
@@ -211,7 +147,8 @@
                                 </c:choose>
                             </button>
                         </form>
-                        
+
+
                         <!-- Form mua ngay -->
                         <form action="MainController" method="post" onsubmit="return validateSelection('buy')">
                             <input type="hidden" name="action" value="buyNow"/>
@@ -219,8 +156,10 @@
                             <input type="hidden" name="StrColor" value="${selectedColor}"/>
                             <input type="hidden" name="StrSize" value="${selectedSize}"/>
                             <input type="hidden" name="StrQuantity" id="buyQuantity" value="1"/>
-                            
-                            <button type="submit" class="btn btn-primary btn-lg" ${canPurchase ? '' : 'disabled'}>
+
+                            <button type="submit"
+                                    class="btn btn-buy btn-purchase"
+                                    ${canPurchase ? '' : 'disabled'}>
                                 <c:choose>
                                     <c:when test="${totalQuantity <= 0}">Hết hàng</c:when>
                                     <c:when test="${not canPurchase}">Chọn màu/size</c:when>
@@ -229,9 +168,10 @@
                             </button>
                         </form>
                     </div>
+
                 </div>
             </div>
-            
+
             <!-- Danh sách variants chi tiết -->
             <div class="row mt-5">
                 <div class="col-12">
@@ -261,52 +201,110 @@
                 </div>
             </div>
         </div>
-        
+
         <jsp:include page="/common/footer.jsp"/>
-        
         <script>
             function changeMainImage(thumb) {
                 const mainImg = document.getElementById('mainProductImg');
-                // Lưu URL hiện tại của main
                 const mainSrc = mainImg.src;
-                // Hoán đổi src
                 mainImg.src = thumb.src;
-                // Đổi lại ảnh thumb thành main cũ
                 thumb.src = mainSrc;
             }
-            
-            // Sync quantity giữa 2 forms
-            document.getElementById('quantity').addEventListener('change', function() {
+
+            // Đồng bộ số lượng giữa các form
+            document.getElementById('quantity').addEventListener('change', function () {
                 const quantity = this.value;
                 document.getElementById('cartQuantity').value = quantity;
                 document.getElementById('buyQuantity').value = quantity;
             });
-            
-            // Validate selection trước khi submit
+
+            // Kiểm tra đã chọn màu và size chưa
             function validateSelection(action) {
                 const selectedColor = "${selectedColor}";
                 const selectedSize = "${selectedSize}";
                 const hasColors = ${not empty availableColors};
                 const hasSizes = ${not empty availableSizes};
-                
+
                 let missingSelections = [];
-                
+
                 if (hasColors && !selectedColor) {
                     missingSelections.push("màu sắc");
                 }
-                
+
                 if (hasSizes && !selectedSize) {
                     missingSelections.push("kích thước");
                 }
-                
+
                 if (missingSelections.length > 0) {
-                    alert("Vui lòng chọn " + missingSelections.join(" và ") + " trước khi " + 
-                          (action === 'buy' ? 'mua hàng' : 'thêm vào giỏ hàng') + "!");
+                    showToast("Vui lòng chọn " + missingSelections.join(" và ") + " trước khi " +
+                            (action === 'buy' ? 'mua hàng' : 'thêm vào giỏ hàng') + "!");
                     return false;
                 }
-                
+
                 return true;
+            }
+
+            // Gửi form thêm giỏ hàng bằng ajax
+            function addToCartAjax(event) {
+                event.preventDefault();
+
+                const form = document.getElementById("addToCartForm");
+                const formData = new FormData(form);
+
+                fetch("MainController", {
+                    method: "POST",
+                    body: formData
+                })
+                        .then(response => {
+                            if (!response.ok)
+                                throw new Error("Lỗi khi thêm giỏ hàng");
+                            return response.text();
+                        })
+                        .then(data => {
+                            showToast("Đã thêm vào giỏ hàng!");
+                            updateCartIcon();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            showToast("Có lỗi xảy ra khi thêm giỏ hàng!");
+                        });
+
+                return false;
+            }
+
+            // Cập nhật số lượng giỏ hàng ở icon
+            function updateCartIcon() {
+                fetch("MainController?action=getCartSize")
+                        .then(response => response.json())
+                        .then(data => {
+                            const cartIcon = document.getElementById("cart-size");
+                            if (cartIcon)
+                                cartIcon.textContent = data.size;
+                        });
+            }
+
+            // Hiển thị popup toast
+            function showToast(message) {
+                let toast = document.getElementById("toast-message");
+
+                if (!toast) {
+                    toast = document.createElement("div");
+                    toast.id = "toast-message";
+                    toast.className = "toast";
+                    document.body.appendChild(toast);
+                }
+
+                toast.textContent = message;
+                toast.style.opacity = "1";
+                toast.style.transform = "translateY(0)";
+
+                setTimeout(() => {
+                    toast.style.opacity = "0";
+                    toast.style.transform = "translateY(-20px)";
+                    setTimeout(() => toast.remove(), 500);
+                }, 2000);
             }
         </script>
     </body>
 </html>
+

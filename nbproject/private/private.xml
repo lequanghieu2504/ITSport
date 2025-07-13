@@ -16,26 +16,25 @@
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/BrandDAO.java</file>
         </group>
         <group>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/CartController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/CartService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/UserService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/detail.css</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/detail.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/UserDAO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/CartDAO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/PageService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/js/popup.js</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/header.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/cart.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/common/header.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/UserController.java</file>
         </group>
         <group>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/ProductDAO.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/ProductVariantDAO.java</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/ProductService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/UserService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/ProductController.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/CartService.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/detail.css</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/homepage/homepage.jsp</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/detail.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/UserDAO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/PageService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/js/popup.js</file>
             <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/common/header.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/UserController.java</file>
+            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/CartItemDAO.java</file>
         </group>
     </open-files>
 </project-private>

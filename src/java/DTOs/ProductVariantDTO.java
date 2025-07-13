@@ -12,13 +12,15 @@ import java.util.List;
  * @author ASUS
  */
 public class ProductVariantDTO {
-    private Long product_variant_id;
-    private Long product_id;
+
+    private long product_variant_id;
+    private long product_id;
     private Size size;
     private int quantity;
     private String sku;
     private String color;
     private List<ImageDTO> listImage;
+    private ProductDTO product;
 
     public ProductVariantDTO() {
     }
@@ -29,6 +31,16 @@ public class ProductVariantDTO {
         this.size = size;
         this.quantity = quantity;
         this.sku = sku;
+    }
+
+    public ProductVariantDTO(Long product_variant_id, Long product_id, Size size, int quantity, String sku, String color, ProductDTO product) {
+        this.product_variant_id = product_variant_id;
+        this.product_id = product_id;
+        this.size = size;
+        this.quantity = quantity;
+        this.sku = sku;
+        this.color = color;
+        this.product = product;
     }
 
     public Long getProduct_variant_id() {
@@ -86,5 +98,17 @@ public class ProductVariantDTO {
     public void setListImage(List<ImageDTO> listImage) {
         this.listImage = listImage;
     }
-    
+
+    public ProductDTO getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductDTO product) {
+        this.product = product;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductVariantDTO{" + "product_variant_id=" + product_variant_id + ", product_id=" + product_id + ", size=" + size + ", quantity=" + quantity + ", sku=" + sku + ", color=" + color + '}';
+    }
 }

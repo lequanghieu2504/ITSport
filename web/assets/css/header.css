@@ -9,6 +9,7 @@
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.6);
     --transition: all 0.3s ease;
+    --footer-accent: #8B0000;
 }
 
 body {

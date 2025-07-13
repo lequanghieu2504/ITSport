@@ -10,7 +10,8 @@ import interfaces.HasImage;
  *
  * @author ASUS
  */
-public class ProductDTO  implements HasImage {
+public class ProductDTO implements HasImage {
+
     private Long product_id;
     private String product_name;
     private String description;
@@ -19,11 +20,11 @@ public class ProductDTO  implements HasImage {
     private long category_id;
     private long brand_id;
     private boolean status;
-    
+
     //chi set khi can thiet
     private String brand_name;
     private String category_name;
-  
+
     public ProductDTO() {
     }
 
@@ -114,7 +115,6 @@ public class ProductDTO  implements HasImage {
         this.status = status;
     }
 
-
     public String getCategory_name() {
         return category_name;
     }
@@ -130,6 +130,9 @@ public class ProductDTO  implements HasImage {
     public void setBrand_name(String brand_name) {
         this.brand_name = brand_name;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" + "product_id=" + product_id + ", product_name=" + product_name + ", description=" + description + ", price=" + price + ", img_url=" + img_url + ", category_id=" + category_id + ", brand_id=" + brand_id + ", status=" + status + ", brand_name=" + brand_name + ", category_name=" + category_name + '}';
+    }
 }

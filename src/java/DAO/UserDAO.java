@@ -27,8 +27,7 @@ public class UserDAO {
 
     public boolean insertUser(UserDTO newUserDTO) {
         String sql = INSERT_USER + " (username,fullName,[password],[role]) VALUES (?,?,?,?)";
-        try ( Connection conn = JDBCConnection.getConnection();  
-               PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newUserDTO.getUsername());
             ps.setString(2, newUserDTO.getFullName());
             ps.setString(3, newUserDTO.getPassword());
@@ -46,7 +45,7 @@ public class UserDAO {
         }
         return false;
     }
-    
+
     public UserDTO getUserByUserName(String StrUserName) {
         String sql = GET_USER + " WHERE username like ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -63,7 +62,35 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             ex.printStackTrace();
-        } 
+        }
         return null;
+    }
+
+    public static int getUserIdByUsername(String username) {
+        int user_id = -1;
+        String sql = "SELECT user_id FROM [User] WHERE username = ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user_id = rs.getInt("user_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user_id;
+    }
+
+    public static boolean isUsernameExists(String username) {
+        String sql = "SELECT 1 FROM [User] WHERE username = ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

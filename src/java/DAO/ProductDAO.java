@@ -5,6 +5,7 @@
 package DAO;
 
 import DTOs.ProductDTO;
+import DTOs.ProductVariantDTO;
 import Mapper.ProductMapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -75,7 +76,6 @@ public class ProductDAO {
         String sql = BASE_GET_PRODUCT_WITH_IMAGE + " ORDER BY product_id DESC";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
@@ -173,9 +173,9 @@ public class ProductDAO {
         }
     }
 
-    public ProductDTO getProductById(Long product_id) {
+    public ProductDTO getProductById(long product_id) {
         String sql = BASE_GET_PRODUCT_WITH_IMAGE + " WHERE product_id = ?";
-
+//        String sql = GET_PRODUCT + " WHERE product_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, product_id);
             ResultSet rs = ps.executeQuery();
@@ -260,4 +260,9 @@ public class ProductDAO {
         return result;
     }
 
+    public static void main(String[] args) {
+        ProductDAO dao = new ProductDAO();
+        ProductDTO product = dao.getProductById(1);
+        System.out.println(product);
+    }
 }

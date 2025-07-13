@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +33,7 @@ public class ImageService {
     }
 
     /**
-     * ✅ Lưu ảnh vào thư mục và DB
+     * Lưu ảnh vào thư mục và DB
      */
     public boolean saveImageByType(String imageType, Long entityId, Part imagePart, ServletContext context) {
         try {
