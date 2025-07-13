@@ -191,3 +191,8 @@ CREATE TABLE dbo.BuyingUserInfor (
 Khang sua doi 12:11 13/7 doi lai ten trong bang buyings de hop voi du lieu moi
 EXEC sp_rename 'Buyings.userBuyingInforId', 'userBuyingInfor_Id', 'COLUMN';
 
+Khang sua doi 12:48 13/07 sua doi de cho phep email co the null
+ALTER TABLE [User]
+DROP CONSTRAINT [UQ__User__AB6E6164113A65C1];
+ALTER TABLE [User]
+DROP COLUMN email;
