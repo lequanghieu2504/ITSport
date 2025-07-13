@@ -187,3 +187,7 @@ CREATE TABLE dbo.BuyingUserInfor (
     updated_at DATETIME DEFAULT GETDATE()
     -- Foreign key sẽ thêm sau vì có thể cần kiểm tra bảng User
 );
+
+Khang sua doi 12:11 13/7 doi lai ten trong bang buyings de hop voi du lieu moi
+EXEC sp_rename 'Buyings.userBuyingInforId', 'userBuyingInfor_Id', 'COLUMN';
+
