@@ -4,13 +4,13 @@ package Service;
 import DAO.BuyingDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
-import DAO.UserAddressDAO;
+import DAO.UserBuyingInforDAO;
 import DTOs.BuyNowInforDTO;
 import DTOs.BuyingDTO;
 import DTOs.BuyingDTO.Item;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
-import DTOs.UserAddressDTO;
+import DTOs.UserBuyingInfoDTO;
 import DTOs.UserDTO;
 import Enums.PaymentMethod;
 import Enums.Status;
@@ -34,7 +34,7 @@ public class BuyingService {
     private final BuyingDAO buyingDAO = new BuyingDAO();
     private final ProductVariantDAO variantDAO = new ProductVariantDAO();
     private final ProductDAO productDAO = new ProductDAO();
-    private final UserAddressDAO userAddressDAO = new UserAddressDAO();
+    private final UserBuyingInforDAO userBuyingInforDAO = new UserBuyingInforDAO();
     public void handleBuyNowProcess(HttpServletRequest req, HttpServletResponse resp) {
         try {
             // Lấy thông tin từ request
@@ -96,8 +96,9 @@ public class BuyingService {
             // Lấy danh sách địa chỉ của user (nếu đã đăng nhập)
             UserDTO currentUser = (UserDTO) session.getAttribute("user");
             if (currentUser != null) {
-                List<UserAddressDTO> userAddresses = userAddressDAO.getAddressesByUserId(currentUser.getUser_id());
-                req.setAttribute("userAddresses", userAddresses);
+                List<UserBuyingInfoDTO> userBuyingInfoDTOs = userBuyingInforDAO.getUserBuyingInforByUserId(currentUser.getUser_id());
+                if(!(userBuyingInfoDTOs == null|| userBuyingInfoDTOs.isEmpty()))
+                req.setAttribute("userBuyingInfoDTOs", userBuyingInfoDTOs);
             }
 
             // Chuyển hướng đến trang checkout

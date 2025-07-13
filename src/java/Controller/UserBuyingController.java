@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "UserAddressController", urlPatterns = {"/UserAddressController"})
-public class UserAddressController extends HttpServlet {
+@WebServlet(name = "UserBuyingController", urlPatterns = {"/UserBuyingController"})
+public class UserBuyingController extends HttpServlet {
     private UserAddressService service = new UserAddressService();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -24,19 +24,20 @@ public class UserAddressController extends HttpServlet {
         if (action == null) action = "listAddress";
 
         switch (action) {
-            case "create":
-                service.handleCreate(request, response);
-                break;
-            case "update":
-                service.handleUpdate(request, response);
-                break;
-            case "delete":
-                service.handleDelete(request, response);
-                break;
-            case "listAddress":
-            default:
-                service.handleList(request, response);
-                break;
+//            case "create":
+//                service.handleCreate(request, response);
+//                break;
+//            case "update":
+//                service.handleUpdate(request, response);
+//                break;
+//            case "delete":
+//                service.handleDelete(request, response);
+//                break;
+//            case "listAddress":
+            
+            case "addUserBuyingInfor":
+                service.addUserBuyingInfor(request,response);
+                
         }
     }
 

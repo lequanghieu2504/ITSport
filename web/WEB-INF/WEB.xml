@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                              http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <display-name>ITSport_1.2</display-name>
-
     <!-- Listener để gỡ JDBC Driver tránh memory leak -->
     <listener>
         <listener-class>util.JDBCDriverDeregistrationListener</listener-class>
     </listener>
-
     <!-- MainController -->
     <servlet>
         <servlet-name>MainController</servlet-name>
@@ -21,7 +14,6 @@
         <servlet-name>MainController</servlet-name>
         <url-pattern>/MainController</url-pattern>
     </servlet-mapping>
-
     <!-- PageController -->
     <servlet>
         <servlet-name>PageController</servlet-name>
@@ -31,7 +23,6 @@
         <servlet-name>PageController</servlet-name>
         <url-pattern>/PageController</url-pattern>
     </servlet-mapping>
-
     <!-- UserController -->
     <servlet>
         <servlet-name>UserController</servlet-name>
@@ -41,7 +32,6 @@
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
     </servlet-mapping>
-
     <!-- ProductController -->
     <servlet>
         <servlet-name>ProductController</servlet-name>
@@ -51,17 +41,15 @@
         <servlet-name>ProductController</servlet-name>
         <url-pattern>/ProductController</url-pattern>
     </servlet-mapping>
-
     <!-- UserAddressController -->
     <servlet>
         <servlet-name>UserAddressController</servlet-name>
-        <servlet-class>Controller.UserAddressController</servlet-class>
+        <servlet-class>Controller.UserBuyingController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserAddressController</servlet-name>
         <url-pattern>/UserAddressController</url-pattern>
     </servlet-mapping>
-
     <!-- BuyingController -->
     <servlet>
         <servlet-name>BuyingController</servlet-name>
@@ -71,7 +59,6 @@
         <servlet-name>BuyingController</servlet-name>
         <url-pattern>/BuyingController</url-pattern>
     </servlet-mapping>
-
     <!-- Welcome file -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

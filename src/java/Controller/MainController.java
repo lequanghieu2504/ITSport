@@ -49,8 +49,8 @@ public class MainController extends HttpServlet {
             } else if (isProductAction(action)) {
                 System.out.println("check duoc product action");
                 url = "/ProductController";
-            } else if (isUserAddressAction(action)) {
-                url = "/UserAddressController";
+            } else if (isUserBuyingInforAction(action)) {
+                url = "/UserBuyingController";
             } else if (isBuyingAction(action)){
                 url = "/BuyingController";
             }
@@ -125,11 +125,12 @@ public class MainController extends HttpServlet {
                 || "productByCategory".equalsIgnoreCase(action);
     }
 
-    private boolean isUserAddressAction(String action) {
+    private boolean isUserBuyingInforAction(String action) {
         return "create".equals(action)
                 || "update".equals(action)
                 || "delete".equals(action)
-                || "listAddress".equals(action);
+                || "listAddress".equals(action)
+                ||"addUserBuyingInfor".equalsIgnoreCase(action);
     }
 
     private boolean isUserAction(String action) {
