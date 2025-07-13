@@ -64,7 +64,7 @@
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
                                 <div class="product-actions">
-                                    <form action="MainController" method="post">
+                                    <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
                                         <input type="hidden" name="pid" value="${p.product_id}" />
                                         <input type="hidden" name="action" value="viewDetailProduct" />
                                         <button type="submit" class="btn btn-sm btn-danger w-100">
@@ -91,7 +91,7 @@
                                 <p class="product-name">${p.product_name}</p>
                                 <p class="product-price">${p.price}₫</p>
                                 <div class="product-actions">
-                                    <form action="MainController" method="post">
+                                    <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
                                         <input type="hidden" name="pid" value="${p.product_id}" />
                                         <input type="hidden" name="action" value="viewDetailProduct" />
                                         <button type="submit" class="btn btn-sm btn-danger w-100">
@@ -119,7 +119,7 @@
                                 <p class="product-price">${p.price}₫</p>
                                 <div class="product-actions">
 
-                                    <form action="MainController" method="post">
+                                    <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
                                         <input type="hidden" name="pid" value="${p.product_id}" />
                                         <input type="hidden" name="action" value="viewDetailProduct" />
                                         <button type="submit" class="btn btn-sm btn-danger w-100">
@@ -147,7 +147,7 @@
                                 <p class="product-price">${p.price}₫</p>
                                 <div class="product-actions">
 
-                                    <form action="MainController" method="post">
+                                    <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
                                         <input type="hidden" name="pid" value="${p.product_id}" />
                                         <input type="hidden" name="action" value="viewDetailProduct" />
                                         <button type="submit" class="btn btn-sm btn-danger w-100">

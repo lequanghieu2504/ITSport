@@ -21,8 +21,9 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body style="background-color: #121212;">
         <jsp:include page="/common/header.jsp"/>
+
         <!-- Overlay -->
         <div id="overlay" class="filter-overlay" onclick="closeFilterPopup()"></div>
 
@@ -41,17 +42,18 @@
 
                 <!-- Brand list -->
                 <div class="mb-3">
-                    <label class="font-weight-bold">Thương hiệu:</label>
+                    <label class="font-weight-bold text-white">Thương hiệu:</label>
                     <c:forEach var="b" items="${listBrand}">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="brand" value="${b.brandId}" id="brand${b.brandId}">
-                            <label class="form-check-label" for="brand${b.brandId}">${b.name}</label>
+                            <input class="form-check-input" type="checkbox" name="brand" value="${b.brand_id}" id="brand${b.brand_id}"/>
+                            <label class="form-check-label" for="brand${b.brand_id}">${b.brand_name}</label>
                         </div>
                     </c:forEach>
                 </div>
 
+                <!-- Price range -->
                 <div class="mb-3">
-                    <label class="font-weight-bold">Khoảng giá:</label>
+                    <label class="font-weight-bold text-white">Khoảng giá:</label>
                     <div class="d-flex">
                         <input type="number" class="form-control mr-2" name="minPrice" placeholder="Từ">
                         <input type="number" class="form-control" name="maxPrice" placeholder="Đến">
@@ -59,12 +61,12 @@
                 </div>
 
                 <!-- Apply button -->
-                <button type="submit" style="background-color: #800020; color: white" class="btn w-100 mt-3">Áp dụng bộ lọc</button>
+                <button type="submit" class="btn w-100 mt-3" style="background-color: #800020; color: white;">Áp dụng bộ lọc</button>
             </form>
         </div>
 
-        <div class="container my-5 px-4">
 
+        <div class="container my-5 px-4">
             <!-- Sort Bar -->
             <div class="filter-sort-bar mb-4">
                 <!-- Dòng trên: icon + brand list -->
@@ -74,8 +76,8 @@
                     </button>
                     <div class="brand-list d-flex flex-wrap">
                         <c:forEach var="b" items="${listBrand}">
-                            <a class="brand-item" href="ProductController?action=productByCategory&cid=${param.cid}&brand=${b.brandId}">
-                                ${b.name}
+                            <a class="brand-item" href="ProductController?action=productByCategory&cid=${param.cid}&brand=${b.brand_id}">
+                                ${b.brand_name}
                             </a>
                         </c:forEach>
                     </div>
@@ -115,6 +117,7 @@
                                     </form>
                                 </div>
                             </div>
+
                         </div>
                     </a>
                 </c:forEach>

@@ -29,6 +29,9 @@ public class ProductVariantDAO {
 
     private final String GET_PRODUCT_VARIANT = "select * from ProductVariant where 1=1 ";
     private final String INSERT_PRODUCT_VARIANT = "Insert into ProductVariant ";
+    private final String GET_DISTINCT_COLORS = "SELECT DISTINCT color FROM ProductVariant WHERE product_id = ?";
+    private final String GET_DISTINCT_SIZES = "SELECT DISTINCT size FROM ProductVariant WHERE product_id = ?";
+    private final String GET_VARIANT_BY_COLOR_SIZE = "SELECT * FROM ProductVariant WHERE product_id = ? AND color = ? AND size = ?";
 
     public List<ProductVariantDTO> getByProductVariantId(long productId) {
         String sql = GET_PRODUCT_VARIANT + " and product_id = ?";
@@ -137,4 +140,75 @@ public class ProductVariantDAO {
         return null;
     }
 
+    public List<String> getAvailableColors(long productId) {
+        List<String> colors = new ArrayList<>();
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(GET_DISTINCT_COLORS)) {
+            ps.setLong(1, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                colors.add(rs.getString("color"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductVariantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return colors;
+    }
+
+    public List<Size> getAvailableSizes(long productId) {
+        List<Size> sizes = new ArrayList<>();
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(GET_DISTINCT_SIZES)) {
+            ps.setLong(1, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                sizes.add(Size.valueOf(rs.getString("size")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductVariantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return sizes;
+    }
+
+    public ProductVariantDTO getVariant(long productId, String color, String size) {
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(GET_VARIANT_BY_COLOR_SIZE)) {
+            ps.setLong(1, productId);
+            ps.setString(2, color);
+            ps.setString(3, size);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return ProductVariantMapper.toProductVariantDTOFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductVariantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+//        ProductVariantDAO dao = new ProductVariantDAO();
+//        List<ProductVariantDTO> dtos = dao.getByProductVariantId(7);
+//        for (ProductVariantDTO dto : dtos) {
+//            System.out.println(dto);
+//
+//        }
+        ProductVariantDAO dao = new ProductVariantDAO();
+
+        // Test với dữ liệu cụ thể: bạn có thể thay đổi cho đúng DB thật của bạn
+        long productId = 7; // ID sản phẩm bạn muốn test
+        String color = "Xanh"; // Màu sắc bạn đã insert trong DB
+        String size = "M";   // Size theo Enum Size (ví dụ: S, M, L, XL...)
+
+        ProductVariantDTO variant = dao.getVariant(productId, color, size);
+
+        if (variant != null) {
+            System.out.println("Variant found:");
+            System.out.println("ID: " + variant.getProduct_variant_id());
+            System.out.println("Product ID: " + variant.getProduct_id());
+            System.out.println("Color: " + variant.getColor());
+            System.out.println("Size: " + variant.getSize());
+            System.out.println("Quantity: " + variant.getQuantity());
+            System.out.println("SKU: " + variant.getSku());
+        } else {
+            System.out.println("Không tìm thấy variant với productId=" + productId + ", color=" + color + ", size=" + size);
+        }
+    }
 }

@@ -32,6 +32,7 @@ public class MainController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,11 +52,12 @@ public class MainController extends HttpServlet {
                 url = "/ProductController";
             } else if (isUserBuyingInforAction(action)) {
                 url = "/UserBuyingController";
-            } else if (isBuyingAction(action)){
+            } else if (isBuyingAction(action)) {
                 url = "/BuyingController";
-            }
-            else if(isImageAction(action)){
+            } else if (isImageAction(action)) {
                 url = "/ImageController";
+            } else if (isCartAction(action)) {
+                url = "/CartController";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,7 +132,7 @@ public class MainController extends HttpServlet {
                 || "update".equals(action)
                 || "delete".equals(action)
                 || "listAddress".equals(action)
-                ||"addUserBuyingInfor".equalsIgnoreCase(action);
+                || "addUserBuyingInfor".equalsIgnoreCase(action);
     }
 
     private boolean isUserAction(String action) {
@@ -138,16 +140,27 @@ public class MainController extends HttpServlet {
                 || "logout".equals(action)
                 || "register".equals(action);
     }
-    private boolean isImageAction(String action){
+
+    private boolean isImageAction(String action) {
         return "updateMainProductImage".equalsIgnoreCase(action)
-                ||"insertMainProductImage".equalsIgnoreCase(action)
-                ||"deleteProductImage".equalsIgnoreCase(action)
-                ||"AddToProductVariantImage".equalsIgnoreCase(action)
-                ||"DeleteProductVariantImage".equalsIgnoreCase(action);
+                || "insertMainProductImage".equalsIgnoreCase(action)
+                || "deleteProductImage".equalsIgnoreCase(action)
+                || "AddToProductVariantImage".equalsIgnoreCase(action)
+                || "DeleteProductVariantImage".equalsIgnoreCase(action);
     }
+
     private boolean isBuyingAction(String action) {
         return "buyNow".equals(action)
                 || "checkout".equalsIgnoreCase(action);
 //                || "updateStatus".equals(action);
     }
+
+    private boolean isCartAction(String action) {
+        return "addToCart".equalsIgnoreCase(action)
+                || "removeFromCart".equalsIgnoreCase(action)
+                || "updateCart".equalsIgnoreCase(action)
+                || "viewCart".equalsIgnoreCase(action)
+                || "getCartSize".equalsIgnoreCase(action);
+    }
+
 }
