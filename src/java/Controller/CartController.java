@@ -46,6 +46,7 @@ public class CartController extends HttpServlet {
             return;
         } else if ("viewCart".equalsIgnoreCase(action)) {
             cartService.handleViewCart(request, response);
+
             return;
         } else if ("getCartSize".equalsIgnoreCase(action)) {
             cartService.handleGetCartSize(request, response);
