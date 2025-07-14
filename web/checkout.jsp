@@ -169,10 +169,18 @@
                             <button type="submit" class="btn btn-primary btn-lg">
                                 Đặt hàng ngay
                             </button>
-                            <a href="MainController?action=viewDetailProduct&pid=${buyNowInfo.productId}"
-                               class="btn btn-secondary btn-lg ml-2">
-                                Quay lại
-                            </a>
+                            <c:if test="${not empty buyNowInfo}">
+                                <a href="MainController?action=viewDetailProduct&pid=${buyNowInfo.productId}"
+                                   class="btn btn-secondary btn-lg ml-2">
+                                    Quay lại
+                                </a>
+                            </c:if>
+                            <c:if test="${not empty cartInfos}">
+                                <a href="MainController?action=viewCart"
+                                   class="btn btn-secondary btn-lg ml-2">
+                                    Quay lại
+                                </a>
+                            </c:if>
                         </div>
                     </form>
                 </div>
