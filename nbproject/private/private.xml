@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="Group 20250517-08:55:04">
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/ProductController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/ProductVariantDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/MainController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/ProductService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/ProductDAO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/BrandDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/PageService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/BrandMapper.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/ProductDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/ProductMapper.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/BrandDAO.java</file>
-        </group>
         <group>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/BuyingService.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/cart.jsp</file>
@@ -23,6 +10,25 @@
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/detail.jsp</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/checkout.jsp</file>
+        </group>
+        <group name="Group 20250517-08:55:04">
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/UserMapper.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/assets/css/detail.css</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/detail.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/PageService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/UserDAO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/CartService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/PageController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/ProductController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/UserService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/ImageController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/homepage/homepage.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/index.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/category.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/util/JDBCConnection.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/homepage/banner.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/UserController.java</file>
         </group>
     </open-files>
 </project-private>
