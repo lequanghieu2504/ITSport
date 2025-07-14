@@ -132,7 +132,9 @@ public class MainController extends HttpServlet {
                 || "update".equals(action)
                 || "delete".equals(action)
                 || "listAddress".equals(action)
-                || "addUserBuyingInfor".equalsIgnoreCase(action);
+                || "addUserBuyingInfor".equalsIgnoreCase(action)
+                ||"updateUserBuyingInfor".equalsIgnoreCase(action)
+                ||"deleteUserBuyingInfor".equalsIgnoreCase(action);
     }
 
     private boolean isUserAction(String action) {

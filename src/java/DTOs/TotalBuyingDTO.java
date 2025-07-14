@@ -8,27 +8,44 @@ import java.util.List;
 public class TotalBuyingDTO {
     private Long buyingId;
     private Long userId;
-    private List<ItemDTO> items;           // danh sách sản phẩm (1 phần tử nếu mua ngay)
+    private List<ItemDTO> items; // danh sách sản phẩm
     private Double totalPrice;
-    private Long userBuyingInforId;
     private PaymentMethod paymentMethod;
     private Status status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    // ✅ Thêm các trường shipping mới:
+    private String shippingName;
+    private String shippingPhone;
+    private String shippingStreet;
+    private String shippingWard;
+    private String shippingDistrict;
+    private String shippingProvince;
+
     public TotalBuyingDTO() {
     }
 
-    public TotalBuyingDTO(Long buyingId, Long userId, List<ItemDTO> items, Double totalPrice, Long userBuyingInforId, PaymentMethod paymentMethod, Status status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public TotalBuyingDTO(Long buyingId, Long userId, List<ItemDTO> items, Double totalPrice,
+                          PaymentMethod paymentMethod, Status status,
+                          LocalDateTime createdAt, LocalDateTime updatedAt,
+                          String shippingName, String shippingPhone,
+                          String shippingStreet, String shippingWard,
+                          String shippingDistrict, String shippingProvince) {
         this.buyingId = buyingId;
         this.userId = userId;
         this.items = items;
         this.totalPrice = totalPrice;
-        this.userBuyingInforId=userBuyingInforId;
         this.paymentMethod = paymentMethod;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.shippingName = shippingName;
+        this.shippingPhone = shippingPhone;
+        this.shippingStreet = shippingStreet;
+        this.shippingWard = shippingWard;
+        this.shippingDistrict = shippingDistrict;
+        this.shippingProvince = shippingProvince;
     }
 
     public Long getBuyingId() {
@@ -63,16 +80,6 @@ public class TotalBuyingDTO {
         this.totalPrice = totalPrice;
     }
 
-    public Long getUserBuyingInforId() {
-        return userBuyingInforId;
-    }
-
-    public void setUserBuyingInforId(Long userBuyingInforId) {
-        this.userBuyingInforId = userBuyingInforId;
-    }
-
-   
-
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
@@ -105,6 +112,51 @@ public class TotalBuyingDTO {
         this.updatedAt = updatedAt;
     }
 
-    
-    
+    public String getShippingName() {
+        return shippingName;
+    }
+
+    public void setShippingName(String shippingName) {
+        this.shippingName = shippingName;
+    }
+
+    public String getShippingPhone() {
+        return shippingPhone;
+    }
+
+    public void setShippingPhone(String shippingPhone) {
+        this.shippingPhone = shippingPhone;
+    }
+
+    public String getShippingStreet() {
+        return shippingStreet;
+    }
+
+    public void setShippingStreet(String shippingStreet) {
+        this.shippingStreet = shippingStreet;
+    }
+
+    public String getShippingWard() {
+        return shippingWard;
+    }
+
+    public void setShippingWard(String shippingWard) {
+        this.shippingWard = shippingWard;
+    }
+
+    public String getShippingDistrict() {
+        return shippingDistrict;
+    }
+
+    public void setShippingDistrict(String shippingDistrict) {
+        this.shippingDistrict = shippingDistrict;
+    }
+
+    public String getShippingProvince() {
+        return shippingProvince;
+    }
+
+    public void setShippingProvince(String shippingProvince) {
+        this.shippingProvince = shippingProvince;
+    }
 }

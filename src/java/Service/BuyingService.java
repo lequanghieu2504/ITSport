@@ -45,11 +45,11 @@ public class BuyingService {
             String strColor = req.getParameter("StrColor");
             String strSize = req.getParameter("StrSize");
             String strQuantity = req.getParameter("StrQuantity");
-            
+
             System.out.println(strProductId + "1");
-            System.out.println(strColor +"2");
+            System.out.println(strColor + "2");
             System.out.println(strSize + "3");
-            System.out.println(strQuantity+"4");
+            System.out.println(strQuantity + "4");
 
             // Validate dữ liệu đầu vào
             if (strProductId == null || strQuantity == null) {
@@ -130,83 +130,83 @@ public class BuyingService {
             }
         }
     }
-    
-public void handleCartCheckoutProcess(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
-    // 1) Debug đầu vào
-    System.out.println("[handleCartCheckout] StrProductId[] = " + Arrays.toString(req.getParameterValues("StrProductId")));
-    System.out.println("[handleCartCheckout] StrColor[]     = " + Arrays.toString(req.getParameterValues("StrColor")));
-    System.out.println("[handleCartCheckout] StrSize[]      = " + Arrays.toString(req.getParameterValues("StrSize")));
-    System.out.println("[handleCartCheckout] StrQuantity[]  = " + Arrays.toString(req.getParameterValues("StrQuantity")));
 
-    try {
-        String[] pIds   = req.getParameterValues("StrProductId");
-        String[] colors = req.getParameterValues("StrColor");
-        String[] sizes  = req.getParameterValues("StrSize");
-        String[] qtys   = req.getParameterValues("StrQuantity");
+    public void handleCartCheckoutProcess(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        // 1) Debug đầu vào
+        System.out.println("[handleCartCheckout] StrProductId[] = " + Arrays.toString(req.getParameterValues("StrProductId")));
+        System.out.println("[handleCartCheckout] StrColor[]     = " + Arrays.toString(req.getParameterValues("StrColor")));
+        System.out.println("[handleCartCheckout] StrSize[]      = " + Arrays.toString(req.getParameterValues("StrSize")));
+        System.out.println("[handleCartCheckout] StrQuantity[]  = " + Arrays.toString(req.getParameterValues("StrQuantity")));
 
-        // 2) Validate cơ bản
-        if (pIds == null || colors == null || sizes == null || qtys == null
-                || pIds.length != colors.length
-                || pIds.length != sizes.length
-                || pIds.length != qtys.length) {
-            req.setAttribute("error", "Dữ liệu giỏ hàng không hợp lệ");
-            req.getRequestDispatcher("error.jsp").forward(req, resp);
-            return;
-        }
+        try {
+            String[] pIds = req.getParameterValues("StrProductId");
+            String[] colors = req.getParameterValues("StrColor");
+            String[] sizes = req.getParameterValues("StrSize");
+            String[] qtys = req.getParameterValues("StrQuantity");
 
-        // 3) Build DTO list
-        List<BuyNowInforDTO> cartInfos = new ArrayList<>(pIds.length);
-        for (int i = 0; i < pIds.length; i++) {
-            long productId = Long.parseLong(pIds[i]);
-            String color   = colors[i];
-            String size    = sizes[i];
-            int quantity   = Integer.parseInt(qtys[i]);
-
-            // Lấy dữ liệu
-            ProductVariantDTO variant = variantDAO.getByColorAndSize(color, size);
-            ProductDTO product = productDAO.getProductById(productId);
-
-            if (variant == null) {
-                throw new IllegalArgumentException("Không tìm thấy variant: " + color + " / " + size);
+            // 2) Validate cơ bản
+            if (pIds == null || colors == null || sizes == null || qtys == null
+                    || pIds.length != colors.length
+                    || pIds.length != sizes.length
+                    || pIds.length != qtys.length) {
+                req.setAttribute("error", "Dữ liệu giỏ hàng không hợp lệ");
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                return;
             }
 
-            // 3.a) Log chi tiết trước khi tạo DTO
-            System.out.println(String.format(
-                "Building item %d: productId=%d, productName=%s, variantId=%d, color=%s, size=%s, quantity=%d, productPrice=%.2f",
-                i, productId, product.getProduct_name(), variant.getProduct_variant_id(), color, size, quantity, product.getPrice()
-            ));
+            // 3) Build DTO list
+            List<BuyNowInforDTO> cartInfos = new ArrayList<>(pIds.length);
+            for (int i = 0; i < pIds.length; i++) {
+                long productId = Long.parseLong(pIds[i]);
+                String color = colors[i];
+                String size = sizes[i];
+                int quantity = Integer.parseInt(qtys[i]);
 
-            // Tạo DTO
-            BuyNowInforDTO info = new BuyNowInforDTO();
-            info.setProductId(productId);
-            info.setVariantId(variant.getProduct_variant_id());
-            info.setColor(color);
-            info.setSize(size);
-            info.setQuantity(quantity);
-            info.setPrice(product.getPrice());
-            info.setTotalPrice(product.getPrice() * quantity);
-            info.setProductName(product.getProduct_name());
+                // Lấy dữ liệu
+                ProductVariantDTO variant = variantDAO.getByColorAndSize(color, size);
+                ProductDTO product = productDAO.getProductById(productId);
 
-            // 3.b) Log toàn bộ DTO bằng toString()
-            System.out.println("Created DTO: " + info);
+                if (variant == null) {
+                    throw new IllegalArgumentException("Không tìm thấy variant: " + color + " / " + size);
+                }
 
-            cartInfos.add(info);
-        }
-        
-        req.setAttribute("cartInfos", cartInfos);
+                // 3.a) Log chi tiết trước khi tạo DTO
+                System.out.println(String.format(
+                        "Building item %d: productId=%d, productName=%s, variantId=%d, color=%s, size=%s, quantity=%d, productPrice=%.2f",
+                        i, productId, product.getProduct_name(), variant.getProduct_variant_id(), color, size, quantity, product.getPrice()
+                ));
 
-        // 4) Log toàn bộ list
-        System.out.println("Final cartInfos list:");
-        for (BuyNowInforDTO dto : cartInfos) {
-            System.out.println("  - " + dto);
-        }
+                // Tạo DTO
+                BuyNowInforDTO info = new BuyNowInforDTO();
+                info.setProductId(productId);
+                info.setVariantId(variant.getProduct_variant_id());
+                info.setColor(color);
+                info.setSize(size);
+                info.setQuantity(quantity);
+                info.setPrice(product.getPrice());
+                info.setTotalPrice(product.getPrice() * quantity);
+                info.setProductName(product.getProduct_name());
 
-        // 5) Lưu session
-        HttpSession session = req.getSession();
-        session.setAttribute("cartCheckoutInfo", cartInfos);
+                // 3.b) Log toàn bộ DTO bằng toString()
+                System.out.println("Created DTO: " + info);
 
-        // 6) Load địa chỉ user
+                cartInfos.add(info);
+            }
+
+            req.setAttribute("cartInfos", cartInfos);
+
+            // 4) Log toàn bộ list
+            System.out.println("Final cartInfos list:");
+            for (BuyNowInforDTO dto : cartInfos) {
+                System.out.println("  - " + dto);
+            }
+
+            // 5) Lưu session
+            HttpSession session = req.getSession();
+            session.setAttribute("cartCheckoutInfo", cartInfos);
+
+            // 6) Load địa chỉ user
             UserDTO currentUser = (UserDTO) session.getAttribute("user");
             if (currentUser != null) {
                 List<UserBuyingInfoDTO> userBuyingInfoDTOs = userBuyingInforDAO.getUserBuyingInforByUserId(currentUser.getUser_id());
@@ -215,26 +215,23 @@ public void handleCartCheckoutProcess(HttpServletRequest req, HttpServletRespons
                 }
             }
 
-        // 7) Forward sang checkout.jsp
-        req.getRequestDispatcher("checkout.jsp").forward(req, resp);
+            // 7) Forward sang checkout.jsp
+            req.getRequestDispatcher("checkout.jsp").forward(req, resp);
 
-    } catch (NumberFormatException e) {
-        req.setAttribute("error", "Dữ liệu số / ID không hợp lệ");
-        req.getRequestDispatcher("error.jsp").forward(req, resp);
+        } catch (NumberFormatException e) {
+            req.setAttribute("error", "Dữ liệu số / ID không hợp lệ");
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
 
-    } catch (IllegalArgumentException e) {
-        req.setAttribute("error", e.getMessage());
-        req.getRequestDispatcher("error.jsp").forward(req, resp);
+        } catch (IllegalArgumentException e) {
+            req.setAttribute("error", e.getMessage());
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        req.setAttribute("error", "Lỗi khi xử lý giỏ hàng");
-        req.getRequestDispatcher("error.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("error", "Lỗi khi xử lý giỏ hàng");
+            req.getRequestDispatcher("error.jsp").forward(req, resp);
+        }
     }
-}
-
-
-
 
 //    public int handleCheckout(HttpServletRequest req, HttpServletResponse resp) {
 //
@@ -359,8 +356,7 @@ public void handleCartCheckoutProcess(HttpServletRequest req, HttpServletRespons
 //            throw new IllegalStateException("Đặt hàng thất bại, vui lòng thử lại sau");
 //        }
 //    }
-    
-        public int handleCheckout(HttpServletRequest req, HttpServletResponse resp) {
+    public int handleCheckout(HttpServletRequest req, HttpServletResponse resp) {
         UserDTO currentUser = validateUser(req);
         TotalBuyingDTO dto = prepareOrderData(req, currentUser);
         return processTransaction(req, resp, dto);
@@ -376,7 +372,7 @@ public void handleCartCheckoutProcess(HttpServletRequest req, HttpServletRespons
     }
 
     private TotalBuyingDTO prepareOrderData(HttpServletRequest req, UserDTO user) {
-        
+
         String[] pIds = req.getParameterValues("productId");
         String[] vIds = req.getParameterValues("variantId");
         String[] qtys = req.getParameterValues("quantity");
@@ -397,51 +393,66 @@ public void handleCartCheckoutProcess(HttpServletRequest req, HttpServletRespons
             total += price * qty;
         }
 
-        //set cac thong tin lai
         TotalBuyingDTO dto = new TotalBuyingDTO();
         dto.setUserId(user.getUser_id());
         dto.setItems(items);
         dto.setTotalPrice(total);
 
-        //dia chi
+// Địa chỉ
         long addressId = Long.parseLong(req.getParameter("selectedAddress"));
         UserBuyingInfoDTO addr = userBuyingInforDAO.getUserBuyingInforById(addressId);
         if (addr == null) {
             throw new IllegalArgumentException("Vui lòng chọn địa chỉ giao hàng");
         }
-        dto.setUserBuyingInforId(addressId);
 
-        //payment
+// Gán thông tin địa chỉ vào DTO
+        dto.setShippingName(addr.getRecipientName());
+        dto.setShippingPhone(addr.getPhone());
+        dto.setShippingStreet(addr.getStreet());
+        dto.setShippingWard(addr.getWard());
+        dto.setShippingDistrict(addr.getDistrict());
+        dto.setShippingProvince(addr.getProvince());
+
+// Payment
         dto.setPaymentMethod(PaymentMethod.valueOf(req.getParameter("paymentMethod")));
         dto.setStatus(Status.PENDING);
+
         LocalDateTime now = LocalDateTime.now();
         dto.setCreatedAt(now);
         dto.setUpdatedAt(now);
 
         return dto;
     }
-    
+
     //tong duyet 1 lan cuoi, check cac logic de tao don hang
     private int processTransaction(HttpServletRequest req, HttpServletResponse resp, TotalBuyingDTO dto) {
-        try (Connection conn = JDBCConnection.getConnection()) {
-            HttpSession session = req.getSession();
+        HttpSession session = req.getSession();
+        try ( Connection conn = JDBCConnection.getConnection()) {
             conn.setAutoCommit(false);
+
             for (ItemDTO it : dto.getItems()) {
                 int stock = variantDAO.getStock(conn, it.getVariantId());
                 if (stock < it.getQuantity()) {
-                    session.setAttribute("message","Không đủ số lượng hàng!");
+                    conn.rollback();  // ✅ rollback rõ ràng
+                    session.setAttribute("message", "Không đủ số lượng hàng!");
                     return -1;
                 }
                 variantDAO.updateStock(conn, it.getVariantId(), stock - it.getQuantity());
             }
+
             int buyId = buyingDAO.insertBuying(dto, conn);
-            conn.commit();
+
+            conn.commit();  // ✅ Commit nếu không lỗi
+
             session.removeAttribute("buyNowInfo");
             session.setAttribute("message", "Đặt hàng thành công!");
             resp.sendRedirect(req.getContextPath() + "/MainController?action=loadForHomePage");
             return buyId;
+
         } catch (Exception e) {
+            e.printStackTrace();  // ❗ In log để debug lỗi thật
             throw new IllegalStateException("Đặt hàng thất bại, vui lòng thử lại sau");
         }
     }
+
 }

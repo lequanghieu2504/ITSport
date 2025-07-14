@@ -98,10 +98,10 @@
                                 <c:choose>
                                     <c:when test="${not empty userBuyingInfoDTOs}">
                                         <c:forEach var="address" items="${userBuyingInfoDTOs}" varStatus="status">
-                                            <div class="address-item">
+                                            <div class="address-item" id="addressItem${address.userBuyingInforId}">
                                                 <div class="address-actions">
                                                     <button type="button" class="btn btn-warning btn-sm" 
-                                                            onclick="editAddress(${address.userBuyingInforId})"
+                                                            onclick="editAddress(${address.userBuyingInforId}, '${address.recipientName}', '${address.province}', '${address.district}', '${address.ward}', '${address.street}', '${address.phone}')"
                                                             data-toggle="modal" data-target="#editAddressModal">
                                                         <i class="fas fa-edit"></i> Sửa
                                                     </button>
@@ -169,18 +169,10 @@
                             <button type="submit" class="btn btn-primary btn-lg">
                                 Đặt hàng ngay
                             </button>
-                            <c:if test="${not empty buyNowInfo}">
-                                <a href="MainController?action=viewDetailProduct&pid=${buyNowInfo.productId}"
-                                   class="btn btn-secondary btn-lg ml-2">
-                                    Quay lại
-                                </a>
-                            </c:if>
-                            <c:if test="${not empty cartInfos}">
-                                <a href="MainController?action=viewCart"
-                                   class="btn btn-secondary btn-lg ml-2">
-                                    Quay lại
-                                </a>
-                            </c:if>
+                            <a href="MainController?action=viewDetailProduct&pid=${buyNowInfo.productId}"
+                               class="btn btn-secondary btn-lg ml-2">
+                                Quay lại
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -478,35 +470,17 @@
                 }
             }
 
-            // Hàm sửa địa chỉ - cần load dữ liệu từ server
-            function editAddress(addressId) {
+            // Hàm sửa địa chỉ - load dữ liệu trực tiếp từ tham số
+            function editAddress(addressId, recipientName, province, district, ward, street, phone) {
                 document.getElementById('editAddressId').value = addressId;
+                document.getElementById('editRecipientName').value = recipientName;
+                document.getElementById('editStreet').value = street;
+                document.getElementById('editPhone').value = phone;
                 
-                // TODO: Gửi AJAX request để lấy thông tin địa chỉ hiện tại
-                // Hoặc có thể truyền dữ liệu qua JSP nếu cần
-                $.ajax({
-                    url: 'MainController',
-                    method: 'POST',
-                    data: {
-                        action: 'getUserBuyingInforById',
-                        userBuyingInforId: addressId
-                    },
-                    success: function(response) {
-                        // Giả sử response trả về JSON với thông tin địa chỉ
-                        if (response.success) {
-                            const address = response.data;
-                            document.getElementById('editRecipientName').value = address.recipientName;
-                            document.getElementById('editStreet').value = address.street;
-                            document.getElementById('editPhone').value = address.phone;
-                            
-                            // Set selected values cho province, district, ward
-                            setSelectedLocation(address.province, address.district, address.ward);
-                        }
-                    },
-                    error: function() {
-                        alert('Không thể tải thông tin địa chỉ. Vui lòng thử lại!');
-                    }
-                });
+                // Set selected values cho province, district, ward
+                setTimeout(() => {
+                    setSelectedLocation(province, district, ward);
+                }, 100);
             }
 
             // Hàm để set giá trị đã chọn cho province, district, ward
