@@ -266,3 +266,18 @@ select * from [User]
 Khang 13/7 2:00 Sua lai du lieu
 update Product set status =1 where 1=1
 delete from image where  image_id >= 1 and image_id <=9 
+
+
+Khang 14/7 6:37pm
+chinh sua bang Buying de chua luon thong tin mua hang
+ALTER TABLE Buyings
+ADD shippingName NVARCHAR(255),
+    shippingPhone NVARCHAR(50),
+    shippingStreet NVARCHAR(500),
+    shippingWard NVARCHAR(255),
+    shippingDistrict NVARCHAR(255),
+    shippingProvince NVARCHAR(255);
+
+ALTER TABLE Buyings
+DROP CONSTRAINT FK__Buyings__userBuy__6FE99F9F;
+
