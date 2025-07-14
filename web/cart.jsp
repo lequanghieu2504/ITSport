@@ -26,6 +26,7 @@
                         <c:otherwise>
                             <div class="cart-container">
                                 <c:forEach var="item" items="${listCartItem}">
+                                    <c:set var="cartTotal" value="${cartTotal + (item.quantity * item.product.price)}"/>
                                     <div class="cart-item row align-items-center">
                                         <!--                                         Hình ảnh 
                                                                                 <div class="col-md-2">
@@ -69,7 +70,7 @@
 
                                 <!-- Tổng tiền -->
                                 <div class="cart-summary">
-                                    Tổng cộng: <span>${sessionScope.cartTotal}₫</span>
+                                    Tổng cộng: <span>${cartTotal}₫</span>
                                 </div>
 
                                 <!-- Thanh toán -->
