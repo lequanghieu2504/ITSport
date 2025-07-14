@@ -281,3 +281,5 @@ ADD shippingName NVARCHAR(255),
 ALTER TABLE Buyings
 DROP CONSTRAINT FK__Buyings__userBuy__6FE99F9F;
 
+ALTER TABLE Buyings
+DROP COLUMN userBuyingInfor_Id;
