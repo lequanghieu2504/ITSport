@@ -19,7 +19,7 @@ public class CartService {
         HttpSession session = request.getSession();
         ClientDTO client = (ClientDTO) session.getAttribute("client");
         if (client == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Trả về mã 401
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
