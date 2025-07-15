@@ -125,6 +125,8 @@
         </div>
 
         <jsp:include page="/common/footer.jsp"/>
+        <jsp:include page="/common/popup.jsp" />
+
         <script src="assets/js/sidebar.js" defer></script>
     </body>
 </html>

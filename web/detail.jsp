@@ -177,6 +177,11 @@
 
 
             <jsp:include page="/common/footer.jsp"/>
+<<<<<<< HEAD
+=======
+            <jsp:include page="/common/popup.jsp" />
+
+>>>>>>> f95517dab6f9a549b4672e9784ae133e4576308a
             <script>
                 function changeMainImage(thumb) {
                     const mainImg = document.getElementById('mainProductImg');
@@ -230,6 +235,7 @@
                         body: formData
                     })
                             .then(response => {
+<<<<<<< HEAD
                                 if (response.status === 401) {
                                     window.location.href = "login.jsp";
                                     return;
@@ -237,6 +243,11 @@
                                 if (!response.ok)
                                     throw new Error("Lỗi khi thêm giỏ hàng");
                                 return response.json();
+=======
+                                if (!response.ok)
+                                    throw new Error("Lỗi khi thêm giỏ hàng");
+                                return response.text();
+>>>>>>> f95517dab6f9a549b4672e9784ae133e4576308a
                             })
                             .then(data => {
                                 showToast("Đã thêm vào giỏ hàng!");
@@ -280,7 +291,11 @@
                         toast.style.opacity = "0";
                         toast.style.transform = "translateY(-20px)";
                         setTimeout(() => toast.remove(), 500);
+<<<<<<< HEAD
                     }, 3000);
+=======
+                    }, 2000);
+>>>>>>> f95517dab6f9a549b4672e9784ae133e4576308a
                 }
             </script>
     </body>

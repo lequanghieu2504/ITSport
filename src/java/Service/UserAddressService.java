@@ -9,6 +9,7 @@ import DAO.UserBuyingInforDAO;
 import DTOs.UserBuyingInfoDTO;
 import DTOs.UserDTO;
 import Mapper.UserBuyingInforMapper;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -65,12 +66,11 @@ public class UserAddressService {
 //            e.printStackTrace();
 //        }
 //    }
-
     public void addUserBuyingInfor(HttpServletRequest request, HttpServletResponse response) {
-       
+
         UserBuyingInfoDTO userBuyingInfoDTO = UserBuyingInforMapper.toUserBuyingInfoDTOFromRequest(request);
-        UserDTO userDTO = (UserDTO)request.getSession().getAttribute("user");
-        if(userDTO== null){
+        UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
+        if (userDTO == null) {
             try {
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             } catch (ServletException ex) {
@@ -78,27 +78,111 @@ public class UserAddressService {
             } catch (IOException ex) {
                 Logger.getLogger(UserAddressService.class.getName()).log(Level.SEVERE, null, ex);
             }
-                    
-        }
-        else{
+
+        } else {
             userBuyingInfoDTO.setUserId(userDTO.getUser_id());
         }
-       if(userBuyingInfoDTO!=null){
-           boolean saved = userBuyingInforDAO.createUserBuyingInfo(userBuyingInfoDTO);
-           List<UserBuyingInfoDTO> userBuyingInfoDTOAfterAdd = userBuyingInforDAO.getUserBuyingInforByUserId(userDTO.getUser_id());
-           if(saved){
-               request.getSession().setAttribute("message", "them dia chi thanh cong");
-               request.getSession().setAttribute("userBuyingInfoDTOs", userBuyingInfoDTOAfterAdd);
-               try {
-                   request.getRequestDispatcher("checkout.jsp").forward(request, response);
-               } catch (ServletException ex) {
-                   Logger.getLogger(UserAddressService.class.getName()).log(Level.SEVERE, null, ex);
-               } catch (IOException ex) {
-                   Logger.getLogger(UserAddressService.class.getName()).log(Level.SEVERE, null, ex);
-               }
-           }
-       }
-        
-        
+        if (userBuyingInfoDTO != null) {
+            boolean saved = userBuyingInforDAO.createUserBuyingInfo(userBuyingInfoDTO);
+            List<UserBuyingInfoDTO> userBuyingInfoDTOAfterAdd = userBuyingInforDAO.getUserBuyingInforByUserId(userDTO.getUser_id());
+            if (saved) {
+                request.getSession().setAttribute("message", "them dia chi thanh cong");
+                request.getSession().setAttribute("userBuyingInfoDTOs", userBuyingInfoDTOAfterAdd);
+                try {
+                    request.getRequestDispatcher("checkout.jsp").forward(request, response);
+                } catch (ServletException ex) {
+                    Logger.getLogger(UserAddressService.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(UserAddressService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+
+    public void deleteUserBuyingInforById(HttpServletRequest request, HttpServletResponse response) {
+        String url = "checkout.jsp";
+
+        try {
+            String strUserInforId = request.getParameter("userBuyingInforId");
+            long userInforId = Long.parseLong(strUserInforId);
+
+            UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
+            long userId = userDTO.getUser_id();
+
+            boolean success = userBuyingInforDAO.deleteUserInforById(userInforId);
+
+            if (success) {
+                request.getSession().setAttribute("message", "Xóa thông tin thành công");
+            } else {
+                request.getSession().setAttribute("message", "Xóa thông tin không thành công");
+            }
+
+            // Refresh the address list after delete
+            List<UserBuyingInfoDTO> listU = userBuyingInforDAO.getUserBuyingInforByUserId(userId);
+            request.setAttribute("userBuyingInfoDTOs", listU);
+
+            // Forward back to checkout page
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("message", "Có lỗi xảy ra khi xóa thông tin");
+            try {
+                RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                dispatcher.forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void updateUserBuyingInforById(HttpServletRequest request, HttpServletResponse response) {
+        String url = "checkout.jsp"; // Set the redirect URL to checkout page
+
+        try {
+            UserBuyingInfoDTO userBuyingInfoDTO = UserBuyingInforMapper.toUserBuyingInfoDTOFromRequest(request);
+            UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
+            long userId = userDTO.getUser_id();
+
+            if (userBuyingInfoDTO != null) {
+                boolean success = userBuyingInforDAO.updateUserBuyingInfor(userBuyingInfoDTO);
+                if (success) {
+                    request.getSession().setAttribute("message", "Thay đổi thông tin thành công");
+                } else {
+                    request.getSession().setAttribute("message", "Thay đổi thông tin không thành công");
+                }
+            }
+
+            // Refresh the address list after update
+            List<UserBuyingInfoDTO> listU = userBuyingInforDAO.getUserBuyingInforByUserId(userId);
+            request.setAttribute("userBuyingInfoDTOs", listU);
+
+            // Preserve the checkout data (buyNowInfo or cartInfos) in session or request
+            // This ensures the checkout page displays correctly after redirect
+            if (request.getSession().getAttribute("buyNowInfo") != null) {
+                // If it's a buy now flow, the buyNowInfo should already be in session
+                // No additional action needed
+            } else if (request.getSession().getAttribute("cartInfos") != null) {
+                // If it's a cart checkout flow, the cartInfos should already be in session
+                // No additional action needed
+            }
+
+            // Forward back to checkout page
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("message", "Có lỗi xảy ra khi cập nhật thông tin");
+            url = "checkout.jsp";
+            try {
+                RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                dispatcher.forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

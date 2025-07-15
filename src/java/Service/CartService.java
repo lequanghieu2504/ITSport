@@ -45,6 +45,8 @@ public class CartService {
 
     public void handleViewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+        session.removeAttribute("buyNowInfo");
+
         UserDTO user = (UserDTO) session.getAttribute("user");
         ClientDTO client = (ClientDTO) session.getAttribute("client");
 

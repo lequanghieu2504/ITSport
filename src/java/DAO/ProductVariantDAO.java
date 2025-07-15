@@ -183,32 +183,23 @@ public class ProductVariantDAO {
         return null;
     }
 
-    public static void main(String[] args) {
-//        ProductVariantDAO dao = new ProductVariantDAO();
-//        List<ProductVariantDTO> dtos = dao.getByProductVariantId(7);
-//        for (ProductVariantDTO dto : dtos) {
-//            System.out.println(dto);
-//
-//        }
-        ProductVariantDAO dao = new ProductVariantDAO();
-
-        // Test với dữ liệu cụ thể: bạn có thể thay đổi cho đúng DB thật của bạn
-        long productId = 7; // ID sản phẩm bạn muốn test
-        String color = "Xanh"; // Màu sắc bạn đã insert trong DB
-        String size = "M";   // Size theo Enum Size (ví dụ: S, M, L, XL...)
-
-        ProductVariantDTO variant = dao.getVariant(productId, color, size);
-
-        if (variant != null) {
-            System.out.println("Variant found:");
-            System.out.println("ID: " + variant.getProduct_variant_id());
-            System.out.println("Product ID: " + variant.getProduct_id());
-            System.out.println("Color: " + variant.getColor());
-            System.out.println("Size: " + variant.getSize());
-            System.out.println("Quantity: " + variant.getQuantity());
-            System.out.println("SKU: " + variant.getSku());
-        } else {
-            System.out.println("Không tìm thấy variant với productId=" + productId + ", color=" + color + ", size=" + size);
+    public ProductVariantDTO getProductDetailBySku(String sku) {
+        String sql = GET_PRODUCT_VARIANT + "and sku like ?";
+        ProductVariantDTO productVariantDTO = new ProductVariantDTO();
+        try(Connection conn = JDBCConnection.getConnection();PreparedStatement ps = conn.prepareStatement(sql)){
+            
+            ps.setString(1, sku);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                productVariantDTO = ProductVariantMapper.toProductVariantDTOFromResultSet(rs);
+            }
+            return productVariantDTO;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductVariantDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        return null;
+        }
 }

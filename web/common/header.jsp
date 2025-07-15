@@ -17,7 +17,7 @@
         <!-- Navigation -->
         <nav class="main-nav d-none d-lg-block">
             <ul class="nav-list list-unstyled d-flex mb-0">
-                <li><a href="${pageContext.request.contextPath}/home">Trang chủ</a></li>
+                <li><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
                 <li><a href="${pageContext.request.contextPath}/shop">Cửa hàng</a></li>
                 <li><a href="${pageContext.request.contextPath}/about">Về chúng tôi</a></li>
                 <li><a href="${pageContext.request.contextPath}/new">Sản phẩm mới</a></li>
@@ -39,16 +39,12 @@
                     <span id="cart-size" class="cart-badge">${sessionScope.cartSize}</span>
                 </c:if>
             </a>
-            <!-- Wishlist -->
-            <a href="wishlist" class="icon-wrapper mr-3" title="Yêu thích">
-                <i class="fa-solid fa-heart icon-item"></i>
-            </a>
 
             <!-- Login / Register or Username / Logout -->
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
                     <!-- Nếu đã login -->
-                    <span class="mr-2">Xin chào, ${sessionScope.user.fullName}</span>
+                    <span class="mr-2">Xin chào, ${sessionScope.user.fullName} </span>
                     <a href="MainController?action=logout" class="btn btn-outline-light btn-sm">Logout</a>
                 </c:when>
                 <c:otherwise>

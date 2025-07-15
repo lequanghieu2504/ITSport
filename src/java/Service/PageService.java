@@ -5,6 +5,7 @@
 package Service;
 
 import DAO.BrandDAO;
+import DAO.BuyingDAO;
 import DAO.CartDAO;
 import DAO.CartItemDAO;
 import DAO.CategoryDAO;
@@ -12,13 +13,16 @@ import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
+import DTOs.BuyingForAdminDTO;
 import DTOs.CartItemDTO;
 import DTOs.CategoryDTO;
 import DTOs.ImageDTO;
 import DTOs.ClientDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
+import DTOs.TotalBuyingDTO;
 import Enums.ImageType;
+import Enums.Status;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -54,6 +59,7 @@ public class PageService {
     ImageService imageService;
     CartDAO cartDAO = new CartDAO();
     CartItemDAO cartItemDAO = new CartItemDAO();
+    BuyingDAO buyingDAO = new BuyingDAO();
 
     public PageService(ServletContext context) {
         this.imageService = new ImageService(context);
@@ -323,6 +329,46 @@ public class PageService {
                 }
             }
 
+            // *** PHẦN QUAN TRỌNG: Tìm selectedVariant ***
+            ProductVariantDTO selectedVariant = null;
+
+            // Nếu đã chọn đủ color và size
+            if (selectedColor != null && !selectedColor.trim().isEmpty()
+                    && selectedSize != null && !selectedSize.trim().isEmpty()) {
+
+                // Tìm variant chính xác với color và size đã chọn
+                selectedVariant = filteredVariants.stream()
+                        .filter(v -> v.getColor() != null && selectedColor.trim().equals(v.getColor().trim())
+                        && v.getSize() != null && selectedSize.trim().equals(v.getSize().toString().trim()))
+                        .findFirst()
+                        .orElse(null);
+            } // Nếu chỉ chọn color (không có size requirements)
+            else if (selectedColor != null && !selectedColor.trim().isEmpty() && availableSizes.isEmpty()) {
+                selectedVariant = filteredVariants.stream()
+                        .filter(v -> v.getColor() != null && selectedColor.trim().equals(v.getColor().trim()))
+                        .findFirst()
+                        .orElse(null);
+            } // Nếu chỉ chọn size (không có color requirements)
+            else if (selectedSize != null && !selectedSize.trim().isEmpty() && availableColors.isEmpty()) {
+                selectedVariant = filteredVariants.stream()
+                        .filter(v -> v.getSize() != null && selectedSize.trim().equals(v.getSize().toString().trim()))
+                        .findFirst()
+                        .orElse(null);
+            } // Nếu sản phẩm không có variants (chỉ có 1 variant duy nhất)
+            else if (availableColors.isEmpty() && availableSizes.isEmpty() && !filteredVariants.isEmpty()) {
+                selectedVariant = filteredVariants.get(0);
+            }
+
+            // Tính tổng số lượng available
+            int totalQuantity = 0;
+            if (selectedVariant != null) {
+                totalQuantity = selectedVariant.getQuantity();
+            } else {
+                totalQuantity = filteredVariants.stream()
+                        .mapToInt(ProductVariantDTO::getQuantity)
+                        .sum();
+            }
+
             // Lấy ảnh chính
             List<ImageDTO> mainImageDTOs = imageService.getImagesByTarget(productId, ImageType.PRODUCT_MAIN);
             if (mainImageDTOs != null && !mainImageDTOs.isEmpty()) {
@@ -340,6 +386,8 @@ public class PageService {
             request.setAttribute("availableSizes", availableSizes);
             request.setAttribute("selectedColor", selectedColor);
             request.setAttribute("selectedSize", selectedSize);
+            request.setAttribute("selectedVariant", selectedVariant); // *** THÊM DÒNG NÀY ***
+            request.setAttribute("totalQuantity", totalQuantity);      // *** THÊM DÒNG NÀY ***
             request.setAttribute("pid", productId);
             request.setAttribute("product", product);
 
@@ -377,5 +425,30 @@ public class PageService {
         }
         return listResult;
     }
+
+   public void handleLoadListBuyingForAdmin(HttpServletRequest request, HttpServletResponse response) {
+    try {
+        System.out.println("vao duoc handle load list buying rồi ");
+        
+        String url = "admin/adminDashboard.jsp";
+
+        List<BuyingForAdminDTO> listBuying = buyingDAO.getAllBuyingForAdmin();
+
+        // Dùng enum Status để tránh hardcode
+        List<Status> statuses = Arrays.asList(Status.values());
+
+        // Gán vào request để JSP duyệt được
+        request.setAttribute("statuses", statuses);
+        request.setAttribute("section", "listBuyings");
+        request.setAttribute("buyings", listBuying);
+
+        request.getRequestDispatcher(url).forward(request, response);
+    } catch (ServletException ex) {
+        Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
 
 }

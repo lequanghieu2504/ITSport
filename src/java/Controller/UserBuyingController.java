@@ -37,7 +37,10 @@ public class UserBuyingController extends HttpServlet {
             
             case "addUserBuyingInfor":
                 service.addUserBuyingInfor(request,response);
-                
+            case "deleteUserBuyingInfor":
+                service.deleteUserBuyingInforById(request,response);
+            case "updateUserBuyingInfor":
+                service.updateUserBuyingInforById(request,response);
         }
     }
 

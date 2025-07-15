@@ -97,6 +97,7 @@
         </c:if>
 
         <a href="${pageContext.request.contextPath}/MainController?action=loadForCreateForm" class="add-button">+</a>
+        <jsp:include page="/common/popup.jsp" />
 
     </body>
 </html>

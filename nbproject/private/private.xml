@@ -2,8 +2,30 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group name="Group 20250517-08:55:04"/>
         <group/>
         <group/>
+=======
+        <group>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/BuyingService.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/cart.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/register.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/BuyingController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/detail.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/checkout.jsp</file>
+        </group>
+        <group name="Group 20250517-08:55:04">
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/admin/adminDashboard.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/admin/Buying/BuyingManager.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/TotalBuyingDTO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/PageService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/BuyingDAO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/PageController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/BuyingMapper.java</file>
+        </group>
+>>>>>>> f95517dab6f9a549b4672e9784ae133e4576308a
     </open-files>
 </project-private>

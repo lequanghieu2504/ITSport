@@ -12,8 +12,8 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/footer.css"/>
     </head>
     <body>
+        <jsp:include page="/common/header.jsp"/>
         <div class="page-wrapper d-flex flex-column min-vh-100">
-            <jsp:include page="/common/header.jsp"/>
 
             <main class="flex-grow-1">
                 <div class="container-xl py-5">
@@ -25,12 +25,12 @@
                         </c:when>
                         <c:otherwise>
                             <div class="cart-container">
-                                <c:forEach var="item" items="${listCartItem}">
-                                    <div class="cart-item row align-items-center">
-                                        <!--                                         Hình ảnh 
-                                                                                <div class="col-md-2">
-                                                                                    <img class="product-img img-fluid" src="assets/images/${item.product}" alt="${item.product.product_name}"/>
-                                                                                </div>-->
+                                <c:forEach var="item" items="${listCartItem}" varStatus="status">
+                                    <div class="cart-item row align-items-center" id="cart-item-${status.index}">
+                                        <!-- Checkbox chọn sản phẩm -->
+                                        <div class="col-md-1">
+                                            <input type="checkbox" class="form-check-input checkout-checkbox" checked>
+                                        </div>
 
                                         <!-- Tên sản phẩm và biến thể -->
                                         <div class="col-md-4">
@@ -45,12 +45,12 @@
 
                                         <!-- Giá -->
                                         <div class="col-md-2">
-                                            <div class="product-price">${item.product.price}₫</div>
+                                            <div class="product-price" data-price="${item.product.price}">${item.product.price}₫</div>
                                         </div>
 
                                         <!-- Số lượng -->
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control quantity-input" name="quantity" value="${item.quantity}" min="1"/>
+                                            <input type="number" class="form-control quantity-input" name="quantity" value="${item.quantity}" min="1">
                                         </div>
 
                                         <!-- Xóa -->
@@ -69,13 +69,22 @@
 
                                 <!-- Tổng tiền -->
                                 <div class="cart-summary">
-                                    Tổng cộng: <span>${sessionScope.cartTotal}₫</span>
+                                    Tổng cộng: <span id="cart-total">0₫</span>
                                 </div>
 
                                 <!-- Thanh toán -->
-                                <div class="text-end mt-3">
-                                    <a href="checkout" class="btn btn-success">Thanh toán</a>
-                                </div>
+                                <form action="BuyingController" method="post" class="text-end mt-3" id="checkout-form">
+                                    <input type="hidden" name="action" value="cartCheckout"/>
+                                    <c:forEach var="item" items="${listCartItem}" varStatus="status">
+                                        <div class="hidden-inputs" id="hidden-${status.index}">
+                                            <input type="hidden" name="StrProductId" value="${item.product.product_id}"/>
+                                            <input type="hidden" name="StrColor"     value="${item.variant.color}"/>
+                                            <input type="hidden" name="StrSize"      value="${item.variant.size}"/>
+                                            <input type="hidden" name="StrQuantity"  value="${item.quantity}"/>
+                                        </div>
+                                    </c:forEach>
+                                    <button type="submit" class="btn btn-success">Thanh toán</button>
+                                </form>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -83,6 +92,45 @@
             </main>
 
             <jsp:include page="/common/footer.jsp"/>
+            <jsp:include page="/common/popup.jsp" />
+
         </div>
+
+        <!-- Script tính lại total và lọc item đã chọn -->
+        <script>
+            function updateCartTotal() {
+                let total = 0;
+                const items = document.querySelectorAll('.cart-item');
+                items.forEach((item, index) => {
+                    const checkbox = item.querySelector('.checkout-checkbox');
+                    const price = parseInt(item.querySelector('.product-price').dataset.price);
+                    const quantity = parseInt(item.querySelector('.quantity-input').value);
+                    if (checkbox.checked) {
+                        total += price * quantity;
+                    }
+                });
+                document.getElementById('cart-total').textContent = total.toLocaleString('vi-VN') + '₫';
+            }
+
+            // Tính lại khi tick/bỏ tick hoặc thay đổi số lượng
+            const checkboxes = document.querySelectorAll('.checkout-checkbox');
+            checkboxes.forEach(cb => cb.addEventListener('change', updateCartTotal));
+            const quantities = document.querySelectorAll('.quantity-input');
+            quantities.forEach(qty => qty.addEventListener('input', updateCartTotal));
+
+            updateCartTotal(); // Tính lúc load
+
+            // Xử lý submit: chỉ gửi sản phẩm được tick
+            const form = document.getElementById('checkout-form');
+            form.addEventListener('submit', function (e) {
+                const checkboxes = document.querySelectorAll('.checkout-checkbox');
+                checkboxes.forEach((checkbox, index) => {
+                    const hiddenInputs = document.getElementById('hidden-' + index);
+                    if (!checkbox.checked) {
+                        hiddenInputs.remove();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

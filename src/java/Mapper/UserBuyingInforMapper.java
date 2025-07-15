@@ -22,6 +22,7 @@ public class UserBuyingInforMapper {
         String ward = request.getParameter("ward");
         String street = request.getParameter("street");
         String phone = request.getParameter("phone");
+        String userBuyingInforIdStr = request.getParameter("userBuyingInforId"); // For update operations
 
         // Trim để loại bỏ khoảng trắng dư
         if (recipientName != null) {
@@ -42,7 +43,14 @@ public class UserBuyingInforMapper {
         if (phone != null) {
             phone = phone.trim();
         }
+        System.out.println("recipientName: " + recipientName);
+        System.out.println("province: " + province);
+        System.out.println("district: " + district);
+        System.out.println("ward: " + ward);
+        System.out.println("street: " + street);
+        System.out.println("phone: " + phone);
 
+        // Validate required fields
         if (recipientName == null || recipientName.isEmpty()
                 || province == null || province.isEmpty()
                 || district == null || district.isEmpty()
@@ -52,7 +60,20 @@ public class UserBuyingInforMapper {
             throw new IllegalArgumentException("Missing required buying info fields");
         }
 
-        return new UserBuyingInfoDTO(recipientName, province, district, ward, street, phone);
+        // Create DTO
+        UserBuyingInfoDTO dto = new UserBuyingInfoDTO(recipientName, province, district, ward, street, phone);
+
+        // Set ID if it's an update operation
+        if (userBuyingInforIdStr != null && !userBuyingInforIdStr.trim().isEmpty()) {
+            try {
+                long userBuyingInforId = Long.parseLong(userBuyingInforIdStr.trim());
+                dto.setUserBuyingInforId(userBuyingInforId); // Assuming you have a setter for ID
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid userBuyingInforId format: " + userBuyingInforIdStr);
+            }
+        }
+
+        return dto;
     }
 
     public static UserBuyingInfoDTO toUserBuyingInforFromResultSet(ResultSet rs) {
