@@ -117,4 +117,28 @@ public class CartDAO {
         }
         return cart_id;
     }
+
+    public static void main(String[] args) {
+        CartDAO dao = new CartDAO();
+
+        // Dữ liệu thực tế trong DB
+        int cartId = 1;
+        int productId = 1;
+        int variantId = 1;
+
+        // In trước khi update
+        System.out.println("Before update:");
+        CartItemDTO before = dao.getCartItem(cartId, productId, variantId);
+        System.out.println(before);
+
+        // Gọi update
+        int newQuantity = 7;
+        dao.updateCartItemQuantity(cartId, productId, variantId, newQuantity);
+
+        // In sau khi update
+        System.out.println("After update:");
+        CartItemDTO after = dao.getCartItem(cartId, productId, variantId);
+        System.out.println(after);
+    }
+
 }

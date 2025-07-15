@@ -82,22 +82,37 @@ public class CartService {
     }
 
     public void handleUpdateCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        ClientDTO client = (ClientDTO) session.getAttribute("client");
-        if (client == null) {
-            response.sendRedirect("login.jsp");
-            return;
+        try {
+            HttpSession session = request.getSession();
+            ClientDTO client = (ClientDTO) session.getAttribute("client");
+            if (client == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+
+            int productId = Integer.parseInt(request.getParameter("product_id"));
+            int variantId = Integer.parseInt(request.getParameter("variant_id"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+            System.out.println("product_id param: " + request.getParameter("product_id"));
+            System.out.println("variant_id param: " + request.getParameter("variant_id"));
+            System.out.println("quantity param: " + request.getParameter("quantity"));
+
+            System.out.println("Updating: " + productId + " - " + variantId + " - " + quantity);
+
+            cartDAO.updateCartItemQuantity(client.getCart_id(), productId, variantId, quantity);
+
+            int cartSize = cartDAO.getCartSize(client.getCart_id());
+            session.setAttribute("cartSize", cartSize);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"message\":\"updated\"}");
+
+        } catch (Exception e) {
+            e.printStackTrace(); // In lỗi chi tiết ra console
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
-
-        int productId = Integer.parseInt(request.getParameter("product_id"));
-        int variantId = Integer.parseInt(request.getParameter("variant_id"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-        cartDAO.updateCartItemQuantity(client.getCart_id(), productId, variantId, quantity);
-
-        int cartSize = cartDAO.getCartSize(client.getCart_id());
-        session.setAttribute("cartSize", cartSize);
-        response.sendRedirect("MainController?action=viewCart");
     }
 
     public void handleGetCartSize(HttpServletRequest request, HttpServletResponse response) throws IOException {

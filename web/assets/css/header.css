@@ -33,7 +33,7 @@ a:active {
     top: 0;
     z-index: 1000;
     transition: var(--transition);
-    padding: 0 10.5rem;
+    padding: 0 10.5rem !important; 
 }
 
 .sports-header:hover {
