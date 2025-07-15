@@ -110,7 +110,7 @@
                                                         <i class="fas fa-trash"></i> Xóa
                                                     </button>
                                                 </div>
-                                                
+
                                                 <div class="address-info">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="selectedAddress"
@@ -379,146 +379,146 @@
         <!-- ✅ SCRIPT địa chỉ chuẩn Axios -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
         <script>
-            let addressData = null;
+                                                                let addressData = null;
 
-            // Khởi tạo dữ liệu địa chỉ cho cả 2 modal
-            const Parameter = {
-                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-                method: "GET",
-                responseType: "application/json",
-            };
+                                                                // Khởi tạo dữ liệu địa chỉ cho cả 2 modal
+                                                                const Parameter = {
+                                                                    url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                                                                    method: "GET",
+                                                                    responseType: "application/json",
+                                                                };
 
-            axios(Parameter).then(function (result) {
-                addressData = result.data;
-                renderCity(result.data, 'provinceSelect', 'districtSelect', 'wardSelect');
-                renderCity(result.data, 'editProvinceSelect', 'editDistrictSelect', 'editWardSelect');
-            });
+                                                                axios(Parameter).then(function (result) {
+                                                                    addressData = result.data;
+                                                                    renderCity(result.data, 'provinceSelect', 'districtSelect', 'wardSelect');
+                                                                    renderCity(result.data, 'editProvinceSelect', 'editDistrictSelect', 'editWardSelect');
+                                                                });
 
-            function renderCity(data, provinceId, districtId, wardId) {
-                const citis = document.getElementById(provinceId);
-                const district = document.getElementById(districtId);
-                const wards = document.getElementById(wardId);
+                                                                function renderCity(data, provinceId, districtId, wardId) {
+                                                                    const citis = document.getElementById(provinceId);
+                                                                    const district = document.getElementById(districtId);
+                                                                    const wards = document.getElementById(wardId);
 
-                // Clear existing options
-                citis.length = 1;
-                district.length = 1;
-                wards.length = 1;
+                                                                    // Clear existing options
+                                                                    citis.length = 1;
+                                                                    district.length = 1;
+                                                                    wards.length = 1;
 
-                for (const x of data) {
-                    const opt = document.createElement('option');
-                    opt.value = x.Name;
-                    opt.text = x.Name;
-                    opt.setAttribute('data-id', x.Id);
-                    citis.options.add(opt);
-                }
+                                                                    for (const x of data) {
+                                                                        const opt = document.createElement('option');
+                                                                        opt.value = x.Name;
+                                                                        opt.text = x.Name;
+                                                                        opt.setAttribute('data-id', x.Id);
+                                                                        citis.options.add(opt);
+                                                                    }
 
-                citis.onchange = function () {
-                    district.length = 1;
-                    wards.length = 1;
+                                                                    citis.onchange = function () {
+                                                                        district.length = 1;
+                                                                        wards.length = 1;
 
-                    if (this.options[this.selectedIndex].dataset.id !== "") {
-                        const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
-                        for (const k of result[0].Districts) {
-                            const opt = document.createElement('option');
-                            opt.value = k.Name;
-                            opt.text = k.Name;
-                            opt.setAttribute('data-id', k.Id);
-                            district.options.add(opt);
-                        }
-                    }
-                };
+                                                                        if (this.options[this.selectedIndex].dataset.id !== "") {
+                                                                            const result = data.filter(n => n.Id === this.options[this.selectedIndex].dataset.id);
+                                                                            for (const k of result[0].Districts) {
+                                                                                const opt = document.createElement('option');
+                                                                                opt.value = k.Name;
+                                                                                opt.text = k.Name;
+                                                                                opt.setAttribute('data-id', k.Id);
+                                                                                district.options.add(opt);
+                                                                            }
+                                                                        }
+                                                                    };
 
-                district.onchange = function () {
-                    wards.length = 1;
-                    const dataCity = data.filter(n => n.Id === citis.options[citis.selectedIndex].dataset.id);
+                                                                    district.onchange = function () {
+                                                                        wards.length = 1;
+                                                                        const dataCity = data.filter(n => n.Id === citis.options[citis.selectedIndex].dataset.id);
 
-                    if (this.options[this.selectedIndex].dataset.id !== "") {
-                        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
-                        for (const w of dataWards) {
-                            const opt = document.createElement('option');
-                            opt.value = w.Name;
-                            opt.text = w.Name;
-                            opt.setAttribute('data-id', w.Id);
-                            wards.options.add(opt);
-                        }
-                    }
-                };
-            }
+                                                                        if (this.options[this.selectedIndex].dataset.id !== "") {
+                                                                            const dataWards = dataCity[0].Districts.filter(n => n.Id === this.options[this.selectedIndex].dataset.id)[0].Wards;
+                                                                            for (const w of dataWards) {
+                                                                                const opt = document.createElement('option');
+                                                                                opt.value = w.Name;
+                                                                                opt.text = w.Name;
+                                                                                opt.setAttribute('data-id', w.Id);
+                                                                                wards.options.add(opt);
+                                                                            }
+                                                                        }
+                                                                    };
+                                                                }
 
-            // Hàm xóa địa chỉ
-            function deleteAddress(addressId) {
-                if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
-                    // Tạo form tạm thời để gửi request xóa
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = 'MainController';
-                    
-                    const actionInput = document.createElement('input');
-                    actionInput.type = 'hidden';
-                    actionInput.name = 'action';
-                    actionInput.value = 'deleteUserBuyingInfor';
-                    
-                    const idInput = document.createElement('input');
-                    idInput.type = 'hidden';
-                    idInput.name = 'userBuyingInforId';
-                    idInput.value = addressId;
-                    
-                    form.appendChild(actionInput);
-                    form.appendChild(idInput);
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            }
+                                                                // Hàm xóa địa chỉ
+                                                                function deleteAddress(addressId) {
+                                                                    if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
+                                                                        // Tạo form tạm thời để gửi request xóa
+                                                                        const form = document.createElement('form');
+                                                                        form.method = 'POST';
+                                                                        form.action = 'MainController';
 
-            // Hàm sửa địa chỉ - load dữ liệu trực tiếp từ tham số
-            function editAddress(addressId, recipientName, province, district, ward, street, phone) {
-                document.getElementById('editAddressId').value = addressId;
-                document.getElementById('editRecipientName').value = recipientName;
-                document.getElementById('editStreet').value = street;
-                document.getElementById('editPhone').value = phone;
-                
-                // Set selected values cho province, district, ward
-                setTimeout(() => {
-                    setSelectedLocation(province, district, ward);
-                }, 100);
-            }
+                                                                        const actionInput = document.createElement('input');
+                                                                        actionInput.type = 'hidden';
+                                                                        actionInput.name = 'action';
+                                                                        actionInput.value = 'deleteUserBuyingInfor';
 
-            // Hàm để set giá trị đã chọn cho province, district, ward
-            function setSelectedLocation(provinceName, districtName, wardName) {
-                const provinceSelect = document.getElementById('editProvinceSelect');
-                const districtSelect = document.getElementById('editDistrictSelect');
-                const wardSelect = document.getElementById('editWardSelect');
+                                                                        const idInput = document.createElement('input');
+                                                                        idInput.type = 'hidden';
+                                                                        idInput.name = 'userBuyingInforId';
+                                                                        idInput.value = addressId;
 
-                // Set province
-                for (let i = 0; i < provinceSelect.options.length; i++) {
-                    if (provinceSelect.options[i].value === provinceName) {
-                        provinceSelect.selectedIndex = i;
-                        provinceSelect.onchange(); // Trigger change event
-                        break;
-                    }
-                }
+                                                                        form.appendChild(actionInput);
+                                                                        form.appendChild(idInput);
+                                                                        document.body.appendChild(form);
+                                                                        form.submit();
+                                                                    }
+                                                                }
 
-                // Set district after province is set
-                setTimeout(() => {
-                    for (let i = 0; i < districtSelect.options.length; i++) {
-                        if (districtSelect.options[i].value === districtName) {
-                            districtSelect.selectedIndex = i;
-                            districtSelect.onchange(); // Trigger change event
-                            break;
-                        }
-                    }
+                                                                // Hàm sửa địa chỉ - load dữ liệu trực tiếp từ tham số
+                                                                function editAddress(addressId, recipientName, province, district, ward, street, phone) {
+                                                                    document.getElementById('editAddressId').value = addressId;
+                                                                    document.getElementById('editRecipientName').value = recipientName;
+                                                                    document.getElementById('editStreet').value = street;
+                                                                    document.getElementById('editPhone').value = phone;
 
-                    // Set ward after district is set
-                    setTimeout(() => {
-                        for (let i = 0; i < wardSelect.options.length; i++) {
-                            if (wardSelect.options[i].value === wardName) {
-                                wardSelect.selectedIndex = i;
-                                break;
-                            }
-                        }
-                    }, 100);
-                }, 100);
-            }
+                                                                    // Set selected values cho province, district, ward
+                                                                    setTimeout(() => {
+                                                                        setSelectedLocation(province, district, ward);
+                                                                    }, 100);
+                                                                }
+
+                                                                // Hàm để set giá trị đã chọn cho province, district, ward
+                                                                function setSelectedLocation(provinceName, districtName, wardName) {
+                                                                    const provinceSelect = document.getElementById('editProvinceSelect');
+                                                                    const districtSelect = document.getElementById('editDistrictSelect');
+                                                                    const wardSelect = document.getElementById('editWardSelect');
+
+                                                                    // Set province
+                                                                    for (let i = 0; i < provinceSelect.options.length; i++) {
+                                                                        if (provinceSelect.options[i].value === provinceName) {
+                                                                            provinceSelect.selectedIndex = i;
+                                                                            provinceSelect.onchange(); // Trigger change event
+                                                                            break;
+                                                                        }
+                                                                    }
+
+                                                                    // Set district after province is set
+                                                                    setTimeout(() => {
+                                                                        for (let i = 0; i < districtSelect.options.length; i++) {
+                                                                            if (districtSelect.options[i].value === districtName) {
+                                                                                districtSelect.selectedIndex = i;
+                                                                                districtSelect.onchange(); // Trigger change event
+                                                                                break;
+                                                                            }
+                                                                        }
+
+                                                                        // Set ward after district is set
+                                                                        setTimeout(() => {
+                                                                            for (let i = 0; i < wardSelect.options.length; i++) {
+                                                                                if (wardSelect.options[i].value === wardName) {
+                                                                                    wardSelect.selectedIndex = i;
+                                                                                    break;
+                                                                                }
+                                                                            }
+                                                                        }, 100);
+                                                                    }, 100);
+                                                                }
         </script>
 
         <!-- ✅ Popper & Bootstrap JS -->
@@ -526,6 +526,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
         <jsp:include page="/common/footer.jsp"/>
+        <jsp:include page="/common/popup.jsp" />
 
     </body>
 </html>

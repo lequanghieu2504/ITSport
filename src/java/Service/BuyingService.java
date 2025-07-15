@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BuyingService {
 
@@ -452,6 +454,26 @@ public class BuyingService {
         } catch (Exception e) {
             e.printStackTrace();  // ❗ In log để debug lỗi thật
             throw new IllegalStateException("Đặt hàng thất bại, vui lòng thử lại sau");
+        }
+    }
+
+    public void handleUpdateBuyingStatus(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            String strBuyingId = req.getParameter("strBuyingId");
+            Long BuyingId = Long.parseLong(strBuyingId);
+            String status  = req.getParameter("status");
+            boolean success = buyingDAO.updateStatusByBuyingId(BuyingId,status);
+            if(success){
+                req.getSession().setAttribute("message", "Cập nhật thành công");
+            }
+            else{
+                req.getSession().setAttribute("message", "Cập nhật thất bại");
+            }
+            req.getRequestDispatcher("MainController?action=loadForListBuying").forward(req, resp);
+        } catch (ServletException ex) {
+            Logger.getLogger(BuyingService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(BuyingService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

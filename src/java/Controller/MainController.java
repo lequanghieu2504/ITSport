@@ -114,7 +114,8 @@ public class MainController extends HttpServlet {
                 || "loadForProductCreateVariantForm".equalsIgnoreCase(action)
                 || "LoadViewProductDetail".equalsIgnoreCase(action)
                 || "LoadForcreateVariantForm".equalsIgnoreCase(action)
-                || "viewDetailProduct".equalsIgnoreCase(action);
+                || "viewDetailProduct".equalsIgnoreCase(action)
+                ||"loadForListBuying".equalsIgnoreCase(action);
 
     }
 
@@ -124,7 +125,8 @@ public class MainController extends HttpServlet {
                 || "deleteProduct".equalsIgnoreCase(action)
                 || "createVariant".equalsIgnoreCase(action)
                 || "updateProduct".equalsIgnoreCase(action)
-                || "productByCategory".equalsIgnoreCase(action);
+                || "productByCategory".equalsIgnoreCase(action)
+                ||"GetProductDetail".equalsIgnoreCase(action);
     }
 
     private boolean isUserBuyingInforAction(String action) {
@@ -154,7 +156,8 @@ public class MainController extends HttpServlet {
     private boolean isBuyingAction(String action) {
         return "buyNow".equals(action)
                 || "checkout".equalsIgnoreCase(action)
-                || "cartCheckout".equals(action);
+                || "cartCheckout".equals(action)
+                ||"UpdateBuyingStatus".equalsIgnoreCase(action);
     }
 
     private boolean isCartAction(String action) {

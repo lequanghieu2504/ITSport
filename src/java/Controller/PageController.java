@@ -70,6 +70,10 @@ public class PageController extends HttpServlet {
             pageService.handleViewDetailProduct(request, response);
             return;
         }
+        else if("loadForListBuying".equalsIgnoreCase(action)){
+            pageService.handleLoadListBuyingForAdmin(request,response);
+            return;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

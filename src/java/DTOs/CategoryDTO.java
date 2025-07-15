@@ -12,6 +12,15 @@ public class CategoryDTO {
     private long category_id;
     private String category_name;
     private long parent_id;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public CategoryDTO(long category_id, String category_name, long parent_id) {
         this.category_id = category_id;

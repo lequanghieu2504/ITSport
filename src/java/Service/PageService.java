@@ -5,6 +5,7 @@
 package Service;
 
 import DAO.BrandDAO;
+import DAO.BuyingDAO;
 import DAO.CartDAO;
 import DAO.CartItemDAO;
 import DAO.CategoryDAO;
@@ -12,13 +13,16 @@ import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
+import DTOs.BuyingForAdminDTO;
 import DTOs.CartItemDTO;
 import DTOs.CategoryDTO;
 import DTOs.ImageDTO;
 import DTOs.ClientDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
+import DTOs.TotalBuyingDTO;
 import Enums.ImageType;
+import Enums.Status;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -54,6 +59,7 @@ public class PageService {
     ImageService imageService;
     CartDAO cartDAO = new CartDAO();
     CartItemDAO cartItemDAO = new CartItemDAO();
+    BuyingDAO buyingDAO = new BuyingDAO();
 
     public PageService(ServletContext context) {
         this.imageService = new ImageService(context);
@@ -419,5 +425,30 @@ public class PageService {
         }
         return listResult;
     }
+
+   public void handleLoadListBuyingForAdmin(HttpServletRequest request, HttpServletResponse response) {
+    try {
+        System.out.println("vao duoc handle load list buying rồi ");
+        
+        String url = "admin/adminDashboard.jsp";
+
+        List<BuyingForAdminDTO> listBuying = buyingDAO.getAllBuyingForAdmin();
+
+        // Dùng enum Status để tránh hardcode
+        List<Status> statuses = Arrays.asList(Status.values());
+
+        // Gán vào request để JSP duyệt được
+        request.setAttribute("statuses", statuses);
+        request.setAttribute("section", "listBuyings");
+        request.setAttribute("buyings", listBuying);
+
+        request.getRequestDispatcher(url).forward(request, response);
+    } catch (ServletException ex) {
+        Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
 
 }

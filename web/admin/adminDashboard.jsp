@@ -38,6 +38,8 @@
             <h3>Admin Menu</h3>
             <a href="adminDashBoard.jsp?section=revenue">Revenue</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
+            <a href="${pageContext.request.contextPath}/MainController?action=loadForListBuying">Booking</a>
+
         </div>
 
         <div class="content">
@@ -61,7 +63,13 @@
                     <jsp:include page="product/ProductDetail.jsp"/>
                 </c:when>
                 <c:when test="${section == 'CreateDetailProduct'}">
-                    <jsp:include page="product/CreateProductVariantForm.jsp"/>
+                    <jsp:include page="product/createProductForm.jsp"/>
+                </c:when>
+                <c:when test="${section == 'listBuyings'}">
+                    <jsp:include page="Buying/BuyingManager.jsp"/>
+                </c:when>
+                <c:when test="${section == 'detailBuying'}">
+                    <jsp:include page="Buying/detailProductVariant.jsp"/>
                 </c:when>
                 <c:otherwise>
                     <h2>Welcome to the Admin Dashboard</h2>

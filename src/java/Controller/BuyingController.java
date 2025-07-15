@@ -35,6 +35,9 @@ public class BuyingController extends HttpServlet {
         else if("cartCheckout".equalsIgnoreCase(action)){
             buyingService.handleCartCheckoutProcess(req,resp);
         }
+        else if("UpdateBuyingStatus".equalsIgnoreCase(action)){
+            buyingService.handleUpdateBuyingStatus(req,resp);
+        }
     }
 
     @Override protected void doGet (HttpServletRequest r, HttpServletResponse s)

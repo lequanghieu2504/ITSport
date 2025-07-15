@@ -48,6 +48,8 @@
 
         <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">
             &larr; Quay lại danh sách
-        </a>
+        </a>        
+        <jsp:include page="/common/popup.jsp" />
+
     </body>
 </html>

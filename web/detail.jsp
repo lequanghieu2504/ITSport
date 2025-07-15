@@ -172,111 +172,113 @@
                 </div>
             </div>
 
-        
 
-        <jsp:include page="/common/footer.jsp"/>
-        <script>
-            function changeMainImage(thumb) {
-                const mainImg = document.getElementById('mainProductImg');
-                const mainSrc = mainImg.src;
-                mainImg.src = thumb.src;
-                thumb.src = mainSrc;
-            }
 
-            // Đồng bộ số lượng giữa các form
-            document.getElementById('quantity').addEventListener('change', function () {
-                const quantity = this.value;
-                document.getElementById('cartQuantity').value = quantity;
-                document.getElementById('buyQuantity').value = quantity;
-            });
+            <jsp:include page="/common/footer.jsp"/>
+            <jsp:include page="/common/popup.jsp" />
 
-            // Kiểm tra đã chọn màu và size chưa
-            function validateSelection(action) {
-                const selectedColor = "${selectedColor}";
-                const selectedSize = "${selectedSize}";
-                const hasColors = ${not empty availableColors};
-                const hasSizes = ${not empty availableSizes};
-
-                let missingSelections = [];
-
-                if (hasColors && !selectedColor) {
-                    missingSelections.push("màu sắc");
+            <script>
+                function changeMainImage(thumb) {
+                    const mainImg = document.getElementById('mainProductImg');
+                    const mainSrc = mainImg.src;
+                    mainImg.src = thumb.src;
+                    thumb.src = mainSrc;
                 }
 
-                if (hasSizes && !selectedSize) {
-                    missingSelections.push("kích thước");
+                // Đồng bộ số lượng giữa các form
+                document.getElementById('quantity').addEventListener('change', function () {
+                    const quantity = this.value;
+                    document.getElementById('cartQuantity').value = quantity;
+                    document.getElementById('buyQuantity').value = quantity;
+                });
+
+                // Kiểm tra đã chọn màu và size chưa
+                function validateSelection(action) {
+                    const selectedColor = "${selectedColor}";
+                    const selectedSize = "${selectedSize}";
+                    const hasColors = ${not empty availableColors};
+                    const hasSizes = ${not empty availableSizes};
+
+                    let missingSelections = [];
+
+                    if (hasColors && !selectedColor) {
+                        missingSelections.push("màu sắc");
+                    }
+
+                    if (hasSizes && !selectedSize) {
+                        missingSelections.push("kích thước");
+                    }
+
+                    if (missingSelections.length > 0) {
+                        showToast("Vui lòng chọn " + missingSelections.join(" và ") + " trước khi " +
+                                (action === 'buy' ? 'mua hàng' : 'thêm vào giỏ hàng') + "!");
+                        return false;
+                    }
+
+                    return true;
                 }
 
-                if (missingSelections.length > 0) {
-                    showToast("Vui lòng chọn " + missingSelections.join(" và ") + " trước khi " +
-                            (action === 'buy' ? 'mua hàng' : 'thêm vào giỏ hàng') + "!");
+                // Gửi form thêm giỏ hàng bằng ajax
+                function addToCartAjax(event) {
+                    event.preventDefault();
+
+                    const form = document.getElementById("addToCartForm");
+                    const formData = new FormData(form);
+
+                    fetch("MainController", {
+                        method: "POST",
+                        body: formData
+                    })
+                            .then(response => {
+                                if (!response.ok)
+                                    throw new Error("Lỗi khi thêm giỏ hàng");
+                                return response.text();
+                            })
+                            .then(data => {
+                                showToast("Đã thêm vào giỏ hàng!");
+                                updateCartIcon();
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                showToast("Có lỗi xảy ra khi thêm giỏ hàng!");
+                            });
+
                     return false;
                 }
 
-                return true;
-            }
-
-            // Gửi form thêm giỏ hàng bằng ajax
-            function addToCartAjax(event) {
-                event.preventDefault();
-
-                const form = document.getElementById("addToCartForm");
-                const formData = new FormData(form);
-
-                fetch("MainController", {
-                    method: "POST",
-                    body: formData
-                })
-                        .then(response => {
-                            if (!response.ok)
-                                throw new Error("Lỗi khi thêm giỏ hàng");
-                            return response.text();
-                        })
-                        .then(data => {
-                            showToast("Đã thêm vào giỏ hàng!");
-                            updateCartIcon();
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            showToast("Có lỗi xảy ra khi thêm giỏ hàng!");
-                        });
-
-                return false;
-            }
-
-            // Cập nhật số lượng giỏ hàng ở icon
-            function updateCartIcon() {
-                fetch("MainController?action=getCartSize")
-                        .then(response => response.json())
-                        .then(data => {
-                            const cartIcon = document.getElementById("cart-size");
-                            if (cartIcon)
-                                cartIcon.textContent = data.size;
-                        });
-            }
-
-            // Hiển thị popup toast
-            function showToast(message) {
-                let toast = document.getElementById("toast-message");
-
-                if (!toast) {
-                    toast = document.createElement("div");
-                    toast.id = "toast-message";
-                    toast.className = "toast";
-                    document.body.appendChild(toast);
+                // Cập nhật số lượng giỏ hàng ở icon
+                function updateCartIcon() {
+                    fetch("MainController?action=getCartSize")
+                            .then(response => response.json())
+                            .then(data => {
+                                const cartIcon = document.getElementById("cart-size");
+                                if (cartIcon)
+                                    cartIcon.textContent = data.size;
+                            });
                 }
 
-                toast.textContent = message;
-                toast.style.opacity = "1";
-                toast.style.transform = "translateY(0)";
+                // Hiển thị popup toast
+                function showToast(message) {
+                    let toast = document.getElementById("toast-message");
 
-                setTimeout(() => {
-                    toast.style.opacity = "0";
-                    toast.style.transform = "translateY(-20px)";
-                    setTimeout(() => toast.remove(), 500);
-                }, 2000);
-            }
-        </script>
+                    if (!toast) {
+                        toast = document.createElement("div");
+                        toast.id = "toast-message";
+                        toast.className = "toast";
+                        document.body.appendChild(toast);
+                    }
+
+                    toast.textContent = message;
+                    toast.style.opacity = "1";
+                    toast.style.transform = "translateY(0)";
+
+                    setTimeout(() => {
+                        toast.style.opacity = "0";
+                        toast.style.transform = "translateY(-20px)";
+                        setTimeout(() => toast.remove(), 500);
+                    }, 2000);
+                }
+            </script>
     </body>
 </html>
 

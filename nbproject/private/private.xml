@@ -11,28 +11,15 @@
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/checkout.jsp</file>
         </group>
-<<<<<<< HEAD
         <group name="Group 20250517-08:55:04">
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/UserMapper.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/assets/css/detail.css</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/admin/adminDashboard.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/admin/Buying/BuyingManager.jsp</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/MainController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/detail.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/TotalBuyingDTO.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/PageService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/UserDAO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/CartService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/BuyingDAO.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/PageController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/ProductController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/UserService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/ImageController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/homepage/homepage.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/index.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/category.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/util/JDBCConnection.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/homepage/banner.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/UserController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/BuyingMapper.java</file>
         </group>
-=======
-        <group name="Group 20250517-08:55:04"/>
->>>>>>> checkoutHieu
     </open-files>
 </project-private>

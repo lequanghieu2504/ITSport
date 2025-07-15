@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +34,7 @@ public class ProductService {
     private static final BrandDAO brandDAO = new BrandDAO();
     private ImageService imageService;
     private static final ImageDAO imageDAO = new ImageDAO();
+    private static final ProductVariantDAO PRODUCT_VARIANT_DAO = new ProductVariantDAO();
 
     public ProductService(ServletContext context) {
         this.imageService = new ImageService(context);
@@ -254,4 +256,19 @@ public class ProductService {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void handleViewDetailForAdmin(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String sku = request.getParameter("sku");
+            ProductDAO dao = new ProductDAO();
+            ProductVariantDTO productVariantDTO = PRODUCT_VARIANT_DAO.getProductDetailBySku(sku);
+            request.setAttribute("section", "detailBuying");
+            request.setAttribute("productVariant", productVariantDTO);
+            request.getRequestDispatcher("admin/adminDashboard.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

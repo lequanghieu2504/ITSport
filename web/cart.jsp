@@ -92,6 +92,8 @@
             </main>
 
             <jsp:include page="/common/footer.jsp"/>
+            <jsp:include page="/common/popup.jsp" />
+
         </div>
 
         <!-- Script tính lại total và lọc item đã chọn -->
@@ -120,7 +122,7 @@
 
             // Xử lý submit: chỉ gửi sản phẩm được tick
             const form = document.getElementById('checkout-form');
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 const checkboxes = document.querySelectorAll('.checkout-checkbox');
                 checkboxes.forEach((checkbox, index) => {
                     const hiddenInputs = document.getElementById('hidden-' + index);
