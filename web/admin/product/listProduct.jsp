@@ -1,63 +1,78 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Danh sách sản phẩm</title>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid #ccc;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            a.button {
-                padding: 5px 10px;
-                background-color: #3498db;
-                color: white;
-                text-decoration: none;
-                border-radius: 3px;
-            }
-            a.button:hover {
-                background-color: #2980b9;
-            }
-            .actions a {
-                margin-right: 5px;
-            }
-            .add-button {
-                display: inline-block;
-                margin-top: 15px;
-                padding: 10px 15px;
-                background-color: #2ecc71;
-                color: white;
-                font-weight: bold;
-                border-radius: 50%;
-                font-size: 24px;
-                text-align: center;
-                line-height: 1;
-                text-decoration: none;
-            }
-            .add-button:hover {
-                background-color: #27ae60;
-            }
-        </style>
-    </head>
-    <body>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
 
-        <h2>Danh sách sản phẩm</h2>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
-        <c:if test="${empty productList}">
-            <p>Chưa có sản phẩm nào.</p>
-        </c:if>
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #00b894, #0984e3);
+            color: #fff;
+            padding: 25px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .page-header h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+        .table-actions a {
+            margin-right: 8px;
+        }
+        .add-product-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            font-size: 26px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
 
-        <c:if test="${not empty productList}">
-            <table>
+<div class="page-header">
+    <h1><i class="bi bi-list-ul"></i> Danh sách sản phẩm</h1>
+</div>
+
+<div class="container mb-5">
+
+    <c:if test="${empty productList}">
+        <div class="alert alert-info text-center">
+            Chưa có sản phẩm nào.
+        </div>
+    </c:if>
+
+    <c:if test="${not empty productList}">
+        <!-- Tìm kiếm -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="input-group" style="max-width: 400px;">
+                <input type="text" id="searchProductInput" class="form-control"
+                       placeholder="Tìm kiếm sản phẩm..." onkeyup="searchProduct()">
+                <button class="btn btn-outline-secondary" type="button" onclick="searchProduct()">
+                    <i class="bi bi-search"></i> Tìm
+                </button>
+            </div>
+        </div>
+
+        <!-- Bảng sản phẩm -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Tên</th>
@@ -67,6 +82,8 @@
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
+                </thead>
+                <tbody>
                 <c:forEach var="p" items="${productList}">
                     <tr>
                         <td>${p.product_id}</td>
@@ -74,30 +91,75 @@
                             <a href="${pageContext.request.contextPath}/MainController?action=LoadViewProductDetail&StrProductId=${p.product_id}">
                                 ${p.product_name}
                             </a>
-                        </td>                  
+                        </td>
                         <td>${p.price} đ</td>
                         <td>${p.category_name}</td>
                         <td>${p.brand_name}</td>
-                        <td><form action="${pageContext.request.contextPath}/MainController" method="post" style="display:inline;">
+                        <td>
+                            <form action="${pageContext.request.contextPath}/MainController" method="post" class="d-inline">
                                 <input type="hidden" name="action" value="toggleStatus"/>
                                 <input type="hidden" name="StrProductId" value="${p.product_id}" />
-                                <button type="submit" name="status" value="${!p.status}" 
-                                        style="background: none; border: none;">
-                                    <img src="${pageContext.request.contextPath}/images/${p.status ? 'on.png' : 'off.png'}" 
-                                         alt="${p.status ? 'Active' : 'Inactive'}" width="24" height="24"/>
+                                <button type="submit" name="status" value="${!p.status}" class="btn btn-link p-0">
+                                    <i class="bi ${p.status ? 'bi-toggle-on text-success' : 'bi-toggle-off text-secondary'}"
+                                       style="font-size: 1.5rem;"></i>
                                 </button>
-                            </form></td>
-                        <td class="actions">
-                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=loadEditForm&StrProductId=${p.product_id}">Sửa</a>
-                            <a class="button" href="${pageContext.request.contextPath}/MainController?action=deleteProduct&StrProductId=${p.product_id}" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">Xóa</a>
+                            </form>
+                        </td>
+                        <td class="table-actions">
+                            <a class="btn btn-sm btn-primary"
+                               href="${pageContext.request.contextPath}/MainController?action=loadEditForm&StrProductId=${p.product_id}">
+                                <i class="bi bi-pencil-square"></i> Sửa
+                            </a>
+                            <a class="btn btn-sm btn-danger"
+                               href="${pageContext.request.contextPath}/MainController?action=deleteProduct&StrProductId=${p.product_id}"
+                               onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
+                </tbody>
             </table>
-        </c:if>
+        </div>
+    </c:if>
 
-        <a href="${pageContext.request.contextPath}/MainController?action=loadForCreateForm" class="add-button">+</a>
-        <jsp:include page="/common/popup.jsp" />
+    <!-- Nút Thêm mới -->
+    <a href="${pageContext.request.contextPath}/MainController?action=loadForCreateForm"
+       class="btn btn-success add-product-btn shadow">
+        <i class="bi bi-plus"></i>
+    </a>
 
-    </body>
+</div>
+
+<jsp:include page="/common/popup.jsp" />
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script Tìm kiếm -->
+<script>
+    function searchProduct() {
+        const input = document.getElementById("searchProductInput");
+        const filter = input.value.toLowerCase();
+        const table = document.querySelector(".table-responsive table");
+        const rows = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < rows.length; i++) { // Bỏ header
+            const cells = rows[i].getElementsByTagName("td");
+            let found = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                const cell = cells[j];
+                if (cell && cell.innerText.toLowerCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = found ? "" : "none";
+        }
+    }
+</script>
+
+</body>
 </html>

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,10 +24,13 @@ import util.JDBCConnection;
 public class BrandDAO {
 
     private static final String GET_ALL_BRAND = "SELECT * FROM Brand";
+    private static final String INSERT_BRAND = "INSERT INTO Brand";
 
     public List<BrandDTO> getAllBrand() {
+        String sql = "	SELECT b.brand_id, b.name AS brand_name,i.file_name AS image_url,i.image_id AS image_id FROM Brand b LEFT JOIN image i ON b.brand_id = i.target_id AND i.target_type = 'BRAND'  ORDER BY b.brand_id";
+
         List<BrandDTO> listB = new ArrayList<>();
-        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(GET_ALL_BRAND)) {
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -42,11 +46,30 @@ public class BrandDAO {
         return null;
     }
 
-    public static void main(String[] args) {
-        BrandDAO dao = new BrandDAO();
-        List<BrandDTO> list = dao.getAllBrand();
-        for (BrandDTO brandDTO : list) {
-            System.out.println(brandDTO);
+    public long insertBrand(String brandName) {
+        long newBrandId = -1; // Mặc định lỗi
+
+        String sql = "INSERT INTO Brand (name) VALUES (?)";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, brandName);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try ( ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        newBrandId = rs.getLong(1); // Lấy brand_id mới
+                    }
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BrandDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return newBrandId;
     }
+
 }

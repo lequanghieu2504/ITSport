@@ -13,6 +13,15 @@ public class CategoryDTO {
     private String category_name;
     private long parent_id;
     private String imageUrl;
+    private long imageId;
+
+    public long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
+    }
 
     public String getImageUrl() {
         return imageUrl;

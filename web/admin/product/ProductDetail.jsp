@@ -1,128 +1,105 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Chi tiết sản phẩm</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background: #fafafa;
-                color: #333;
-                line-height: 1.6;
-            }
-            .container {
-                max-width: 960px;
-                margin: 40px auto;
-                padding: 0 20px;
-            }
-            h2, h3, h4 {
-                margin-bottom: 15px;
-                color: #2c3e50;
-            }
-            .product-info {
-                padding: 20px;
-                background: #ffffff;
-                border-radius: 8px;
-                border: 1px solid #ddd;
-                margin-bottom: 30px;
-            }
-            .product-info p {
-                margin: 8px 0;
-            }
-            .image-gallery {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-                margin-bottom: 25px;
-            }
-            .image-gallery img {
-                width: 140px;
-                height: auto;
-                border-radius: 6px;
-                border: 1px solid #ccc;
-                object-fit: cover;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 25px;
-                background: #ffffff;
-                border: 1px solid #ddd;
-            }
-            th, td {
-                border: 1px solid #ddd;
-                padding: 10px;
-                text-align: center;
-            }
-            th {
-                background: #f5f5f5;
-                font-weight: bold;
-            }
-            td img {
-                margin: 5px;
-                border-radius: 4px;
-            }
-            .add-button {
-                display: inline-block;
-                padding: 10px 20px;
-                background-color: #3498db;
-                color: white;
-                font-weight: bold;
-                border-radius: 5px;
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-            }
-            .add-button:hover {
-                background-color: #2980b9;
-            }
-            a.back-link {
-                display: inline-block;
-                margin-top: 20px;
-                text-decoration: none;
-                color: #555;
-            }
-            a.back-link:hover {
-                text-decoration: underline;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Sản Phẩm</title>
 
-            <h2>Chi tiết sản phẩm</h2>
+    <!-- Bootstrap CSS + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
-            <div class="product-info">
+    <style>
+        body {
+            background: #f8f9fc;
+        }
+        .header-section {
+            background: linear-gradient(135deg, #4e73df, #224abe);
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-section h1 {
+            font-weight: 700;
+        }
+        .image-gallery img {
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            line-height: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header-section">
+        <h1><i class="bi bi-box-seam"></i> Chi Tiết Sản Phẩm</h1>
+    </div>
+
+    <div class="container mb-5">
+
+        <!-- Product Info -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Thông Tin Sản Phẩm</h5>
                 <p><strong>ID:</strong> ${product.product_id}</p>
                 <p><strong>Tên:</strong> ${product.product_name}</p>
                 <p><strong>Mô tả:</strong> ${product.description}</p>
                 <p><strong>Giá:</strong> ${product.price} đ</p>
-                <p><strong>Trạng thái:</strong> ${product.status ? "Hoạt động" : "Không hoạt động"}</p>
+                <p><strong>Trạng thái:</strong>
+                    <span class="badge bg-${product.status ? 'success' : 'secondary'}">
+                        ${product.status ? "Hoạt động" : "Không hoạt động"}
+                    </span>
+                </p>
             </div>
+        </div>
 
-            <!-- Ảnh đại diện -->
-            <h3>Ảnh đại diện sản phẩm</h3>
-            <div class="image-gallery">
+        <!-- Main Images -->
+        <div class="mb-4">
+            <h5>Ảnh Đại Diện</h5>
+            <div class="row">
                 <c:forEach var="img" items="${productMainImages}">
-                    <img src="${pageContext.request.contextPath}/${img.file_name}" alt="Main Image">
+                    <div class="col-md-3 mb-3">
+                        <img src="${pageContext.request.contextPath}/${img.file_name}" alt="Main Image" class="img-thumbnail w-100">
+                    </div>
                 </c:forEach>
             </div>
+        </div>
 
-            <!-- Danh sách biến thể -->
-            <h3>Biến thể sản phẩm</h3>
-            <c:if test="${empty variantList}">
-                <p>Chưa có biến thể nào cho sản phẩm này.</p>
-            </c:if>
+        <!-- Variants -->
+        <h5>Biến Thể Sản Phẩm</h5>
+        <c:if test="${empty variantList}">
+            <div class="alert alert-info">Chưa có biến thể nào cho sản phẩm này.</div>
+        </c:if>
 
-            <c:if test="${not empty variantList}">
-                <table>
+        <c:if test="${not empty variantList}">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
                     <tr>
                         <th>ID</th>
                         <th>Size</th>
-                        <th>Số lượng</th>
-                        <th>Màu sắc</th>
+                        <th>Số Lượng</th>
+                        <th>Màu Sắc</th>
                         <th>SKU</th>
                     </tr>
+                </thead>
+                <tbody>
                     <c:forEach var="v" items="${variantList}">
                         <tr>
                             <td>${v.product_variant_id}</td>
@@ -132,68 +109,61 @@
                             <td>${v.sku}</td>
                         </tr>
                     </c:forEach>
-                </table>
-            </c:if>
+                </tbody>
+            </table>
 
-            <!-- ✅ Luôn cho phép thêm ảnh cho từng biến thể -->
-            <c:if test="${not empty variantList}">
-                <h4>Ảnh chi tiết của từng biến thể</h4>
-                <c:forEach var="v" items="${variantList}">
-                    <p><strong>Biến thể ID ${v.product_variant_id}:</strong></p>
+            <!-- Gallery từng biến thể -->
+            <h5 class="mt-4">Ảnh Chi Tiết Biến Thể</h5>
+            <c:forEach var="v" items="${variantList}">
+                <h6 class="mt-3">Biến Thể ID ${v.product_variant_id}</h6>
+                <div class="row mb-3">
+                    <c:forEach var="img" items="${variantImageMap[v.product_variant_id]}">
+                        <div class="col-md-3 position-relative mb-3">
+                            <img src="${pageContext.request.contextPath}/${img.file_name}" class="img-thumbnail w-100">
+                            <form action="${pageContext.request.contextPath}/MainController"
+                                  method="post" style="position: absolute; top: 5px; right: 5px;">
+                                <input type="hidden" name="action" value="DeleteProductVariantImage">
+                                <input type="hidden" name="StrVariantId" value="${v.product_variant_id}">
+                                <input type="hidden" name="StrProductId" value="${product.product_id}">
+                                <input type="hidden" name="StrImageId" value="${img.image_id}">
+                                <button type="submit" class="delete-btn">&times;</button>
+                            </form>
+                        </div>
+                    </c:forEach>
+                </div>
 
-                    <!-- ✅ Gallery biến thể kèm nút Xóa -->
-                    <div class="image-gallery">
-                        <c:forEach var="img" items="${variantImageMap[v.product_variant_id]}">
-                            <div style="position: relative; display: inline-block;">
-                                <img src="${pageContext.request.contextPath}/${img.file_name}" alt="Variant Image">
-
-                                <!-- Nút Xóa ảnh -->
-                                <form action="${pageContext.request.contextPath}/MainController"
-                                      method="post" style="position: absolute; top: 5px; right: 5px;">
-                                    <input type="hidden" name="action" value="DeleteProductVariantImage">
-                                    <input type="hidden" name="StrVariantId" value="${v.product_variant_id}">
-                                    <input type="hidden" name="StrProductId" value="${product.product_id}">
-                                    <input type="hidden" name="StrImageId" value="${img.image_id}">
-                                    <button type="submit" style="
-                                            background: red;
-                                            border: none;
-                                            color: white;
-                                            font-weight: bold;
-                                            border-radius: 50%;
-                                            width: 24px;
-                                            height: 24px;
-                                            cursor: pointer;">×</button>
-                                </form>
-                            </div>
-                        </c:forEach>
+                <!-- Form thêm ảnh -->
+                <form action="${pageContext.request.contextPath}/MainController"
+                      method="post" enctype="multipart/form-data" class="mb-4">
+                    <input type="hidden" name="action" value="AddToProductVariantImage">
+                    <input type="hidden" name="StrVariantId" value="${v.product_variant_id}">
+                    <input type="hidden" name="StrProductId" value="${product.product_id}">
+                    <div class="input-group">
+                        <input type="file" name="variantImage" accept="image/*" required class="form-control">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Thêm Ảnh
+                        </button>
                     </div>
+                </form>
+            </c:forEach>
+        </c:if>
 
+        <!-- Add Variant & Back -->
+        <a href="${pageContext.request.contextPath}/MainController?action=LoadForcreateVariantForm&StrProductId=${product.product_id}"
+           class="btn btn-success me-2">
+            <i class="bi bi-plus-circle"></i> Thêm Biến Thể
+        </a>
 
-                    <!-- ✅ Luôn hiển thị form thêm ảnh -->
-                    <form action="${pageContext.request.contextPath}/MainController"
-                          method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="AddToProductVariantImage">
-                        <input type="hidden" name="StrVariantId" value="${v.product_variant_id}">
-                        <input type="hidden" name="StrProductId" value="${product.product_id}">
-                        <input type="file" name="variantImage" accept="image/*" required>
-                        <button type="submit" class="add-button">+ Thêm ảnh cho biến thể này</button>
-                    </form>
+        <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm"
+           class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay Lại Danh Sách
+        </a>
 
-                    <br/><br/>
-                </c:forEach>
-            </c:if>
+    </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <jsp:include page="/common/popup.jsp" />
 
-            <!-- Thêm biến thể -->
-            <a class="add-button" href="${pageContext.request.contextPath}/MainController?action=LoadForcreateVariantForm&StrProductId=${product.product_id}">
-                + Thêm biến thể
-            </a>
-
-            <br/><br/>
-            <a class="back-link" href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">← Quay lại danh sách sản phẩm</a>
-
-        </div>
-        <jsp:include page="/common/popup.jsp" />
-
-    </body>
+</body>
 </html>

@@ -18,8 +18,12 @@ import DTOs.CartItemDTO;
 import DTOs.CategoryDTO;
 import DTOs.ImageDTO;
 import DTOs.ClientDTO;
+import DTOs.DailyRevenueDTO;
+import DTOs.OrderStatusDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
+import DTOs.StockDTO;
+import DTOs.TopProductDTO;
 import DTOs.TotalBuyingDTO;
 import Enums.ImageType;
 import Enums.Status;
@@ -29,6 +33,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -426,29 +431,90 @@ public class PageService {
         return listResult;
     }
 
-   public void handleLoadListBuyingForAdmin(HttpServletRequest request, HttpServletResponse response) {
-    try {
-        System.out.println("vao duoc handle load list buying rồi ");
-        
-        String url = "admin/adminDashboard.jsp";
+    public void handleLoadListBuyingForAdmin(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            System.out.println("vao duoc handle load list buying rồi ");
 
-        List<BuyingForAdminDTO> listBuying = buyingDAO.getAllBuyingForAdmin();
+            String url = "admin/adminDashboard.jsp";
 
-        // Dùng enum Status để tránh hardcode
-        List<Status> statuses = Arrays.asList(Status.values());
+            List<BuyingForAdminDTO> listBuying = buyingDAO.getAllBuyingForAdmin();
 
-        // Gán vào request để JSP duyệt được
-        request.setAttribute("statuses", statuses);
-        request.setAttribute("section", "listBuyings");
-        request.setAttribute("buyings", listBuying);
+            // Dùng enum Status để tránh hardcode
+            List<Status> statuses = Arrays.asList(Status.values());
 
-        request.getRequestDispatcher(url).forward(request, response);
-    } catch (ServletException ex) {
-        Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-        Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+            // Gán vào request để JSP duyệt được
+            request.setAttribute("statuses", statuses);
+            request.setAttribute("section", "listBuyings");
+            request.setAttribute("buyings", listBuying);
+
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-}
 
+    public void handleLoadForCategory(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            System.out.println("handleLoadForCategory called"); // Debug log
+            request.setAttribute("section", "listCategory");
 
+            List<CategoryDTO> categoryDTOs = categoryDAO.getAllCategories();
+            System.out.println("Categories loaded: " + categoryDTOs.size()); // Debug log
+
+            request.setAttribute("categoryList", categoryDTOs);
+
+            request.getRequestDispatcher("admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleLoadForBrandList(HttpServletRequest request, HttpServletResponse response) {
+        try {
+
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+
+            request.setAttribute("brandList", listB);
+
+            request.setAttribute("section", "listBrand");
+
+            request.getRequestDispatcher("admin/adminDashboard.jsp").forward(request, response);
+
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleForRevenuePage(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("vao duoc handle revenue roi");
+        BigDecimal totalRevenue = buyingDAO.getTotalRevenue();
+        List<OrderStatusDTO> ordersByStatusList = buyingDAO.getOrdersByStatus();
+        List<DailyRevenueDTO> dailyRevenueList = buyingDAO.getDailyRevenue();
+        List<TopProductDTO> topProductsList = productDAO.getTopProducts();
+        List<StockDTO> stockList = productDAO.getStockList();
+
+        request.setAttribute("totalRevenue", totalRevenue);
+        request.setAttribute("ordersByStatus", ordersByStatusList);
+        request.setAttribute("dailyRevenue", dailyRevenueList);
+        request.setAttribute("topProducts", topProductsList);
+        request.setAttribute("stockList", stockList);
+
+        request.setAttribute("section", "revenue");
+        try {
+            request.getRequestDispatcher("admin/adminDashboard.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    
 }

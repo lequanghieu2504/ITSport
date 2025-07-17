@@ -21,7 +21,15 @@ public class CategoryMapper {
             Long category_id = rs.getLong("category_id");
             String category_name = rs.getString("name");
             Long parent_id = rs.getLong("parent_id");
-            return new CategoryDTO(category_id, category_name, parent_id);
+            String image_url = rs.getString("file_name");
+            long imageId = rs.getLong("image_id");
+            CategoryDTO categoryDTO = new CategoryDTO();
+            categoryDTO.setCategory_id(category_id);
+            categoryDTO.setCategory_name(category_name);
+            categoryDTO.setParent_id(parent_id);
+            categoryDTO.setImageUrl(image_url);
+            categoryDTO.setImageId(imageId);
+            return categoryDTO;
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -19,7 +19,16 @@ public class CartItemDTO {
     private ProductVariantDTO variant;
     private  String image_url;
 
+
     public CartItemDTO() {
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public CartItemDTO(int cart_item_id, int cart_id, int product_id, int product_variant_id, int quantity) {
@@ -109,12 +118,7 @@ public class CartItemDTO {
         return "CartItemDTO{" + "cart_item_id=" + cart_item_id + ", cart_id=" + cart_id + ", product_id=" + product_id + ", product_variant_id=" + product_variant_id + ", quantity=" + quantity + '}';
     }
 
-    public String getImage_url() {
-        return image_url;
-    }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
+ 
 
 }

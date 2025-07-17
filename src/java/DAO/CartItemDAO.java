@@ -87,6 +87,8 @@ public class CartItemDAO {
                 item.setVariant(variant);
                 item.setProduct(product);
                 item.setImage_url(rs.getString("image_name"));
+                
+
                 cartItems.add(item);
             }
 
