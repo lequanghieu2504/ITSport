@@ -32,7 +32,7 @@
 
                                     <!-- Hình ảnh -->
                                     <div class="col-2">
-                                        <img src="${pageContext.request.contextPath}/${item.product.img_url}" 
+                                        <img src="${pageContext.request.contextPath}/${item.image_url}" 
                                              alt="${item.product.product_name}" 
                                              class="product-img"/>
                                     </div>

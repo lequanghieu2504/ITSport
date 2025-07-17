@@ -17,6 +17,7 @@ public class CartItemDTO {
     private int quantity;
     private ProductDTO product;
     private ProductVariantDTO variant;
+    private  String image_url;
 
     public CartItemDTO() {
     }
@@ -106,6 +107,14 @@ public class CartItemDTO {
     @Override
     public String toString() {
         return "CartItemDTO{" + "cart_item_id=" + cart_item_id + ", cart_id=" + cart_id + ", product_id=" + product_id + ", product_variant_id=" + product_variant_id + ", quantity=" + quantity + '}';
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
 }

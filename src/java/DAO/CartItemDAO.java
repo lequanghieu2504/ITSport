@@ -25,12 +25,31 @@ public class CartItemDAO {
 
     // SQL cập nhật để lấy thông tin từ Cart_Item, ProductVariant, và Product
     private static final String GET_ALL_CART_ITEMS
-            = "SELECT ci.cart_item_id, ci.cart_id, ci.quantity, "
-            + "pv.product_variant_id, pv.size, pv.color, pv.quantity AS variant_quantity, pv.sku, "
-            + "p.product_id, p.product_name, p.price "
+            = "SELECT "
+            + "  ci.cart_item_id,"
+            + "  ci.cart_id,"
+            + "  ci.quantity,"
+            + "  pv.product_variant_id,"
+            + "  pv.size,"
+            + "  pv.color,"
+            + "  pv.quantity AS variant_quantity,"
+            + "  pv.sku,"
+            + "  p.product_id,"
+            + "  p.product_name,"
+            + "  p.price,"
+            + "  img.file_name AS image_name "
             + "FROM Cart_Item ci "
             + "JOIN ProductVariant pv ON ci.product_variant_id = pv.product_variant_id "
             + "JOIN Product p ON pv.product_id = p.product_id "
+            + "LEFT JOIN Image img "
+            + "  ON img.target_id = pv.product_variant_id "
+            + "  AND img.target_type = 'PRODUCT_VARIANT' "
+            + "  AND img.uploaded_at = ( "
+            + "    SELECT MIN(i2.uploaded_at) "
+            + "    FROM Image i2 "
+            + "    WHERE i2.target_id = pv.product_variant_id "
+            + "      AND i2.target_type = 'PRODUCT_VARIANT' "
+            + "  ) "
             + "WHERE ci.cart_id = ?";
 
     public static List<CartItemDTO> getAllCartItems(int cartId) {
@@ -56,7 +75,7 @@ public class CartItemDAO {
                 variant.setColor(rs.getString("color"));
                 variant.setQuantity(rs.getInt("variant_quantity"));
                 variant.setSku(rs.getString("sku"));
-                
+
                 variant.setProduct(product);
 
                 // CartItem
@@ -67,7 +86,7 @@ public class CartItemDAO {
                 item.setQuantity(rs.getInt("quantity"));
                 item.setVariant(variant);
                 item.setProduct(product);
-
+                item.setImage_url(rs.getString("image_name"));
                 cartItems.add(item);
             }
 
