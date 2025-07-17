@@ -90,7 +90,7 @@ public class CartDAO {
     }
 
     public int getCartSize(int cartId) {
-        String sql = "SELECT SUM(quantity) FROM Cart_Item WHERE cart_id = ?";
+        String sql = "SELECT COUNT(*) FROM Cart_Item WHERE cart_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, cartId);
             ResultSet rs = ps.executeQuery();

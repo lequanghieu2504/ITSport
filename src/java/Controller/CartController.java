@@ -52,6 +52,10 @@ public class CartController extends HttpServlet {
             cartService.handleGetCartSize(request, response);
             return;
         }
+        else if("updateQuantity".equalsIgnoreCase(action)){
+            cartService.handleUpdateQuantity(request,response);
+            return;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

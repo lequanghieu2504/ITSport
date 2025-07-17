@@ -2,11 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group name="Group 20250517-08:55:04"/>
-        <group/>
-        <group/>
-=======
         <group>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/BuyingService.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/cart.jsp</file>
@@ -17,12 +12,21 @@
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/checkout.jsp</file>
         </group>
         <group name="Group 20250517-08:55:04">
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BrandController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/BrandService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/CartController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/PageController.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/MainController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/BrandDAO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/brand/listBrand.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/common/header.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/cart.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DTOs/ItemDTO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/CartDAO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/CartService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/PageService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DTOs/CartItemDTO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DTOs/TotalBuyingDTO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/checkout.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/CartItemDAO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BuyingController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/BuyingService.java</file>
         </group>
->>>>>>> f95517dab6f9a549b4672e9784ae133e4576308a
     </open-files>
 </project-private>

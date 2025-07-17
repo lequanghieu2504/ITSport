@@ -11,8 +11,11 @@ import Enums.Size;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import util.JDBCConnection;
 
 /**
@@ -87,7 +90,6 @@ public class CartItemDAO {
                 item.setVariant(variant);
                 item.setProduct(product);
                 item.setImage_url(rs.getString("image_name"));
-                
 
                 cartItems.add(item);
             }
@@ -131,6 +133,41 @@ public class CartItemDAO {
                 System.out.println("SKU: " + variant.getSku());
                 System.out.println("------");
             }
+        }
+    }
+
+    public void updateQuantity(long cartItemId, int quantity) {
+        String sql = "update Cart_Item set quantity = ? where cart_item_id  = ?";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, quantity);
+            ps.setLong(2, cartItemId);
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    public void deleteCartItemByCartItemId(long cartItemId) {
+        String sql = "DELETE FROM Cart_Item WHERE cart_item_id = ?";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, cartItemId);
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected == 0) {
+                System.out.println("❗ Không có Cart_Item nào bị xoá. cart_item_id = " + cartItemId);
+            } else {
+                System.out.println("✅ Đã xoá Cart_Item với ID = " + cartItemId);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Xoá Cart_Item thất bại!", e);
         }
     }
 }

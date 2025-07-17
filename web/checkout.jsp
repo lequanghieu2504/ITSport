@@ -74,6 +74,7 @@
                             <input type="hidden" name="variantId" value="${buyNowInfo.variantId}"/>
                             <input type="hidden" name="quantity" value="${buyNowInfo.quantity}"/>
                             <input type="hidden" name="priceEach" value="${buyNowInfo.price}"/>
+
                         </c:if>
 
                         <!-- Nếu thanh toán giỏ hàng -->
@@ -83,6 +84,7 @@
                                 <input type="hidden" name="variantId"  value="${item.variantId}"/>
                                 <input type="hidden" name="quantity"   value="${item.quantity}"/>
                                 <input type="hidden" name="priceEach"  value="${item.price}"/>
+                                <input type="hidden" name="StrCartItemId"  value="${item.cartItemId}"/>
                             </c:forEach>
                         </c:if>
 

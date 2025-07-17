@@ -8,7 +8,7 @@ package DTOs;
  *
  * @author SUPPER LOQ
  */
-public class CartItemDTO {
+        public class CartItemDTO {
 
     private int cart_item_id;
     private int cart_id;

@@ -178,7 +178,8 @@ public class MainController extends HttpServlet {
                 || "removeFromCart".equalsIgnoreCase(action)
                 || "updateCart".equalsIgnoreCase(action)
                 || "viewCart".equalsIgnoreCase(action)
-                || "getCartSize".equalsIgnoreCase(action);
+                || "getCartSize".equalsIgnoreCase(action)
+                ||"updateQuantity".equalsIgnoreCase(action);
     }
 
         private boolean isCategoryaAction(String action){

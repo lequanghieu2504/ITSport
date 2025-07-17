@@ -18,7 +18,16 @@ public class BuyNowInforDTO {
     private double price;
     private double totalPrice;
     private long variantId;
+    private long cartItemId;
 
+    public long getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(long cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+    
     public long getProductId() {
         return productId;
     }

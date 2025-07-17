@@ -13,6 +13,17 @@ public class ItemDTO {
         private Integer variantId;
         private Integer quantity;
         private Double priceEach;
+        private long cartItemId;
+
+    public long getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(long cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+   
 
         public ItemDTO(Integer productId, Integer variantId, Integer quantity, Double priceEach) {
             this.productId  = productId;

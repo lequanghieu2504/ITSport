@@ -9,6 +9,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CartService {
 
@@ -58,7 +60,6 @@ public class CartService {
         int cartId = client.getCart_id();
         int cartSize = cartDAO.getCartSize(cartId);
         List<CartItemDTO> cartItems = cartItemDAO.getAllCartItems(cartId);
-
         request.setAttribute("cartSize", cartSize);
         request.setAttribute("listCartItem", cartItems);
         request.getRequestDispatcher("cart.jsp").forward(request, response);
@@ -124,6 +125,24 @@ public class CartService {
         }
         response.setContentType("application/json");
         response.getWriter().write("{\"size\":" + size + "}");
+    }
+
+    public void handleUpdateQuantity(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String strCartItemId = request.getParameter("cartItemId");
+            String strQuantity = request.getParameter("quantity");
+            
+            long cartItemId = Long.parseLong(strCartItemId);
+            int quantity = Integer.parseInt(strQuantity);
+            
+            cartItemDAO.updateQuantity(cartItemId,quantity);
+            
+            request.getRequestDispatcher("MainController?action=viewCart").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
