@@ -74,6 +74,18 @@ public class PageController extends HttpServlet {
             pageService.handleLoadListBuyingForAdmin(request,response);
             return;
         }
+        else if("loadForListCategory".equalsIgnoreCase(action)){
+            pageService.handleLoadForCategory(request,response);
+            return;
+        }
+        else if("loadForListBrand".equalsIgnoreCase(action)){
+            pageService.handleLoadForBrandList(request,response);
+            return;
+        }
+        else if("loadForRevenue".equalsIgnoreCase(action)){
+            pageService.handleForRevenuePage(request,response);
+            return;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

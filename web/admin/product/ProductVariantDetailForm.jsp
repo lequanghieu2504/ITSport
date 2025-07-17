@@ -1,64 +1,74 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Thêm ảnh cho biến thể</title>
-        <style>
-            .container {
-                max-width: 600px;
-                margin: auto;
-            }
-            .form-box {
-                background: #f0f0f0;
-                padding: 20px;
-                border-radius: 10px;
-            }
-            label {
-                font-weight: bold;
-            }
-            input[type="file"] {
-                margin-top: 10px;
-            }
-            .submit-button {
-                display: inline-block;
-                padding: 10px 15px;
-                background-color: #3498db;
-                color: white;
-                font-weight: bold;
-                border-radius: 5px;
-                text-decoration: none;
-                margin-top: 15px;
-                border: none;
-                cursor: pointer;
-            }
-            .submit-button:hover {
-                background-color: #2980b9;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h2>Thêm ảnh cho biến thể ID ${variantId}</h2>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Ảnh Cho Biến Thể</title>
 
-            <div class="form-box">
-                <!-- Form upload ảnh -->
-                <form action="${pageContext.request.contextPath}/MainController?action=AddVariantImage" method="post" enctype="multipart/form-data">
-                    <!-- Gửi kèm variantId -->
+    <!-- Bootstrap CSS + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fc;
+        }
+        .header-section {
+            background: linear-gradient(135deg, #4e73df, #224abe);
+            color: #fff;
+            padding: 25px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-section h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header-section">
+        <h1><i class="bi bi-images"></i> Thêm Ảnh Cho Biến Thể</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Biến Thể ID: ${variantId}</h5>
+
+                <!-- Form Upload Ảnh -->
+                <form action="${pageContext.request.contextPath}/MainController?action=AddVariantImage"
+                      method="post" enctype="multipart/form-data">
+
                     <input type="hidden" name="StrVariantId" value="${variantId}"/>
 
-                    <label>Chọn ảnh:</label><br/>
-                    <input type="file" name="variantImage" required accept="image/*"/>
+                    <div class="mb-3">
+                        <label class="form-label">Chọn ảnh</label>
+                        <input type="file" name="variantImage" accept="image/*" required class="form-control"/>
+                    </div>
 
-                    <br/>
-                    <button type="submit" class="submit-button">Tải lên</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Tải Lên
+                    </button>
                 </form>
             </div>
-
-            <br/>
-            <a href="${pageContext.request.contextPath}/MainController?action=LoadVariantDetail&variantId=${variantId}">← Quay lại chi tiết biến thể</a>
         </div>
-        <jsp:include page="/common/popup.jsp" />
 
-    </body>
+        <!-- Back Link -->
+        <a href="${pageContext.request.contextPath}/MainController?action=LoadVariantDetail&variantId=${variantId}"
+           class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay Lại Chi Tiết Biến Thể
+        </a>
+    </div>
+
+    <jsp:include page="/common/popup.jsp" />
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>

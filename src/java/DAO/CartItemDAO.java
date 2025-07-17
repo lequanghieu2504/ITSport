@@ -67,6 +67,7 @@ public class CartItemDAO {
                 item.setQuantity(rs.getInt("quantity"));
                 item.setVariant(variant);
                 item.setProduct(product);
+                
 
                 cartItems.add(item);
             }

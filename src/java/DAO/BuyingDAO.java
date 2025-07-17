@@ -1,10 +1,13 @@
 package DAO;
 
 import DTOs.BuyingForAdminDTO;
+import DTOs.DailyRevenueDTO;
 import DTOs.TotalBuyingDTO;
 import DTOs.ItemDTO;
+import DTOs.OrderStatusDTO;
 import Enums.Status;
 import Mapper.BuyingMapper;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ public class BuyingDAO {
 
     private final String GET_BUYING = "select * from Buyings ";
     private final String UPDATE_BUYING = "update Buyings ";
+
     public int insertBuying(TotalBuyingDTO dto, Connection conn) throws SQLException {
         System.out.println("Đang ở BuyingDAO");
         String sqlOrder = ""
@@ -121,23 +125,87 @@ public class BuyingDAO {
         return resultList;
     }
 
-
     public boolean updateStatusByBuyingId(Long BuyingId, String status) {
         String sql = UPDATE_BUYING + "set status = ? where buying_id = ?";
-        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
-            
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, status);
             ps.setLong(2, BuyingId);
-            
+
             int success = ps.executeUpdate();
-            if(success>0){
+            if (success > 0) {
                 return true;
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public BigDecimal getTotalRevenue() {
+        String sql = "SELECT SUM(total_price) as totalBuying "
+                + "FROM Buyings "
+                + "WHERE status = 'SUCCESS'";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBigDecimal("totalBuying");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<OrderStatusDTO> getOrdersByStatus() {
+        String sql = "SELECT status, COUNT(*) AS total_orders "
+                + "FROM Buyings "
+                + "GROUP BY status ";
+        List<OrderStatusDTO> listOrder = new ArrayList<>();
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                OrderStatusDTO orderStatusDTO = new OrderStatusDTO();
+                orderStatusDTO.setStatus(rs.getString("status"));
+                orderStatusDTO.setTotalOrders(rs.getInt("total_orders"));
+                listOrder.add(orderStatusDTO);
+            }
+            return listOrder;
+        } catch (SQLException ex) {
+            Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<DailyRevenueDTO> getDailyRevenue() {
+        String sql = "SELECT "
+                + "    CAST(created_at AS DATE) AS order_date, "
+                + "    SUM(total_price) AS daily_revenue "
+                + "FROM Buyings "
+                + "WHERE status = 'SUCCESS' "
+                + "GROUP BY CAST(created_at AS DATE) "
+                + "ORDER BY order_date DESC ";
+        List<DailyRevenueDTO> listDaily = new ArrayList<>();
+        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+               DailyRevenueDTO dailyRevenueDTO = new DailyRevenueDTO();
+               dailyRevenueDTO.setDailyRevenue(rs.getDouble("daily_revenue"));
+               dailyRevenueDTO.setOrderDate(rs.getString("order_date"));
+               listDaily.add(dailyRevenueDTO);
+            }
+            return  listDaily;
+        } catch (SQLException ex) {
+            Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

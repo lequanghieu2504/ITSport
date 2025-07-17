@@ -17,8 +17,17 @@ public class CartItemDTO {
     private int quantity;
     private ProductDTO product;
     private ProductVariantDTO variant;
+    private String image_url;
 
     public CartItemDTO() {
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public CartItemDTO(int cart_item_id, int cart_id, int product_id, int product_variant_id, int quantity) {

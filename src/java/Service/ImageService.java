@@ -37,6 +37,7 @@ public class ImageService {
      */
     public boolean saveImageByType(String imageType, Long entityId, Part imagePart, ServletContext context) {
         try {
+            System.out.println("vo duoc save image by type roi");
             if (imagePart == null || context == null || imageType == null || entityId == null) {
                 return false;
             }
@@ -268,6 +269,117 @@ public class ImageService {
             Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ServletException ex) {
             Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleAddImageForCategory(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("vo duoc handle add image for category");
+        try {
+            String strCategoryId = request.getParameter("category_id");
+            System.out.println("category id - " + strCategoryId);
+            long categoryId = Long.parseLong(strCategoryId);
+
+            // URL redirect về trang chi tiết hoặc danh sách danh mục (bạn thay đổi URL phù hợp)
+            String url = "MainController?action=loadForListCategory";
+
+            // Lấy file upload từ request
+            Part categoryImagePart = request.getPart("categoryImage");
+            System.out.println(categoryImagePart.toString());
+            // Gọi hàm lưu ảnh (giả sử bạn có ImageType.CATEGORY)
+            boolean success = saveImageByType(ImageType.CATEGORY.toString(), categoryId, categoryImagePart, request.getServletContext());
+
+            if (success) {
+                request.setAttribute("message", "Thêm ảnh danh mục thành công");
+            } else {
+                request.setAttribute("message", "Thêm ảnh danh mục thất bại");
+            }
+
+            response.sendRedirect(url);
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleDeleteImageCategory(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String strCategoryId = request.getParameter("category_id");
+            String strImageId = request.getParameter("StrImageId");
+
+            long categoryId = Long.parseLong(strCategoryId);
+            long imageId = Long.parseLong(strImageId);
+
+            // Xoá ảnh trong DB và file vật lý
+            boolean success = deleteImageById(imageId);
+
+            if (success) {
+                request.getSession().setAttribute("message", "Xóa ảnh danh mục thành công");
+            } else {
+                request.getSession().setAttribute("message", "Xóa ảnh danh mục thất bại");
+            }
+
+            // Redirect về trang danh mục hoặc trang chi tiết danh mục
+            String url = "MainController?action=loadForListCategory"; // hoặc loadDetailCategory nếu bạn có
+            response.sendRedirect(url);
+
+        } catch (Exception e) {
+            Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void handleAddImageForBrand(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("Đã vào handleAddImageForBrand");
+        try {
+            // Lấy brandId từ input hidden
+            String strBrandId = request.getParameter("brandId");
+            System.out.println("brand id - " + strBrandId);
+            long brandId = Long.parseLong(strBrandId);
+
+            // URL redirect về trang danh sách brand hoặc chi tiết brand
+            String url = "MainController?action=loadForListBrand";
+
+            // Lấy file upload từ request
+            Part brandImagePart = request.getPart("brandImage");
+            System.out.println(brandImagePart.toString());
+
+            // Gọi hàm lưu ảnh, ví dụ bạn có enum ImageType.BRAND
+            boolean success = saveImageByType(ImageType.BRAND.toString(), brandId, brandImagePart, request.getServletContext());
+
+            if (success) {
+                request.setAttribute("message", "Thêm ảnh brand thành công");
+            } else {
+                request.setAttribute("message", "Thêm ảnh brand thất bại");
+            }
+
+            response.sendRedirect(url);
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleDeleteBrandImage(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            // Lấy brandId và imageId từ request
+            String strBrandId = request.getParameter("brandId");
+            String strImageId = request.getParameter("imageId");
+
+            long brandId = Long.parseLong(strBrandId);
+            long imageId = Long.parseLong(strImageId);
+
+            // Gọi hàm xoá ảnh (xoá trong DB + file vật lý nếu có)
+            boolean success = deleteImageById(imageId);
+
+            if (success) {
+                request.getSession().setAttribute("message", "Xóa ảnh brand thành công");
+            } else {
+                request.getSession().setAttribute("message", "Xóa ảnh brand thất bại");
+            }
+
+            // Redirect về danh sách brand
+            String url = "MainController?action=loadForListBrand";
+            response.sendRedirect(url);
+
+        } catch (Exception e) {
+            Logger.getLogger(ImageService.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

@@ -39,7 +39,7 @@
                     <c:when test="${not empty listC}">
                         <c:forEach var="c" items="${listC}">
                             <a href="ProductController?action=productByCategory&cid=${c.category_id}" class="category-item">
-                                <img src="assets/images/detail1.png" width="100" />
+                                <img src="${pageContext.request.contextPath}/${c.imageUrl}" width="100" />
                                 <h4>${c.category_name}</h4>
                             </a>
                         </c:forEach>

@@ -12,7 +12,8 @@ package DTOs;
 public class BrandDTO {
     private Long brand_id;
     private String brand_name;
-
+    private String image_url;
+    private long image_id;
     public BrandDTO(Long brand_id, String brand_name) {
         this.brand_id = brand_id;
         this.brand_name = brand_name;
@@ -35,6 +36,22 @@ public class BrandDTO {
 
     public void setBrand_name(String brand_name) {
         this.brand_name = brand_name;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public long getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(long image_id) {
+        this.image_id = image_id;
     }
     
 }

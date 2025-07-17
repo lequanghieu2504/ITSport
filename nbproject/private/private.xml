@@ -12,14 +12,11 @@
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/checkout.jsp</file>
         </group>
         <group name="Group 20250517-08:55:04">
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/admin/adminDashboard.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/web/admin/Buying/BuyingManager.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/MainController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DTOs/TotalBuyingDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Service/PageService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/DAO/BuyingDAO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Controller/PageController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/Project/ITSport_1.2/src/java/Mapper/BuyingMapper.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BrandController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/BrandService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/BrandDAO.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/brand/listBrand.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -59,6 +59,12 @@ public class MainController extends HttpServlet {
             } else if (isCartAction(action)) {
                 url = "/CartController";
             }
+            else if(isCategoryaAction(action)){
+                url = "/CategoryController";
+            }
+            else if(isBrandAction(action)){
+                url = "/BrandController";
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -115,7 +121,10 @@ public class MainController extends HttpServlet {
                 || "LoadViewProductDetail".equalsIgnoreCase(action)
                 || "LoadForcreateVariantForm".equalsIgnoreCase(action)
                 || "viewDetailProduct".equalsIgnoreCase(action)
-                ||"loadForListBuying".equalsIgnoreCase(action);
+                ||"loadForListBuying".equalsIgnoreCase(action)
+                ||"loadForListCategory".equalsIgnoreCase(action)
+                ||"loadForListBrand".equalsIgnoreCase(action)
+                ||"loadForRevenue".equalsIgnoreCase(action);
 
     }
 
@@ -150,7 +159,11 @@ public class MainController extends HttpServlet {
                 || "insertMainProductImage".equalsIgnoreCase(action)
                 || "deleteProductImage".equalsIgnoreCase(action)
                 || "AddToProductVariantImage".equalsIgnoreCase(action)
-                || "DeleteProductVariantImage".equalsIgnoreCase(action);
+                || "DeleteProductVariantImage".equalsIgnoreCase(action)
+                ||"addImageCategory".equalsIgnoreCase(action)
+                ||"deleteImageCategory".equalsIgnoreCase(action)
+                ||"uploadBrandImage".equalsIgnoreCase(action)
+                ||"deleteBrandImage".equalsIgnoreCase(action);
     }
 
     private boolean isBuyingAction(String action) {
@@ -167,5 +180,12 @@ public class MainController extends HttpServlet {
                 || "viewCart".equalsIgnoreCase(action)
                 || "getCartSize".equalsIgnoreCase(action);
     }
-
+        private boolean isCategoryaAction(String action){
+        return "deleteCategory".equalsIgnoreCase(action)
+                ||"addCategory".equalsIgnoreCase(action);
+    }
+        private boolean isBrandAction(String action){
+            return "addBrand".equalsIgnoreCase(action);
+        }
 }
+

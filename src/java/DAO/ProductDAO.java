@@ -6,6 +6,8 @@ package DAO;
 
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
+import DTOs.StockDTO;
+import DTOs.TopProductDTO;
 import Mapper.ProductMapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -264,5 +266,68 @@ public class ProductDAO {
         ProductDAO dao = new ProductDAO();
         ProductDTO product = dao.getProductById(1);
         System.out.println(product);
+    }
+
+    public List<TopProductDTO> getTopProducts() {
+        List<TopProductDTO> listTopProduct = new ArrayList<>();
+        String sql = "SELECT "
+                + "    p.product_name, "
+                + "    SUM(bi.quantity) AS total_sold "
+                + "FROM BuyingItems bi "
+                + "JOIN Product p ON bi.product_id = p.product_id "
+                + "JOIN Buyings b ON bi.buying_id = b.buying_id "
+                + "WHERE b.status = 'SUCCESS' "
+                + "GROUP BY p.product_id, p.product_name "
+                + "ORDER BY total_sold DESC "
+                + "OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY ";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                TopProductDTO topProductDTO = new TopProductDTO();
+
+                topProductDTO.setProductName(rs.getString("product_name"));
+                topProductDTO.setTotalSold(rs.getInt("total_sold"));
+
+                listTopProduct.add(topProductDTO);
+
+            }
+            return listTopProduct;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<StockDTO> getStockList() {
+        List<StockDTO> listStockDTOs = new ArrayList<>();
+
+        String sql = "SELECT "
+                + "    pv.product_variant_id, "
+                + "    p.product_name, "
+                + "    pv.size, "
+                + "    pv.color, "
+                + "    pv.quantity AS stock_quantity "
+                + "FROM ProductVariant pv "
+                + "JOIN Product p ON pv.product_id = p.product_id "
+                + "ORDER BY stock_quantity ASC ";
+        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                StockDTO stockDTO = new StockDTO();
+               
+                stockDTO.setProductName(rs.getString("product_name"));
+                stockDTO.setColor(rs.getString("color"));
+                stockDTO.setSize(rs.getString("size"));
+                stockDTO.setStockQuantity(rs.getInt("stock_quantity"));
+                
+                listStockDTOs.add(stockDTO);
+            }
+            return listStockDTOs;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
