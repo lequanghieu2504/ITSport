@@ -243,7 +243,6 @@ public class BuyingDAO {
                 + "  Image img ON pv.product_variant_id = img.target_id AND img.target_type = 'PRODUCT_VARIANT'\n"
                 + "WHERE "
                 + "  b.user_id = ? "
-                + " AND b.status in ('PENDING','CONFIRM') "
                 + "ORDER BY "
                 + "  b.buying_id, bi.buying_item_id ";
         List<UserOrderDTO> userOrderDTOs = new ArrayList<>();
