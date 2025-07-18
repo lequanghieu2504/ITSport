@@ -53,13 +53,14 @@ public class CartService {
         ClientDTO client = (ClientDTO) session.getAttribute("client");
 
         if (user == null || client == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("MainController?action=loadForHomePage");
             return;
         }
 
         int cartId = client.getCart_id();
         int cartSize = cartDAO.getCartSize(cartId);
         List<CartItemDTO> cartItems = cartItemDAO.getAllCartItems(cartId);
+
         request.setAttribute("cartSize", cartSize);
         request.setAttribute("listCartItem", cartItems);
         request.getRequestDispatcher("cart.jsp").forward(request, response);
@@ -68,8 +69,9 @@ public class CartService {
     public void handleRemoveFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         ClientDTO client = (ClientDTO) session.getAttribute("client");
+
         if (client == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("MainController?action=loadForHomePage");
             return;
         }
 
@@ -83,23 +85,18 @@ public class CartService {
     }
 
     public void handleUpdateCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            HttpSession session = request.getSession();
-            ClientDTO client = (ClientDTO) session.getAttribute("client");
-            if (client == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
+        HttpSession session = request.getSession();
+        ClientDTO client = (ClientDTO) session.getAttribute("client");
 
+        if (client == null) {
+            response.sendRedirect("MainController?action=loadForHomePage");
+            return;
+        }
+
+        try {
             int productId = Integer.parseInt(request.getParameter("product_id"));
             int variantId = Integer.parseInt(request.getParameter("variant_id"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
-
-            System.out.println("product_id param: " + request.getParameter("product_id"));
-            System.out.println("variant_id param: " + request.getParameter("variant_id"));
-            System.out.println("quantity param: " + request.getParameter("quantity"));
-
-            System.out.println("Updating: " + productId + " - " + variantId + " - " + quantity);
 
             cartDAO.updateCartItemQuantity(client.getCart_id(), productId, variantId, quantity);
 
@@ -111,7 +108,7 @@ public class CartService {
             response.getWriter().write("{\"message\":\"updated\"}");
 
         } catch (Exception e) {
-            e.printStackTrace(); // In lỗi chi tiết ra console
+            e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
@@ -131,16 +128,14 @@ public class CartService {
         try {
             String strCartItemId = request.getParameter("cartItemId");
             String strQuantity = request.getParameter("quantity");
-            
+
             long cartItemId = Long.parseLong(strCartItemId);
             int quantity = Integer.parseInt(strQuantity);
-            
-            cartItemDAO.updateQuantity(cartItemId,quantity);
-            
+
+            cartItemDAO.updateQuantity(cartItemId, quantity);
+
             request.getRequestDispatcher("MainController?action=viewCart").forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (ServletException | IOException ex) {
             Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
