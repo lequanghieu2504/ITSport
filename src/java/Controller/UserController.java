@@ -59,6 +59,15 @@ public class UserController extends HttpServlet {
             userService.handleLogout(request, response);
             return;
         }
+        else if("profile".equalsIgnoreCase(action)){
+           userService.handleGetProfile(request,response);
+        }
+        else if("myOrders".equalsIgnoreCase(action)){
+            userService.handleGetUserOrder(request,response);
+        }
+        else if("CancelOrderStatuByUser".equalsIgnoreCase(action)){
+            userService.cancelOrderStatusByUserId(request,response);
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

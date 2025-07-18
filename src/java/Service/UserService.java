@@ -1,16 +1,21 @@
 package Service;
 
+import DAO.BuyingDAO;
 import DAO.CartDAO;
 import DAO.ClientDAO;
+import DAO.UserBuyingInforDAO;
 import DAO.UserDAO;
 import DTOs.ClientDTO;
+import DTOs.UserBuyingInfoDTO;
 import DTOs.UserDTO;
+import DTOs.UserOrderDTO;
 import Enums.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.PasswordUtils;
@@ -18,7 +23,9 @@ import util.PasswordUtils;
 public class UserService {
 
     private final UserDAO userDAO = new UserDAO();
-
+    private final UserBuyingInforDAO userBuyingInforDAO = new UserBuyingInforDAO();
+    private final BuyingDAO buyingDAO = new BuyingDAO();
+     
     public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("Vào handleLogin rồi");
 
@@ -42,7 +49,7 @@ public class UserService {
                 if (client != null || userDTO.getRole().equals("CLIENT")) {
                     session.setAttribute("client", client);
                 }
-                
+
                 // Load dữ liệu trang chủ trước khi forward
                 PageService pageService = new PageService();
                 pageService.loadForHomePage(request, response);
@@ -122,5 +129,59 @@ public class UserService {
         }
 
         response.sendRedirect("MainController?action=loadForHomePage");
+    }
+
+    public void handleGetProfile(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
+            long userId = userDTO.getUser_id();
+            UserDTO userProfile = userDAO.getUserDTOByUserId(userId);
+
+            List<UserBuyingInfoDTO> userBuyingInfoDTOs = userBuyingInforDAO.getUserBuyingInforByUserId(userId);
+            request.setAttribute("userBuyingInfoList", userBuyingInfoDTOs);
+
+            request.getRequestDispatcher("User/Profile.jsp").forward(request, response);
+
+        } catch (ServletException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    public void handleGetUserOrder(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
+            long userId = userDTO.getUser_id();
+            List<UserOrderDTO> listUserOrderDTOs = buyingDAO.getUserBuying(userId);
+            
+            request.setAttribute("userOrders", listUserOrderDTOs);
+            request.getRequestDispatcher("User/order.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+
+    public void cancelOrderStatusByUserId(HttpServletRequest request, HttpServletResponse response) {
+        String strBuyingId =  request.getParameter("buyingId");
+        long buyingId = Long.parseLong(strBuyingId);
+        UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
+        long userId = userDTO.getUser_id();
+        
+        buyingDAO.updateStatusByUser(userId,buyingId);
+        
+        try {
+            request.getRequestDispatcher("MainController?action=myOrders").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

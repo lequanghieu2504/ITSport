@@ -6,6 +6,10 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css"/>
 
+<!-- Thêm Bootstrap JS (nếu trang của bạn chưa có) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <header class="sports-header shadow-sm">
     <div class="container-xl d-flex align-items-center justify-content-between py-2">
         <!-- Logo -->
@@ -40,12 +44,24 @@
                 </c:if>
             </a>
 
-            <!-- Login / Register or Username / Logout -->
+            <!-- User Dropdown + Welcome -->
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
-                    <!-- Nếu đã login -->
-                    <span class="mr-2">Xin chào, ${sessionScope.user.fullName} </span>
-                    <a href="MainController?action=logout" class="btn btn-outline-light btn-sm">Logout</a>
+                    <!-- Câu chào -->
+                    <span class="mr-2 text-white">Xin chào, ${sessionScope.user.fullName}</span>
+
+                    <!-- Dropdown User Icon -->
+                    <div class="dropdown">
+                        <a class="icon-wrapper dropdown-toggle text-decoration-none text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user icon-item"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="MainController?action=profile">Tài khoản cá nhân</a>
+                            <a class="dropdown-item" href="MainController?action=myOrders">Đơn hàng của tôi</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a>
+                        </div>
+                    </div>
                 </c:when>
                 <c:otherwise>
                     <!-- Nếu chưa login -->
@@ -72,11 +88,10 @@
     <div class="collapse" id="mobileNav">
         <nav class="bg-dark py-2">
             <ul class="list-unstyled mb-0 text-center">
-                <li class="py-1"><a href="home">Trang chủ</a></li>
-                <li class="py-1"><a href="shop">Cửa hàng</a></li>
-                <li class="py-1"><a href="about">Về chúng tôi</a></li>
-                <li class="py-1"><a href="new">Sản phẩm mới</a></li>
-                <li class="py-1"><a href="sale">Khuyến mãi</a></li>
+                <li class="py-1"><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
+                <li class="py-1"><a href="${pageContext.request.contextPath}/shop">Cửa hàng</a></li>
+                <li class="py-1"><a href="${pageContext.request.contextPath}/about">Về chúng tôi</a></li>
+                <li class="py-1"><a href="${pageContext.request.contextPath}/new">Sản phẩm mới</a></li>
                 <li class="py-1"><a href="MainController?action=login">Login</a></li>
                 <li class="py-1"><a href="MainController?action=register">Register</a></li>
             </ul>

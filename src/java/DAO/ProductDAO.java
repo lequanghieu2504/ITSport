@@ -27,7 +27,7 @@ import util.JDBCConnection;
 public class ProductDAO {
 
     private final String BASE_GET_PRODUCT_WITH_IMAGE
-            = "SELECT p.*, i.file_name AS img_url FROM Product p LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN'";
+            = "SELECT p.*, i.file_name AS img_url FROM Product p LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN' where p.status = 1";
 
     private final String GET_PRODUCT = "select * from [Product] ";
     private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
@@ -56,7 +56,7 @@ public class ProductDAO {
 
     public List<ProductDTO> getProductsByCategoryId(long category_id) {
 
-        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " where category_id = ?";
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " and category_id = ? ";
         List<ProductDTO> listP = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, category_id);
@@ -139,6 +139,26 @@ public class ProductDAO {
         return null;
     }
 
+    public List<ProductDTO> getAllProductForUser() {
+        List<ProductDTO> listP = new ArrayList<>();
+        
+        String sql = GET_PRODUCT + " where status = 1" ;
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
+                listP.add(productDTO);
+            }
+            return listP;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public List<ProductDTO> getAllProductWithCategoryAndBrandName() {
         List<ProductDTO> list = new ArrayList<>();
 
@@ -176,7 +196,7 @@ public class ProductDAO {
     }
 
     public ProductDTO getProductById(long product_id) {
-        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " WHERE product_id = ?";
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " and product_id = ?";
 //        String sql = GET_PRODUCT + " WHERE product_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, product_id);
@@ -225,7 +245,6 @@ public class ProductDAO {
                     + "product_name = ?, "
                     + "description = ?, "
                     + "price = ?, "
-                    + "img_url = ?, "
                     + "category_id = ?, "
                     + "brand_id = ?, "
                     + "status = ? "
@@ -235,11 +254,10 @@ public class ProductDAO {
             ps.setString(1, product.getProduct_name());
             ps.setString(2, product.getDescription());
             ps.setDouble(3, product.getPrice());
-            ps.setString(4, product.getImg_url());
-            ps.setLong(5, product.getCategory_id());
-            ps.setLong(6, product.getBrand_id());
-            ps.setBoolean(7, product.isStatus());
-            ps.setLong(8, product.getProduct_id());
+            ps.setLong(4, product.getCategory_id());
+            ps.setLong(5, product.getBrand_id());
+            ps.setBoolean(6, product.isStatus());
+            ps.setLong(7, product.getProduct_id());
 
             int rows = ps.executeUpdate();
             result = rows > 0;
@@ -311,17 +329,17 @@ public class ProductDAO {
                 + "FROM ProductVariant pv "
                 + "JOIN Product p ON pv.product_id = p.product_id "
                 + "ORDER BY stock_quantity ASC ";
-        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
-            
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 StockDTO stockDTO = new StockDTO();
-               
+
                 stockDTO.setProductName(rs.getString("product_name"));
                 stockDTO.setColor(rs.getString("color"));
                 stockDTO.setSize(rs.getString("size"));
                 stockDTO.setStockQuantity(rs.getInt("stock_quantity"));
-                
+
                 listStockDTOs.add(stockDTO);
             }
             return listStockDTOs;

@@ -92,4 +92,21 @@ public class UserDAO {
         }
         return false;
     }
+
+    public UserDTO getUserDTOByUserId(long userId) {
+        String sql = GET_USER + " where user_id = ?";
+        UserDTO userDTO = new UserDTO();
+        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+            
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+             userDTO = UserMapper.toUserMapperFromResultSet(rs);
+            }
+            return userDTO;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

@@ -12,21 +12,12 @@
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/checkout.jsp</file>
         </group>
         <group name="Group 20250517-08:55:04">
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/CartController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/PageController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/UserController.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/UserService.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/common/header.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/cart.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DTOs/ItemDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/CartDAO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/CartService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/PageService.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DTOs/CartItemDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DTOs/TotalBuyingDTO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/checkout.jsp</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/CartItemDAO.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BuyingController.java</file>
-            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/BuyingService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/User/order.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/User/Profile.jsp</file>
         </group>
     </open-files>
 </project-private>

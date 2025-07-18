@@ -5,6 +5,7 @@ import DTOs.DailyRevenueDTO;
 import DTOs.TotalBuyingDTO;
 import DTOs.ItemDTO;
 import DTOs.OrderStatusDTO;
+import DTOs.UserOrderDTO;
 import Enums.Status;
 import Mapper.BuyingMapper;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
@@ -192,20 +193,86 @@ public class BuyingDAO {
                 + "GROUP BY CAST(created_at AS DATE) "
                 + "ORDER BY order_date DESC ";
         List<DailyRevenueDTO> listDaily = new ArrayList<>();
-        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
-            
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-               DailyRevenueDTO dailyRevenueDTO = new DailyRevenueDTO();
-               dailyRevenueDTO.setDailyRevenue(rs.getDouble("daily_revenue"));
-               dailyRevenueDTO.setOrderDate(rs.getString("order_date"));
-               listDaily.add(dailyRevenueDTO);
+            while (rs.next()) {
+                DailyRevenueDTO dailyRevenueDTO = new DailyRevenueDTO();
+                dailyRevenueDTO.setDailyRevenue(rs.getDouble("daily_revenue"));
+                dailyRevenueDTO.setOrderDate(rs.getString("order_date"));
+                listDaily.add(dailyRevenueDTO);
             }
-            return  listDaily;
+            return listDaily;
         } catch (SQLException ex) {
             Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public List<UserOrderDTO> getUserBuying(long userId) {
+        String sql = "  SELECT "
+                + "  b.buying_id, "
+                + "  b.user_id, "
+                + "  b.total_price, "
+                + "  b.payment_method, "
+                + "  b.status, "
+                + "  b.created_at, "
+                + "  b.updated_at, "
+                + "  b.shippingName, "
+                + "  b.shippingPhone, "
+                + "  b.shippingStreet, "
+                + "  b.shippingWard, "
+                + "  b.shippingDistrict, "
+                + "  b.shippingProvince, "
+                + "  bi.buying_item_id, "
+                + "  bi.product_id, "
+                + "  bi.variant_id, "
+                + "  bi.quantity AS item_quantity, "
+                + "  bi.price_each, "
+                + "  pv.size, "
+                + "  pv.color, "
+                + "  pv.sku, "
+                + "  img.file_name AS image_url "
+                + "FROM "
+                + "  Buyings b "
+                + "JOIN "
+                + "  BuyingItems bi ON b.buying_id = bi.buying_id "
+                + "JOIN "
+                + "  ProductVariant pv ON bi.variant_id = pv.product_variant_id "
+                + "LEFT JOIN "
+                + "  Image img ON pv.product_variant_id = img.target_id AND img.target_type = 'PRODUCT_VARIANT'\n"
+                + "WHERE "
+                + "  b.user_id = ? "
+                + " AND b.status in ('PENDING','CONFIRM') "
+                + "ORDER BY "
+                + "  b.buying_id, bi.buying_item_id ";
+        List<UserOrderDTO> userOrderDTOs = new ArrayList<>();
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserOrderDTO userOrderDTO = BuyingMapper.toUserOrderDTOFromRequest(rs);
+                userOrderDTOs.add(userOrderDTO);
+            }
+            return userOrderDTOs;
+        } catch (SQLException ex) {
+            Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public void updateStatusByUser(long userId, long buyingId) {
+        String sql = UPDATE_BUYING + " set status = 'CANCEL' WHERE buying_id=? and user_id=?";
+        try(Connection conn = JDBCConnection.getConnection();PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setLong(1, buyingId);
+            ps.setLong(2, userId);
+        ps.executeUpdate();
+            } catch (SQLException ex) {
+            Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
