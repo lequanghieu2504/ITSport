@@ -64,7 +64,7 @@ public class MainController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-//            System.out.println(url);
+            System.out.println(url);
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
