@@ -442,19 +442,27 @@ public class BuyingService {
                 variantDAO.updateStock(conn, it.getVariantId(), stock - it.getQuantity());
             }
 
-            int buyId = buyingDAO.insertBuying(dto, conn);
+            long buyId = buyingDAO.insertBuying(dto, conn);
 
             conn.commit();  // ✅ Commit nếu không lỗi
 
             session.removeAttribute("buyNowInfo");
             session.setAttribute("message", "Đặt hàng thành công!");
-            resp.sendRedirect(req.getContextPath() + "/MainController?action=loadForHomePage");
-            return buyId;
+            req.getSession().setAttribute("buyingId", buyId);
+         
+            if(dto.getPaymentMethod().equals(PaymentMethod.VNPAY)){
+                req.getRequestDispatcher("/payment").forward(req, resp);
+            }
+            else{
+                resp.sendRedirect(req.getContextPath() + "/MainController?action=loadForHomePage");
+            }
 
         } catch (Exception e) {
+            System.out.println("LỖI CHI TIẾT: " + e.getClass().getName() + " - " + e.getMessage());
             e.printStackTrace();  // ❗ In log để debug lỗi thật
             throw new IllegalStateException("Đặt hàng thất bại, vui lòng thử lại sau");
         }
+        return 0;
     }
 
     public void handleUpdateBuyingStatus(HttpServletRequest req, HttpServletResponse resp) {

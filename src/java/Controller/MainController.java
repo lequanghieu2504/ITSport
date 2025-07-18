@@ -58,6 +58,8 @@ public class MainController extends HttpServlet {
                 url = "/ImageController";
             } else if (isCartAction(action)) {
                 url = "/CartController";
+            } else if (isVNPAYAction(action)){
+                url = "/payment";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,7 +159,7 @@ public class MainController extends HttpServlet {
         return "buyNow".equals(action)
                 || "checkout".equalsIgnoreCase(action)
                 || "cartCheckout".equals(action)
-                ||"UpdateBuyingStatus".equalsIgnoreCase(action);
+                || "UpdateBuyingStatus".equalsIgnoreCase(action);
     }
 
     private boolean isCartAction(String action) {
@@ -167,4 +169,12 @@ public class MainController extends HttpServlet {
                 || "viewCart".equalsIgnoreCase(action)
                 || "getCartSize".equalsIgnoreCase(action);
     }
+
+    private boolean isVNPAYAction(String action) {
+       return "payment".equalsIgnoreCase(action);
+    }
+
+//    private boolean isPAIDAction(String action) {
+//        return "vnpayReturn".equalsIgnoreCase(action);
+//    }
 }
