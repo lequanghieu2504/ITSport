@@ -20,13 +20,13 @@ public class BrandService {
 
     public void handleAddBrand(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // 1️⃣ Lấy tên brand từ form
+            // Lấy tên brand từ form
             String brandName = request.getParameter("brandName");
 
-            // 2️⃣ Thêm brand vào DB, trả về brandId mới
+            // Thêm brand vào DB, trả về brandId mới
             long newBrandId = brandDAO.insertBrand(brandName);
 
-            // 3️⃣ Lấy file hình ảnh (nếu có)
+            // Lấy file hình ảnh (nếu có)
             Part brandImagePart = request.getPart("brandImage");
 
             ServletContext context = request.getServletContext();
@@ -47,7 +47,7 @@ public class BrandService {
                 request.getSession().setAttribute("message", "Thêm brand thất bại.");
             }
 
-            // 4️⃣ Chuyển hướng về danh sách brand
+            // Chuyển hướng về danh sách brand
             response.sendRedirect("MainController?action=loadForListBrand");
 
         } catch (Exception ex) {
