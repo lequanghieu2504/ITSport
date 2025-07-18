@@ -35,7 +35,7 @@
         <c:if test="${transResult == false}">
             <div>
                 <h3 style="font-weight: bold; color: #dc3545;">
-                    Đơn hàng giao dịch thất bại!
+                    <!--Đơn hàng giao dịch thất bại!-->
                 </h3>
                 <p style="font-size: 18px; margin-top: 15px;">Cảm ơn quý khách đã dùng dịch vụ của chúng tôi.</p>
                 <p style="font-size: 18px;">Liên hệ tổng đài để được tư vấn:</p>
