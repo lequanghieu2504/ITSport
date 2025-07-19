@@ -22,7 +22,7 @@
         <nav class="main-nav d-none d-lg-block">
             <ul class="nav-list list-unstyled d-flex mb-0">
                 <li><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
-                <li><a href="https://maps.app.goo.gl/AhjkkNbLbE6FFTxu5">Map</a></li>
+                <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68">Map</a></li>
                 <li><a href="${pageContext.request.contextPath}/aboutUs.jsp">Về chúng tôi</a></li>
                 <li><a href="${pageContext.request.contextPath}/policy.jsp">Chính sách mua hàng</a></li>
             </ul>
@@ -89,7 +89,7 @@
         <nav class="bg-dark py-2">
             <ul class="list-unstyled mb-0 text-center">
                 <li class="py-1"><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
-                <li class="py-1"><a href="https://maps.app.goo.gl/AhjkkNbLbE6FFTxu5">Map</a></li>
+                <li class="py-1"><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68">Map</a></li>
                 <li class="py-1"><a href="${pageContext.request.contextPath}/aboutUs.jsp">Về chúng tôi</a></li>
                 <li class="py-1"><a href="${pageContext.request.contextPath}/policy.jsp">Chính sách mua hàng</a></li>
                 <li class="py-1"><a href="MainController?action=login">Login</a></li>
