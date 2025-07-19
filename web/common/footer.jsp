@@ -30,7 +30,10 @@
       <div class="col-md-3">
         <h6 class="footer-heading">Hỗ trợ</h6>
         <ul class="footer-links">
-          <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68">Map</a></li>
+          <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68"
+                    target="_blank" rel="noopener noreferrer">
+                   Map
+                    </a></li>
           <li><a href="return.jsp">Đổi trả</a></li>
           <li><a href="sizeguide.jsp">Hướng dẫn chọn size</a></li>
           <li><a href="payment-method.jsp">Hình thức thanh toán</a></li>
