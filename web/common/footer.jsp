@@ -19,10 +19,10 @@
       <div class="col-md-2">
         <h6 class="footer-heading">Thông tin</h6>
         <ul class="footer-links">
-          <li><a href="about">Về chúng tôi</a></li>
-          <li><a href="policy">Chính sách</a></li>
-          <li><a href="faq">FAQ</a></li>
-          <li><a href="contact">Liên hệ</a></li>
+          <li><a href="aboutUs.jsp">Về chúng tôi</a></li>
+          <li><a href="policy.jsp">Chính sách</a></li>
+          <li><a href="faq.jsp">FAQ</a></li>
+          <li><a href="aboutUs.jsp">Liên hệ</a></li>
         </ul>
       </div>
 
@@ -30,10 +30,13 @@
       <div class="col-md-3">
         <h6 class="footer-heading">Hỗ trợ</h6>
         <ul class="footer-links">
-          <li><a href="shipping">Giao hàng</a></li>
-          <li><a href="returns">Đổi trả</a></li>
-          <li><a href="size-guide">Hướng dẫn chọn size</a></li>
-          <li><a href="payment">Hình thức thanh toán</a></li>
+          <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68"
+                    target="_blank" rel="noopener noreferrer">
+                   Map
+                    </a></li>
+          <li><a href="return.jsp">Đổi trả</a></li>
+          <li><a href="sizeguide.jsp">Hướng dẫn chọn size</a></li>
+          <li><a href="payment-method.jsp">Hình thức thanh toán</a></li>
         </ul>
       </div>
 
@@ -43,7 +46,7 @@
         <ul class="footer-contact">
           <li><i class="fa fa-map-marker-alt"></i> 123 Sport Street, Q.1, TP.HCM</li>
           <li><i class="fa fa-envelope"></i> support@itsport.vn</li>
-          <li><i class="fa fa-phone"></i> 0901 234 567</li>
+          <li><i class="fa fa-phone"></i> 1900 1234</li>
         </ul>
       </div>
     </div>

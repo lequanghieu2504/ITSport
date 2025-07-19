@@ -1,0 +1,15 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jul 19, 2025, 12:42:58 PM
+    Author     : hieuh
+*/
+
+/* assets/css/policy.css */
+body { background: #f9f9f9; }
+main h1 { color: #e74c3c; }
+section h3 { color: #c0392b; }
+section ol, section ul { margin-left: 1rem; }
+section ul li::before { color: #c0392b; }

@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/CartController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/CartService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/MainController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DTOs/ProductDTO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/cart.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/WEB-INF/WEB.xml</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/BrandController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DTOs/UserDTO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Enums/Role.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/PageController.java</file>
-        </group>
         <group name="Group 20250517-08:55:04">
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/listProduct.jsp</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/PageController.java</file>
@@ -29,6 +17,12 @@
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/User/order.jsp</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/ProductDetail.jsp</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/DAO/ProductDAO.java</file>
+        </group>
+        <group>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/login.jsp</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/WEB.xml</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
         </group>
     </open-files>
 </project-private>
