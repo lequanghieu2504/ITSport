@@ -32,7 +32,7 @@
         <ul class="footer-links">
           <li><a href="https://maps.app.goo.gl/AhjkkNbLbE6FFTxu5">Map</a></li>
           <li><a href="return.jsp">Đổi trả</a></li>
-          <li><a href="size-guide">Hướng dẫn chọn size</a></li>
+          <li><a href="sizeguide.jsp">Hướng dẫn chọn size</a></li>
           <li><a href="payment">Hình thức thanh toán</a></li>
         </ul>
       </div>
