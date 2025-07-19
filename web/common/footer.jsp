@@ -19,10 +19,10 @@
       <div class="col-md-2">
         <h6 class="footer-heading">Thông tin</h6>
         <ul class="footer-links">
-          <li><a href="about">Về chúng tôi</a></li>
-          <li><a href="policy">Chính sách</a></li>
-          <li><a href="faq">FAQ</a></li>
-          <li><a href="contact">Liên hệ</a></li>
+          <li><a href="aboutUs.jsp">Về chúng tôi</a></li>
+          <li><a href="policy.jsp">Chính sách</a></li>
+          <li><a href="faq.jsp">FAQ</a></li>
+          <li><a href="aboutUs.jsp">Liên hệ</a></li>
         </ul>
       </div>
 
