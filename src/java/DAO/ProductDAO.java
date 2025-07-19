@@ -197,6 +197,7 @@ public class ProductDAO {
 
     public ProductDTO getProductById(long product_id) {
         String sql = BASE_GET_PRODUCT_WITH_IMAGE + " and product_id = ?";
+
 //        String sql = GET_PRODUCT + " WHERE product_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, product_id);

@@ -1,0 +1,18 @@
+Thông tin cấu hình:
+Terminal ID / Mã Website (vnp_TmnCode): 00INSC31
+
+Secret Key / Chuỗi bí mật tạo checksum (vnp_HashSecret): 0F16SI9JKT0TQBI0BMZHCSU2D2IYE267
+
+Thông tin truy cập Merchant Admin để quản lý giao dịch:
+Địa chỉ: https://sandbox.vnpayment.vn/merchantv2/
+
+Tên đăng nhập: lequanghieu2504@gmail.com
+
+Mật khẩu: Hieu@2504
+
+Thẻ test:
+Ngân hàng	NCB
+Số thẻ		9704198526191432198
+Tên chủ thẻ	NGUYEN VAN A
+Ngày phát hành	07/15
+Mật khẩu OTP	123456

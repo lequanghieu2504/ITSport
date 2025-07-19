@@ -24,7 +24,7 @@ public class BuyingDAO {
     private final String GET_BUYING = "select * from Buyings ";
     private final String UPDATE_BUYING = "update Buyings ";
 
-    public int insertBuying(TotalBuyingDTO dto, Connection conn) throws SQLException {
+    public long insertBuying(TotalBuyingDTO dto, Connection conn) throws SQLException {
         System.out.println("Đang ở BuyingDAO");
         String sqlOrder = ""
                 + "INSERT INTO Buyings "
@@ -37,7 +37,7 @@ public class BuyingDAO {
                 + "VALUES (?, ?, ?, ?, ?)";
 
         // 1) Insert order
-        int buyingId;
+        long buyingId;
         try ( PreparedStatement ps = conn.prepareStatement(
                 sqlOrder, Statement.RETURN_GENERATED_KEYS)) {
             ps.setLong(1, dto.getUserId());
@@ -58,14 +58,14 @@ public class BuyingDAO {
                 if (!rs.next()) {
                     throw new SQLException("Không lấy được ID đơn mua");
                 }
-                buyingId = rs.getInt(1);
+                buyingId = rs.getLong(1);
             }
         }
 
         // 2) Insert items
         try ( PreparedStatement ps = conn.prepareStatement(sqlItem)) {
             for (ItemDTO it : dto.getItems()) {
-                ps.setInt(1, buyingId);
+                ps.setLong(1, buyingId);
                 ps.setInt(2, it.getProductId());
                 ps.setInt(3, it.getVariantId());
                 ps.setInt(4, it.getQuantity());

@@ -9,5 +9,5 @@ package Enums;
  * @author hieuh
  */
 public enum Status {
-    PENDING, CANCEL, SUCCESS,CONFIRM,PROGRESS
+    PENDING, CANCEL, SUCCESS,CONFIRM,PROGRESS,FAILED,PAID
 }
