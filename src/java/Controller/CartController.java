@@ -33,7 +33,9 @@ public class CartController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         if ("addToCart".equalsIgnoreCase(action)) {
             cartService.handleAddToCart(request, response);
@@ -51,9 +53,8 @@ public class CartController extends HttpServlet {
         } else if ("getCartSize".equalsIgnoreCase(action)) {
             cartService.handleGetCartSize(request, response);
             return;
-        }
-        else if("updateQuantity".equalsIgnoreCase(action)){
-            cartService.handleUpdateQuantity(request,response);
+        } else if ("updateQuantity".equalsIgnoreCase(action)) {
+            cartService.handleUpdateQuantity(request, response);
             return;
         }
     }

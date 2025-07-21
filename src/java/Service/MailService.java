@@ -49,7 +49,7 @@ public class MailService {
             String content = "Xin chào!\nMã OTP của bạn là: " + OTP + "\nMã này có hiệu lực trong 5 phút.";
 
             // Bước 4: Gửi mail
-//            MailUtils.sendEmail(toEmail, subject, content);
+            MailUtils.sendEmail(toEmail, subject, content);
             System.out.println(OTP);
                // Bước 5: Lưu OTP vào session
             HttpSession session = request.getSession();

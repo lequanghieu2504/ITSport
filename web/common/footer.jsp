@@ -1,4 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+
 <link rel="stylesheet" href="assets/css/footer.css"/>
 
 <footer class="sports-footer pt-5 pb-4">
