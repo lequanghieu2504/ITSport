@@ -130,7 +130,10 @@ public class MainController extends HttpServlet {
                 || "createVariant".equalsIgnoreCase(action)
                 || "updateProduct".equalsIgnoreCase(action)
                 || "productByCategory".equalsIgnoreCase(action)
-                || "GetProductDetail".equalsIgnoreCase(action);
+                || "GetProductDetail".equalsIgnoreCase(action)
+                || "searchProduct".equalsIgnoreCase(action)
+                || "searchSuggestion".equalsIgnoreCase(action)
+                ||"productByBrand".equalsIgnoreCase(action);
     }
 
     private boolean isUserBuyingInforAction(String action) {

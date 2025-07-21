@@ -23,6 +23,7 @@
     </head>
     <body style="background-color: #121212;">
         <jsp:include page="/common/header.jsp"/>
+        <jsp:include page="/homepage/filter.jsp"/>
 
         <!-- Overlay -->
         <div id="overlay" class="filter-overlay" onclick="closeFilterPopup()"></div>

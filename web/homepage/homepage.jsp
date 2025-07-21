@@ -30,26 +30,9 @@
     <body>
         <jsp:include page="/common/header.jsp"/>
         <jsp:include page="banner.jsp"/>
+        <jsp:include page="/homepage/filter.jsp"/>
 
-        <!-- DANH MỤC -->
-        <div class="category-wrapper section-wrapper">
-            <h2>Danh Mục</h2>
-            <div class="category-container">
-                <c:choose>
-                    <c:when test="${not empty listC}">
-                        <c:forEach var="c" items="${listC}">
-                            <a href="ProductController?action=productByCategory&cid=${c.category_id}" class="category-item">
-                                <img src="${pageContext.request.contextPath}/${c.imageUrl}" width="100" />
-                                <h4>${c.category_name}</h4>
-                            </a>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <p>Không có danh mục nào.</p>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
+
 
         <!-- SẢN PHẨM MỚI -->
         <div class="newproduct-wrapper section-wrapper">

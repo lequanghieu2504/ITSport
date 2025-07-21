@@ -27,6 +27,11 @@
             }
 
             body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', sans-serif;
+                background-color: var(--light-gray);
+                color: var(--text-dark);
                 display: flex;
                 min-height: 100vh;
             }
@@ -112,7 +117,7 @@
                     <jsp:include page="product/createProductForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'editProduct'}">
-                    <jsp:include page="product/UpdateProductForm.jsp"/>   
+                    <jsp:include page="product/UpdateProductForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'createVariant'}">
                     <jsp:include page="product/CreateProductVariantForm.jsp"/>
@@ -139,11 +144,12 @@
                     <jsp:include page="revenue/revenueManager.jsp"/>
                 </c:when>
                 <c:otherwise>
-                    <h2>Welcome to the Admin Dashboard</h2>
-                    <p>Select a section from the menu.</p>
+                    <div class="card">
+                        <h2>Welcome to the Admin Dashboard</h2>
+                        <p>Select a section from the menu.</p>
+                    </div>
                 </c:otherwise>
             </c:choose>
         </div>
-
     </body>
 </html>

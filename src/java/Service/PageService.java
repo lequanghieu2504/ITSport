@@ -78,7 +78,7 @@ public class PageService {
             List<ProductDTO> listAo = productDAO.getProductsByCategoryId(1);
             List<ProductDTO> listQ = productDAO.getProductsByCategoryId(2);
             List<ProductDTO> productListP = productDAO.getSuggestedProducts();
-
+            List<BrandDTO> listB = brandDAO.getAllBrand();
             HttpSession session = request.getSession();
             ClientDTO client = (ClientDTO) session.getAttribute("client");
             if (client != null) {
@@ -87,11 +87,12 @@ public class PageService {
                 session.setAttribute("cartSize", cartSize); // Gán vào session để hiện ở header
             }
 
-            request.setAttribute("listC", listC);
+            request.getSession().setAttribute("listC", listC);
             request.setAttribute("listNewP", listNewP);
             request.setAttribute("listAo", listAo);
             request.setAttribute("listQ", listQ);
             request.setAttribute("productListP", productListP);
+            request.getSession().setAttribute("listB", listB);
 
             // lay thong tin het thi forward toi trang home de load len
             request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
