@@ -1,0 +1,174 @@
+-- ========================================
+-- DROP & TẠO MỚI DATABASE
+-- ========================================
+IF DB_ID('ITSPORT_VERSION_TEST') IS NOT NULL
+BEGIN
+    ALTER DATABASE ITSPORT_VERSION_TEST SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE ITSPORT_VERSION_TEST;
+END;
+GO
+
+CREATE DATABASE ITSPORT_VERSION_FINAL;
+GO
+
+USE ITSPORT_VERSION_FINAL;
+GO
+
+-- ========================================
+-- 1️⃣ User Table (login account)
+-- ========================================
+CREATE TABLE [User] (
+    user_id INT IDENTITY(1,1) PRIMARY KEY,
+    email NVARCHAR(255) NULL,          -- Sửa thành NVARCHAR
+    username NVARCHAR(50) NOT NULL UNIQUE, -- Sửa thành NVARCHAR
+    password NVARCHAR(255) NULL,       -- Sửa thành NVARCHAR
+    role NVARCHAR(20) NOT NULL         -- Sửa thành NVARCHAR
+);
+
+CREATE UNIQUE INDEX UX_User_Email ON [User](email) WHERE email IS NOT NULL;
+
+-- ========================================
+-- 2️⃣ Cart Table (giỏ hàng)
+-- ========================================
+CREATE TABLE Cart (
+    cart_id INT IDENTITY(1,1) PRIMARY KEY
+);
+
+-- ========================================
+-- 3️⃣ Client Table (profile)
+-- ========================================
+CREATE TABLE Client (
+    client_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE,
+    cart_id INT UNIQUE,
+    full_name NVARCHAR(100),
+    phone_number NVARCHAR(20), -- Sửa thành NVARCHAR
+    address NVARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES [User](user_id),
+    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id)
+);
+
+-- ========================================
+-- 4️⃣ Categories Table
+-- ========================================
+CREATE TABLE Categories (
+    category_id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(100),
+    parent_id INT NULL,
+    FOREIGN KEY (parent_id) REFERENCES Categories(category_id)
+);
+
+-- ========================================
+-- 5️⃣ Brand Table
+-- ========================================
+CREATE TABLE Brand (
+    brand_id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(100)
+);
+
+-- ========================================
+-- 6️⃣ Product Table
+-- ========================================
+CREATE TABLE Product (
+    product_id INT IDENTITY(1,1) PRIMARY KEY,
+    product_name NVARCHAR(100),
+    description NVARCHAR(MAX),
+    price DECIMAL(10,2),
+    category_id INT,
+    brand_id INT,
+    status NVARCHAR(50), -- Sửa thành NVARCHAR
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id),
+    FOREIGN KEY (brand_id) REFERENCES Brand(brand_id)
+);
+
+-- ========================================
+-- 7️⃣ ProductVariant Table
+-- ========================================
+CREATE TABLE ProductVariant (
+    product_variant_id INT IDENTITY(1,1) PRIMARY KEY,
+    product_id INT,
+    size NVARCHAR(10),  -- Sửa thành NVARCHAR (nếu size có thể chứa ký tự Unicode)
+    color NVARCHAR(50), -- Sửa thành NVARCHAR
+    quantity INT,
+    sku NVARCHAR(50) UNIQUE, -- Sửa thành NVARCHAR
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+-- ========================================
+-- 8️⃣ Image Table
+-- ========================================
+CREATE TABLE Image (
+    image_id INT IDENTITY(1,1) PRIMARY KEY,
+    file_name NVARCHAR(255) NOT NULL, -- Sửa thành NVARCHAR nếu tên file có thể chứa Unicode
+    target_id INT NOT NULL,
+    target_type NVARCHAR(20) NOT NULL, -- Sửa thành NVARCHAR
+    uploaded_at DATETIME DEFAULT GETDATE()
+);
+
+-- ========================================
+-- 9️⃣ Cart_Item Table
+-- ========================================
+CREATE TABLE Cart_Item (
+    cart_item_id INT IDENTITY(1,1) PRIMARY KEY,
+    cart_id INT,
+    product_id INT,
+    product_variant_id INT,
+    quantity INT,
+    FOREIGN KEY (cart_id) REFERENCES Cart(cart_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (product_variant_id) REFERENCES ProductVariant(product_variant_id)
+);
+
+-- ========================================
+-- 🔟 Buyings Table (gồm luôn thông tin giao hàng)
+-- ========================================
+CREATE TABLE Buyings (
+    buying_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    total_price DECIMAL(12,2) NOT NULL,
+    payment_method NVARCHAR(30) NOT NULL, -- Sửa thành NVARCHAR
+    status NVARCHAR(30) NOT NULL,         -- Sửa thành NVARCHAR
+    created_at DATETIME DEFAULT GETDATE(),
+    updated_at DATETIME DEFAULT GETDATE(),
+    shippingName NVARCHAR(255),
+    shippingPhone NVARCHAR(50),
+    shippingStreet NVARCHAR(500),
+    shippingWard NVARCHAR(255),
+    shippingDistrict NVARCHAR(255),
+    shippingProvince NVARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES [User](user_id)
+);
+
+-- ========================================
+-- 11️⃣ BuyingItems Table
+-- ========================================
+CREATE TABLE BuyingItems (
+    buying_item_id INT IDENTITY(1,1) PRIMARY KEY,
+    buying_id INT NOT NULL,
+    product_id INT NOT NULL,
+    variant_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price_each DECIMAL(12,2) NOT NULL,
+    FOREIGN KEY (buying_id) REFERENCES Buyings(buying_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id),
+    FOREIGN KEY (variant_id) REFERENCES ProductVariant(product_variant_id)
+);
+
+-- ========================================
+-- 1️⃣2️⃣ BuyingUserInfor Table (địa chỉ giao hàng của user)
+-- ========================================
+CREATE TABLE BuyingUserInfor (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipient_name NVARCHAR(255) NOT NULL,
+    province NVARCHAR(255) NOT NULL,
+    district NVARCHAR(255) NOT NULL,
+    ward NVARCHAR(255) NOT NULL,
+    street NVARCHAR(500) NOT NULL,
+    phone NVARCHAR(50) NOT NULL,
+    created_at DATETIME DEFAULT GETDATE(),
+    updated_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (user_id) REFERENCES [User](user_id)
+);
+
+PRINT '✅ ITSPORT_VERSION_TEST schema created successfully with full Unicode support!';
