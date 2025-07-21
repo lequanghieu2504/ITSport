@@ -190,12 +190,11 @@ public class BuyingService {
                 cartInfos.add(info);
             }
 
-            req.setAttribute("cartInfos", cartInfos);
+            req.getSession().setAttribute("cartInfos", cartInfos);
 
-            HttpSession session = req.getSession();
-            session.setAttribute("cartCheckoutInfo", cartInfos);
+            req.getSession().setAttribute("cartCheckoutInfo", cartInfos);
 
-            UserDTO currentUser = (UserDTO) session.getAttribute("user");
+            UserDTO currentUser = (UserDTO) req.getSession().getAttribute("user");
             if (currentUser != null) {
                 List<UserBuyingInfoDTO> userBuyingInfoDTOs = userBuyingInforDAO.getUserBuyingInforByUserId(currentUser.getUser_id());
                 if (userBuyingInfoDTOs != null && !userBuyingInfoDTOs.isEmpty()) {
