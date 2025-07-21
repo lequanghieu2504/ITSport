@@ -125,7 +125,7 @@ public class ProductDAO {
 
     public List<ProductDTO> getAllProduct() {
         List<ProductDTO> listP = new ArrayList<>();
-        String sql = GET_PRODUCT;
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE_For_Admin;
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
