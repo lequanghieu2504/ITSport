@@ -210,41 +210,45 @@ public class BuyingDAO {
     }
 
     public List<UserOrderDTO> getUserBuying(long userId) {
-        String sql = "  SELECT "
-                + "  b.buying_id, "
-                + "  b.user_id, "
-                + "  b.total_price, "
-                + "  b.payment_method, "
-                + "  b.status, "
-                + "  b.created_at, "
-                + "  b.updated_at, "
-                + "  b.shippingName, "
-                + "  b.shippingPhone, "
-                + "  b.shippingStreet, "
-                + "  b.shippingWard, "
-                + "  b.shippingDistrict, "
-                + "  b.shippingProvince, "
-                + "  bi.buying_item_id, "
-                + "  bi.product_id, "
-                + "  bi.variant_id, "
-                + "  bi.quantity AS item_quantity, "
-                + "  bi.price_each, "
-                + "  pv.size, "
-                + "  pv.color, "
-                + "  pv.sku, "
-                + "  img.file_name AS image_url "
-                + "FROM "
-                + "  Buyings b "
-                + "JOIN "
-                + "  BuyingItems bi ON b.buying_id = bi.buying_id "
-                + "JOIN "
-                + "  ProductVariant pv ON bi.variant_id = pv.product_variant_id "
-                + "LEFT JOIN "
-                + "  Image img ON pv.product_variant_id = img.target_id AND img.target_type = 'PRODUCT_VARIANT'\n"
-                + "WHERE "
-                + "  b.user_id = ? "
-                + "ORDER BY "
-                + "  b.buying_id, bi.buying_item_id ";
+        String sql = "SELECT \n"
+                + "    b.buying_id,\n"
+                + "    b.user_id,\n"
+                + "    b.total_price,\n"
+                + "    b.payment_method,\n"
+                + "    b.status,\n"
+                + "    b.created_at,\n"
+                + "    b.updated_at,\n"
+                + "    b.shippingName,\n"
+                + "    b.shippingPhone,\n"
+                + "    b.shippingStreet,\n"
+                + "    b.shippingWard,\n"
+                + "    b.shippingDistrict,\n"
+                + "    b.shippingProvince,\n"
+                + "    bi.buying_item_id,\n"
+                + "    bi.product_id,\n"
+                + "    bi.variant_id,\n"
+                + "    bi.quantity AS item_quantity,\n"
+                + "    bi.price_each,\n"
+                + "    pv.size,\n"
+                + "    pv.color,\n"
+                + "    pv.sku,\n"
+                + "    img.file_name AS image_url\n"
+                + "FROM \n"
+                + "    Buyings b\n"
+                + "    JOIN BuyingItems bi ON b.buying_id = bi.buying_id\n"
+                + "    JOIN ProductVariant pv ON bi.variant_id = pv.product_variant_id\n"
+                + "    OUTER APPLY (\n"
+                + "        SELECT TOP 1 file_name \n"
+                + "        FROM Image \n"
+                + "        WHERE target_id = pv.product_variant_id \n"
+                + "          AND target_type = 'PRODUCT_VARIANT'\n"
+                + "        ORDER BY image_id -- Hoặc created_at, hoặc thứ tự bạn muốn ưu tiên\n"
+                + "    ) img\n"
+                + "WHERE \n"
+                + "    b.user_id = ?\n"
+                + "ORDER BY \n"
+                + "    b.buying_id,\n"
+                + "    bi.buying_item_id";
         List<UserOrderDTO> userOrderDTOs = new ArrayList<>();
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -265,11 +269,11 @@ public class BuyingDAO {
 
     public void updateStatusByUser(long userId, long buyingId) {
         String sql = UPDATE_BUYING + " set status = 'CANCEL' WHERE buying_id=? and user_id=?";
-        try(Connection conn = JDBCConnection.getConnection();PreparedStatement ps = conn.prepareStatement(sql)){
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, buyingId);
             ps.setLong(2, userId);
-        ps.executeUpdate();
-            } catch (SQLException ex) {
+            ps.executeUpdate();
+        } catch (SQLException ex) {
             Logger.getLogger(BuyingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
