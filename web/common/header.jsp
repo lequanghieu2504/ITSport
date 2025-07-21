@@ -1,12 +1,12 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/header.css"/>
 
-<!-- Thêm Bootstrap JS (nếu trang của bạn chưa có) -->
+<!-- Bootstrap & jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -27,16 +27,21 @@
                         Map
                     </a>
                 </li>
+
                 <li><a href="${pageContext.request.contextPath}/aboutUs.jsp">Về chúng tôi</a></li>
                 <li><a href="${pageContext.request.contextPath}/policy.jsp">Chính sách mua hàng</a></li>
             </ul>
         </nav>
 
         <!-- Search -->
-        <form action="search" method="get" class="search-bar d-none d-md-flex align-items-center">
-            <input type="text" name="txt" value="${txtS}" placeholder="Tìm kiếm..." class="form-control search-input" />
-            <button type="submit" class="btn btn-primary search-btn"><i class="fa fa-search"></i></button>
-        </form>
+        <div class="search-wrapper position-relative">
+            <form action="ProductController" method="get" class="search-bar d-none d-md-flex align-items-center">
+                <input type="hidden" name="action" value="searchProduct" />
+                <input type="text" id="searchInput" name="keyword" value="${keyword}" placeholder="Tìm kiếm..." class="form-control search-input" autocomplete="off"/>
+                <button type="submit" class="btn btn-primary search-btn"><i class="fa fa-search"></i></button>
+            </form>
+            <div id="suggestionBox" class="suggestion-box"></div>
+        </div>
 
         <!-- Icons & Auth -->
         <div class="d-flex align-items-center ml-3">
@@ -54,7 +59,7 @@
 
             </c:if>
 
-            <!-- User Dropdown + Welcome -->
+            <!-- User Dropdown -->
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
 
@@ -64,6 +69,7 @@
                     <!-- Dropdown User Icon -->
                     <div class="dropdown">
                         <a class="icon-wrapper dropdown-toggle text-decoration-none text-white" href="#" id="userDropdown"
+
                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user icon-item"></i>
                         </a>
@@ -86,17 +92,16 @@
 
                             <!-- Logout luôn hiện -->
                             <a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a>
+
                         </div>
                     </div>
 
                 </c:when>
                 <c:otherwise>
-                    <!-- Nếu chưa login -->
                     <form action="MainController" method="get" class="d-inline">
                         <input type="hidden" name="action" value="login">
                         <button type="submit" class="btn btn-outline-light btn-sm mr-2">Login</button>
                     </form>
-
                     <form action="MainController" method="get" class="d-inline">
                         <input type="hidden" name="action" value="register">
                         <button type="submit" class="btn btn-primary btn-sm">Register</button>
@@ -118,10 +123,19 @@
                 <li class="py-1"><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
                 <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68"
                     target="_blank" rel="noopener noreferrer">Map</a></li>
+
                 <li class="py-1"><a href="${pageContext.request.contextPath}/aboutUs.jsp">Về chúng tôi</a></li>
                 <li class="py-1"><a href="${pageContext.request.contextPath}/policy.jsp">Chính sách mua hàng</a></li>
-                <li class="py-1"><a href="MainController?action=login">Login</a></li>
-                <li class="py-1"><a href="MainController?action=register">Register</a></li>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                        <li class="py-1"><a href="MainController?action=profile">Tài khoản</a></li>
+                        <li class="py-1"><a href="MainController?action=logout">Đăng xuất</a></li>
+                        </c:when>
+                        <c:otherwise>
+                        <li class="py-1"><a href="MainController?action=login">Login</a></li>
+                        <li class="py-1"><a href="MainController?action=register">Register</a></li>
+                        </c:otherwise>
+                    </c:choose>
             </ul>
         </nav>
     </div>

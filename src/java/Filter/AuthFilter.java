@@ -1,4 +1,5 @@
 package Filter;
+
 import DTOs.UserDTO;
 import Enums.Role;
 import jakarta.servlet.Filter;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "AuthFilter", urlPatterns = {"/MainController", "/admin/*"})
 public class AuthFilter implements Filter {
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -25,33 +27,29 @@ public class AuthFilter implements Filter {
         String requestURI = req.getRequestURI();
         String contextPath = req.getContextPath();
         String path = requestURI.substring(contextPath.length());
-        
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
-        
-        // Kiểm tra nếu đang truy cập admin URL
+        UserDTO user = isLoggedIn ? (UserDTO) session.getAttribute("user") : null;
+
+        // Kiểm tra nếu đang truy cập admin
         if (path.startsWith("/admin/")) {
             if (!isLoggedIn) {
                 res.sendRedirect(contextPath + "/login.jsp");
                 return;
             }
-            
-            // Kiểm tra quyền admin
-            Object userObj = session.getAttribute("user");
-            if (userObj instanceof UserDTO) {
-                UserDTO user = (UserDTO) userObj;
-                if (user.getRole() != Role.ADMIN) {
-                    res.sendRedirect(contextPath + "/auth.jsp"); // Trang báo không có quyền
-                    return;
-                }
-            } else {
-                res.sendRedirect(contextPath + "/login.jsp");
+
+            if (user.getRole() != Role.ADMIN) {
+                res.sendRedirect(contextPath + "/auth.jsp");
                 return;
             }
+
             // Nếu là admin, cho phép truy cập
             chain.doFilter(request, response);
             return;
         }
-        
+
         // Các action không cần đăng nhập (cho MainController)
         if (action == null
                 || action.equals("login")
@@ -59,35 +57,29 @@ public class AuthFilter implements Filter {
                 || action.equals("loadForHomePage")
                 || action.equals("sendMailToGetOTP")
                 || action.equals("OTPToLogin")
-                || action.equals("LoadViewProductDetail")) {
+                || action.equals("viewDetailProduct")
+                ) {
             chain.doFilter(request, response);
             return;
         }
-        
+
         // Nếu chưa đăng nhập, chuyển đến login
         if (!isLoggedIn) {
             res.sendRedirect("login.jsp");
             return;
         }
-        
+
         // Nếu cần phân quyền admin cho một số action
         if (isAdminOnlyAction(action)) {
-            Object userObj = session.getAttribute("user");
-            if (userObj instanceof UserDTO) {
-                UserDTO user = (UserDTO) userObj;
-                if (user.getRole() != Role.ADMIN) {
-                    res.sendRedirect("auth.jsp");
-                    return;
-                }
-            } else {
-                res.sendRedirect("login.jsp");
+            if (user.getRole() != Role.ADMIN) {
+                res.sendRedirect(contextPath + "/auth.jsp");
                 return;
             }
         }
-        
+
         chain.doFilter(request, response);
     }
-    
+
     private boolean isAdminOnlyAction(String action) {
         return action.equalsIgnoreCase("insertProduct")
                 || action.equalsIgnoreCase("updateProduct")
@@ -98,11 +90,11 @@ public class AuthFilter implements Filter {
                 || action.equalsIgnoreCase("loadForRevenue")
                 || action.equalsIgnoreCase("updateBuyingStatus");
     }
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
-    
+
     @Override
     public void destroy() {
     }

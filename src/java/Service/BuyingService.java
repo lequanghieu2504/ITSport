@@ -69,15 +69,15 @@ public class BuyingService {
             ProductVariantDTO productVariantDTO = variantDAO.getByColorAndSize(strColor, strSize);
 
             if (productVariantDTO == null) {
-                req.setAttribute("error", "Không tìm thấy sản phẩm với màu sắc và size đã chọn");
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                req.getSession().setAttribute("message", "Không có sản phẩm hợp lệ");
+                req.getRequestDispatcher("MainController?action=viewDetailProduct&pid=" + strProductId).forward(req, resp);
                 return;
             }
 
             // Kiểm tra số lượng tồn kho
             if (productVariantDTO.getQuantity() < quantity) {
-                req.setAttribute("error", "Số lượng sản phẩm không đủ. Còn lại: " + productVariantDTO.getQuantity());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                req.getSession().setAttribute("message", "Số lượng sản phẩm không đủ");
+                req.getRequestDispatcher("MainController?action=viewDetailProduct&pid=" + strProductId).forward(req, resp);
                 return;
             }
 
@@ -85,8 +85,8 @@ public class BuyingService {
             ProductDTO productDTO = productDAO.getProductById(productId);
 
             if (productDTO == null) {
-                req.setAttribute("error", "Không tìm thấy sản phẩm");
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                req.getSession().setAttribute("message", "Không tìm thấy product " + productVariantDTO.getQuantity());
+                req.getRequestDispatcher("MainController?action=viewDetailProduct&pid=" + strProductId).forward(req, resp);
                 return;
             }
 
@@ -119,7 +119,7 @@ public class BuyingService {
         } catch (NumberFormatException e) {
             req.setAttribute("error", "Dữ liệu không hợp lệ");
             try {
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
+                req.getRequestDispatcher("MainController?action=loadForHomePage").forward(req, resp);
             } catch (ServletException | IOException ex) {
                 ex.printStackTrace();
             }
@@ -343,7 +343,7 @@ public class BuyingService {
 //    }
     public int handleCheckout(HttpServletRequest req, HttpServletResponse resp) {
         UserDTO currentUser = validateUser(req);
-        TotalBuyingDTO dto = prepareOrderData(req, currentUser);
+        TotalBuyingDTO dto = prepareOrderData(req, currentUser,resp);
         return processTransaction(req, resp, dto);
     }
 
@@ -356,7 +356,7 @@ public class BuyingService {
         return user;
     }
 
-    private TotalBuyingDTO prepareOrderData(HttpServletRequest req, UserDTO user) {
+    private TotalBuyingDTO prepareOrderData(HttpServletRequest req, UserDTO user,HttpServletResponse response) {
 
         String[] pIds = req.getParameterValues("productId");
         String[] vIds = req.getParameterValues("variantId");
@@ -407,8 +407,20 @@ public class BuyingService {
         dto.setItems(items);
         dto.setTotalPrice(total);
 
+        String strAddress = req.getParameter("selectedAddress");
+        if(strAddress== null||strAddress.trim().isEmpty()){
+            try {
+                req.getSession().setAttribute("message", "Vui lòng chọn địa chỉ giao hàng");
+                req.getRequestDispatcher("checkout.jsp").forward(req, response);
+                return null;
+            } catch (ServletException ex) {
+                Logger.getLogger(BuyingService.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(BuyingService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         // Lấy địa chỉ giao hàng
-        long addressId = Long.parseLong(req.getParameter("selectedAddress"));
+        long addressId = Long.parseLong(strAddress);
         UserBuyingInfoDTO addr = userBuyingInforDAO.getUserBuyingInforById(addressId);
         if (addr == null) {
             throw new IllegalArgumentException("Vui lòng chọn địa chỉ giao hàng");

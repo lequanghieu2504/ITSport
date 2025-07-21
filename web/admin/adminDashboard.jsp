@@ -7,86 +7,121 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
         <style>
             :root {
-                --primary-color: #8B0000;
-                --bg-color: #121212;
-                --sidebar-bg: #1c1c1c;
-                --content-bg: #181818;
-                --text-color: #f0f0f0;
-                --muted-text: #aaa;
-                --hover-bg: #292929;
-                --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+                --wine-red: #800020;
+                --wine-dark: #5a0016;
+                --white: #ffffff;
+                --light-gray: #f4f4f4;
+                --text-dark: #2c2c2c;
+                --radius: 10px;
+                --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                --transition: all 0.3s ease;
             }
 
-            html, body {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-                font-family: 'Roboto', sans-serif;
-                background: var(--bg-color);
-                color: var(--text-color);
+            * {
+                box-sizing: border-box;
             }
 
             body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', sans-serif;
+                background-color: var(--light-gray);
+                color: var(--text-dark);
                 display: flex;
                 min-height: 100vh;
             }
 
             .sidebar {
+
+                width: 220px;
+                background-color: var(--wine-red);
+                color: var(--white);
+                padding: 20px;
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 220px;
-                height: 100%;
-                background: var(--sidebar-bg);
-                padding: 20px;
-                box-sizing: border-box;
+                height: 100vh;
                 box-shadow: var(--shadow);
             }
 
             .sidebar h3 {
-                color: var(--primary-color);
-                margin-bottom: 1.5rem;
-                font-weight: 700;
+
+                margin-top: 0;
+                font-size: 22px;
+                text-align: center;
+                margin-bottom: 30px;
             }
 
             .sidebar a {
-                display: block;
+                color: var(--white);
                 text-decoration: none;
-                color: var(--text-color);
-                padding: 10px;
-                margin-bottom: 8px;
-                border-radius: 4px;
-                transition: background 0.3s;
+                display: block;
+                padding: 12px 15px;
+                border-radius: var(--radius);
+                margin-bottom: 10px;
+                transition: var(--transition);
             }
 
             .sidebar a:hover {
-                background: var(--hover-bg);
+                background-color: var(--wine-dark);
             }
 
             .content {
                 margin-left: 220px;
-                padding: 30px;
-                background: var(--content-bg);
-                flex: 1;
-                min-height: 100vh;
-                box-sizing: border-box;
+                padding: 40px 50px;
+                width: calc(100% - 220px);
+                background-color: #fdfdfd;
             }
 
-            h2 {
-                color: var(--primary-color);
+            .content h2 {
+                font-size: 28px;
+                color: #2c2c2c;
+                margin-bottom: 25px;
             }
 
-            p {
-                color: var(--muted-text);
+            .card {
+                background-color: var(--white);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 25px 30px;
+                margin-bottom: 30px;
+                transition: var(--transition);
             }
 
-            @media (max-width: 768px) {
-                .sidebar {
-                    width: 180px;
-                }
+            .card h3 {
+                margin-top: 0;
+                margin-bottom: 20px;
+                font-size: 20px;
+                color: var(--wine-red);
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 16px;
+            }
+
+            table thead {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            table td {
+                color: #333;
+            }
+
+            @media screen and (max-width: 768px) {
                 .content {
-                    margin-left: 180px;
+                    margin-left: 0;
                     padding: 20px;
+                    width: 100%;
                 }
             }
         </style>
@@ -94,8 +129,9 @@
     <body>
 
         <div class="sidebar">
-            <h3>Admin Menu</h3>
-            <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage">Homepage</a>
+
+            <h3 style="margin-bottom: 20px; size: 50px">Admin Menu</h3>
+            <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage">HomePage</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForRevenue">Revenue</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListBuying">Booking</a>
@@ -112,7 +148,7 @@
                     <jsp:include page="product/createProductForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'editProduct'}">
-                    <jsp:include page="product/UpdateProductForm.jsp"/>   
+                    <jsp:include page="product/UpdateProductForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'createVariant'}">
                     <jsp:include page="product/CreateProductVariantForm.jsp"/>
@@ -139,11 +175,12 @@
                     <jsp:include page="revenue/revenueManager.jsp"/>
                 </c:when>
                 <c:otherwise>
-                    <h2>Welcome to the Admin Dashboard</h2>
-                    <p>Select a section from the menu.</p>
+                    <div class="card">
+                        <h2>Welcome to the Admin Dashboard</h2>
+                        <p>Select a section from the menu.</p>
+                    </div>
                 </c:otherwise>
             </c:choose>
         </div>
-
     </body>
 </html>

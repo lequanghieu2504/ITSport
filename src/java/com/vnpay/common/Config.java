@@ -22,10 +22,19 @@ import jakarta.servlet.http.HttpServletRequest;
 public class Config {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/ITSport_1.2/vnpayReturn";
+//    public static String vnp_ReturnUrl = getReturnUrl(request);
     public static String vnp_TmnCode = "00INSC31";
     public static String secretKey = "0F16SI9JKT0TQBI0BMZHCSU2D2IYE267";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+    
+    public static String vnp_ReturnUrl(HttpServletRequest request) {
+        String scheme      = request.getScheme();          // http hoặc https
+        String serverName  = request.getServerName();      // localhost hoặc domain
+        int    port        = request.getServerPort();      // 8080, 80, 443...
+        String contextPath = request.getContextPath();     // /TênApp
+        String portPart    = (port == 80 || port == 443) ? "" : ":" + port;
+        return String.format("%s://%s%s%s/vnpayReturn", scheme, serverName, portPart, contextPath);
+    }
 
     public static String md5(String message) {
         String digest = null;

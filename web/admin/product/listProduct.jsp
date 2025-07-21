@@ -11,22 +11,38 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
+
+            :root {
+                --wine-red: #800020;
+                --wine-hover: #a00030;
+                --table-head: #61001a;
+                --text-light: #fff;
+                --border-radius: 8px;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+
             body {
-                background: #121212; /* Màu nền tối */
-                color: #f0f0f0;
+                background: #f8f9fa;
+                font-family: 'Roboto', sans-serif;
+            }
+            
+            a {
+                text-decoration: none;
             }
 
             .page-header {
-                background: linear-gradient(135deg, #00b894, #0984e3);
-                color: #fff;
+                background: var(--wine-red);
+                color: var(--text-light);
                 padding: 25px 0;
                 text-align: center;
                 margin-bottom: 30px;
+                box-shadow: var(--shadow);
             }
 
             .page-header h1 {
                 margin: 0;
                 font-weight: 700;
+                font-size: 28px;
             }
 
             .table-actions a {
@@ -45,83 +61,47 @@
                 justify-content: center;
                 align-items: center;
                 z-index: 1000;
+
+                background-color: var(--wine-red);
+                border: none;
+                color: #fff;
             }
 
-            .table {
-                background-color: #1e1e1e; /* Màu nền bảng tối */
-                color: #f0f0f0;
+            .add-product-btn:hover {
+                background-color: var(--wine-hover);
             }
 
             .table thead {
-                background-color: #2c2c2c;
-                color: #f0f0f0;
-            }
-
-            .table-striped tbody tr:nth-of-type(odd) {
-                background-color: #2a2a2a;
-            }
-
-            .table-striped tbody tr:hover {
-                background-color: #333;
+                background-color: var(--table-head);
+                color: #fff;
             }
 
             .table td, .table th {
                 vertical-align: middle;
             }
 
-            .table a {
-                color: #4fc3f7; /* Link sản phẩm màu xanh dương nhẹ, dễ đọc trên nền tối */
-                text-decoration: none;
-            }
-
-            .table a:hover {
-                text-decoration: underline;
-            }
 
             .btn-primary {
-                background-color: #6c5ce7;
-                border: none;
+                background-color: var(--wine-red);
+                border-color: var(--wine-red);
             }
 
-            .btn-danger {
-                background-color: #d63031;
-                border: none;
-            }
-            .table {
-                background-color: #1e1e1e !important; /* Đè mạnh Bootstrap */
-                color: #f0f0f0 !important;
+            .btn-primary:hover {
+                background-color: var(--wine-hover);
+                border-color: var(--wine-hover);
             }
 
-            .table thead {
-                background-color: #2c2c2c !important;
-            }
-
-            .table-striped tbody tr:nth-of-type(odd) {
-                background-color: #2a2a2a !important;
-            }
-
-            .table-striped tbody tr:hover {
-                background-color: #333 !important;
-            }
-
-            .table td, .table th {
-                border-color: #444 !important; /* Viền tối */
-            }
-
-            .table a {
-                color: #4fc3f7 !important;
-            }
-
-            .table a:hover {
-                text-decoration: underline;
+            .btn-danger:hover {
+                opacity: 0.9;
             }
 
         </style>
-
     </head>
     <body>
 
-       
+        <div class="page-header">
+            <h1><i class="bi bi-list-ul"></i> Danh sách sản phẩm</h1>
+        </div>
 
         <div class="container mb-5">
 
@@ -146,7 +126,8 @@
                 <!-- Bảng sản phẩm -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">
-                        <thead>
+
+                        <thead class="table-dark">
                             <tr>
                                 <th>ID</th>
                                 <th>Tên</th>

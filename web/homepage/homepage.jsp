@@ -32,6 +32,13 @@
         <jsp:include page="banner.jsp"/>
         <jsp:include page="/homepage/filter.jsp"/>
 
+<<<<<<< HEAD
+=======
+
+       
+
+
+>>>>>>> cb20d01ca37be9759c6f23e0893742f6699a03f0
         <!-- SẢN PHẨM MỚI -->
         <div class="newproduct-wrapper section-wrapper">
             <h2>SẢN PHẨM MỚI</h2>
