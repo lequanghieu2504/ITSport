@@ -1,9 +1,15 @@
 function closePopup() {
-    document.getElementById("popupMessage").style.display = "none";
+    const popup = document.getElementById("popupMessage");
+    if (popup) {
+        popup.style.display = "none";
+    }
 }
 
-setTimeout(() => {
+document.addEventListener("DOMContentLoaded", function () {
     const popup = document.getElementById("popupMessage");
-    if (popup)
-        popup.style.display = "none";
-}, 3000);
+    if (popup) {
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 3000);
+    }
+});
