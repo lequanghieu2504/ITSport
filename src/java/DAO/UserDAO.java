@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTOs.ClientDTO;
 import DTOs.UserDTO;
 import Enums.Role;
 import Mapper.UserMapper;
@@ -25,20 +26,28 @@ public class UserDAO {
     private String GET_USER = "SELECT * FROM [User]";
 
     public boolean insertUser(UserDTO newUserDTO) {
-        String sql = INSERT_USER + " (username,fullName,[password],[role]) VALUES (?,?,?,?)";
+        String sql;
+        boolean hasEmail = newUserDTO.getEmail() != null && !newUserDTO.getEmail().trim().isEmpty();
+
+        if (hasEmail) {
+            sql = INSERT_USER + " (username,[password],[role],email) VALUES (?,?,?,?)";
+        } else {
+            sql = INSERT_USER + " (username,[password],[role]) VALUES (?,?,?)";
+        }
+
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, newUserDTO.getUsername());
-            ps.setString(2, newUserDTO.getFullName());
-            ps.setString(3, newUserDTO.getPassword());
-            ps.setString(4, newUserDTO.getRole().name());
+            ps.setString(2, newUserDTO.getPassword());
+            ps.setString(3, newUserDTO.getRole().name());
+
+            if (hasEmail) {
+                ps.setString(4, newUserDTO.getEmail());
+            }
 
             int success = ps.executeUpdate();
+            return success > 0;
 
-            if (success > 0) {
-                return true;
-            } else {
-                return false;
-            }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,12 +105,12 @@ public class UserDAO {
     public UserDTO getUserDTOByUserId(long userId) {
         String sql = GET_USER + " where user_id = ?";
         UserDTO userDTO = new UserDTO();
-        try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
-            
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setLong(1, userId);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-             userDTO = UserMapper.toUserMapperFromResultSet(rs);
+            if (rs.next()) {
+                userDTO = UserMapper.toUserMapperFromResultSet(rs);
             }
             return userDTO;
         } catch (SQLException ex) {
@@ -109,4 +118,55 @@ public class UserDAO {
         }
         return null;
     }
+
+    public boolean exitsEmail(String email) {
+        String sql = "SELECT COUNT(*) AS exits FROM [User] WHERE email = ? ";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+
+            ResultSet checked = ps.executeQuery();
+            if (checked.next()) {
+
+                return checked.getInt("exits") > 0;
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public UserDTO getUserByEmail(String email) {
+        String sql = "select * from [User] where email like ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                UserDTO userDTO = UserMapper.toUserMapperFromResultSet(rs);
+                return userDTO;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public ClientDTO getClientByUserId(Long user_id) {
+        String sql = "select * from [Client] where user_id = ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, user_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ClientDTO clientDTO = UserMapper.toClientDtoFromResultSet(rs);
+                return clientDTO;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

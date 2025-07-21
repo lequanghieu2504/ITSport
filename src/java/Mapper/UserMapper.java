@@ -4,6 +4,7 @@
  */
 package Mapper;
 
+import DTOs.ClientDTO;
 import DTOs.UserDTO;
 import Enums.Role;
 import java.sql.ResultSet;
@@ -20,24 +21,34 @@ public class UserMapper {
     public static UserDTO toUserMapperFromResultSet(ResultSet rs) {
         try {
             UserDTO userDTO = new UserDTO();
-            
+
             Long user_id = rs.getLong("user_id");
             String username = rs.getString("username");
-            String fullName = rs.getString("fullName");
             String password = rs.getString("password");
             Role role = Role.valueOf(rs.getString("role"));
-            
+
             userDTO.setUser_id(user_id);
             userDTO.setUsername(username);
-            userDTO.setFullName(fullName);
             userDTO.setPassword(password);
             userDTO.setRole(role);
-            
+
             return userDTO;
         } catch (SQLException ex) {
             Logger.getLogger(UserMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
+    public static ClientDTO toClientDtoFromResultSet(ResultSet rs) throws SQLException {
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setClient_id(rs.getInt("client_id"));  // client_id trong bảng
+        clientDTO.setUser_id(rs.getLong("user_id"));      // user_id tham chiếu User
+        clientDTO.setCart_id(rs.getInt("cart_id"));
+        clientDTO.setFull_name(rs.getString("full_name"));
+        clientDTO.setPhone_number(rs.getString("phone_number"));
+        clientDTO.setAddress(rs.getString("address"));
+        clientDTO.setFull_name(rs.getString("full_name"));
+        return clientDTO;
+    }
+
 }

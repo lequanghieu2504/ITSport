@@ -63,29 +63,29 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3>Thông tin thanh toán</h3>
-                    
-                    <c:choose>
-                    <c:when test="${not empty cartInfos}">
-                        <%-- Chỉ tính tổng (ẩn) --%>
-                        <c:set var="cartTotal" value="0"/>
-                        <c:forEach var="item" items="${cartInfos}">
-                            <c:set var="cartTotal" value="${cartTotal + (item.price * item.quantity)}"/>
-                        </c:forEach>
 
-                      <c:set var="totalBill" value="${cartTotal}" />
-                    </c:when>
-                    <c:when test="${not empty buyNowInfo}">
-                      <c:set var="totalBill" value="${buyNowInfo.totalPrice}" />
-                    </c:when>
-                    <c:otherwise>
-                      <c:set var="totalBill" value="0" />
-                    </c:otherwise>
-                  </c:choose>
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.cartInfos}">
+                            <%-- Chỉ tính tổng (ẩn) --%>
+                            <c:set var="cartTotal" value="0"/>
+                            <c:forEach var="item" items="${sessionScope.cartInfos}">
+                                <c:set var="cartTotal" value="${cartTotal + (item.price * item.quantity)}"/>
+                            </c:forEach>
+
+                            <c:set var="totalBill" value="${cartTotal}" />
+                        </c:when>
+                        <c:when test="${not empty buyNowInfo}">
+                            <c:set var="totalBill" value="${buyNowInfo.totalPrice}" />
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="totalBill" value="0" />
+                        </c:otherwise>
+                    </c:choose>
 
                     <form id="checkoutForm" action="MainController" method="post">
                         <input type="hidden" name="action" value="checkout"/>
                         <input type="hidden" name="totalBill" id="totalBillField" value="${totalBill}"/>
-                        
+
                         <!-- ✅ THÊM CÁC TRƯỜNG HIDDEN CHO THÔNG TIN SẢN PHẨM -->
                         <!-- Nếu mua ngay -->
                         <c:if test="${not empty buyNowInfo}">
@@ -97,8 +97,8 @@
                         </c:if>
 
                         <!-- Nếu thanh toán giỏ hàng -->
-                        <c:if test="${not empty cartInfos}">
-                            <c:forEach var="item" items="${cartInfos}">
+                        <c:if test="${not empty sessionScope.cartInfos}">
+                            <c:forEach var="item" items="${sessionScope.cartInfos}">
                                 <input type="hidden" name="productId"  value="${item.productId}"/>
                                 <input type="hidden" name="variantId"  value="${item.variantId}"/>
                                 <input type="hidden" name="quantity"   value="${item.quantity}"/>
@@ -204,9 +204,9 @@
                         <h4>Tóm tắt đơn hàng</h4>
 
                         <!-- Luồng cart -->
-                        <c:if test="${not empty cartInfos}">
+                        <c:if test="${not empty sessionScope.cartInfos}">
                             <c:set var="cartTotal" value="0"/>
-                            <c:forEach var="item" items="${cartInfos}">
+                            <c:forEach var="item" items="${sessionScope.cartInfos}">
                                 <div class="product-info">
                                     <h6>${item.productName}</h6>
                                     <p class="text-muted mb-1">${item.color} | ${item.size}</p>
@@ -548,42 +548,42 @@
 
         <jsp:include page="/common/footer.jsp"/>
         <jsp:include page="/common/popup.jsp" />
-        
-        
+
+
         <!-- Thêm một input ẩn để truyền tổng tiền vào JS -->
-<script>
-  const checkoutForm = document.getElementById('checkoutForm'); // gán id cho form của bạn
+        <script>
+                                                                const checkoutForm = document.getElementById('checkoutForm'); // gán id cho form của bạn
 
-  checkoutForm.addEventListener('submit', function(e) {
-    const method = document.querySelector('input[name="paymentMethod"]:checked').value;
-    if (method === 'VNPAY') {
-      e.preventDefault();
+                                                                checkoutForm.addEventListener('submit', function (e) {
+                                                                    const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+                                                                    if (method === 'VNPAY') {
+                                                                        e.preventDefault();
 
-    console.log('[JS] original totalBill:', document.getElementById('totalBillField').value);
-      // 1) Tạo form mới
-      const vnpayForm = document.createElement('form');
-      vnpayForm.method = 'post';
-      vnpayForm.action = `${pageContext.request.contextPath}/payment`;
+                                                                        console.log('[JS] original totalBill:', document.getElementById('totalBillField').value);
+                                                                        // 1) Tạo form mới
+                                                                        const vnpayForm = document.createElement('form');
+                                                                        vnpayForm.method = 'post';
+                                                                        vnpayForm.action = `${pageContext.request.contextPath}/payment`;
 
-      // 2) Copy tất cả các input/select/textarea từ form gốc vào form mới
-      Array.from(checkoutForm.elements).forEach(el => {
-        // Chỉ clone các trường có name
-        if (el.name) {
-          const clone = document.createElement('input');
-          clone.type = 'hidden';
-          clone.name = el.name;
-          clone.value = el.value;
-          vnpayForm.appendChild(clone);
-        }
-      });
+                                                                        // 2) Copy tất cả các input/select/textarea từ form gốc vào form mới
+                                                                        Array.from(checkoutForm.elements).forEach(el => {
+                                                                            // Chỉ clone các trường có name
+                                                                            if (el.name) {
+                                                                                const clone = document.createElement('input');
+                                                                                clone.type = 'hidden';
+                                                                                clone.name = el.name;
+                                                                                clone.value = el.value;
+                                                                                vnpayForm.appendChild(clone);
+                                                                            }
+                                                                        });
 
-      // 3) Append và submit
-      document.body.appendChild(vnpayForm);
-      vnpayForm.submit();
-    }
-    // COD thì cứ gửi form gốc về MainController?action=checkout
-  });
-</script>
+                                                                        // 3) Append và submit
+                                                                        document.body.appendChild(vnpayForm);
+                                                                        vnpayForm.submit();
+                                                                    }
+                                                                    // COD thì cứ gửi form gốc về MainController?action=checkout
+                                                                });
+        </script>
 
 
 

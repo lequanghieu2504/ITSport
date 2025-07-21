@@ -85,6 +85,7 @@
 
         <div class="sidebar">
             <h3>Admin Menu</h3>
+              <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage">Homepage</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForRevenue">Revenue</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListBuying">Booking</a>
@@ -104,7 +105,7 @@
                     <jsp:include page="product/UpdateProductForm.jsp"/>   
                 </c:when>
                 <c:when test="${section == 'createVariant'}">
-                    <jsp:include page="product/ProductVariantForm.jsp"/>
+                    <jsp:include page="product/CreateProductVariantForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'viewDetailProduct'}">
                     <jsp:include page="product/ProductDetail.jsp"/>

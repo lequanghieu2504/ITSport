@@ -33,6 +33,8 @@ public class AuthFilter implements Filter {
                 || action.equals("login")
                 || action.equals("register")
                 || action.equals("loadForHomePage")
+                || action.equals("sendMailToGetOTP")
+                || action.equals("OTPToLogin")
                 || action.equals("LoadViewProductDetail")) {
             chain.doFilter(request, response);
             return;

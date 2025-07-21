@@ -31,29 +31,18 @@
                         <div class="alert alert-warning text-center py-2 mb-3">Bạn không có quyền truy cập trang này.</div>
                     </c:when>
                 </c:choose>
-
+                        
                 <form action="MainController" method="post">
-                    <input type="hidden" name="action" value="login" />
+                    <input type="hidden" name="action" value="sendMailToGetOTP" />
                     <div class="mb-3">
-                        <label for="StrUsername" class="form-label">Username</label>
-                        <input type="text" id="StrUsername" name="StrUserName" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="StrPassword" class="form-label">Password</label>
-                        <input type="password" id="StrPassword" name="StrPassword" class="form-control" required />
+                        <label for="StrEmail" class="form-label">Email</label>
+                        <input type="text" id="StrEmail" name="StrEmail" value="${requestScope.email}" class="form-control" required />
                     </div>
                     <div class="d-grid">
-                        <input type="submit" value="Login" class="btn btn-primary" />
+                        <input type="submit" value="Send OTP" class="btn btn-primary" />
                     </div>
                 </form>
-                <div class="text-center mt-3">
-                    <span>Bạn chưa có tài khoản? </span>
-                    <a href="MainController?action=register">Đăng ký ngay</a>
-                </div>
-                <div class="text-center mt-3">
-                    <span>Bạn có Email? </span>
-                    <a href="loginByEmail.jsp">Đăng Nhập Bằng Email</a>
-                </div>
+             
 
             </div>
         </div>

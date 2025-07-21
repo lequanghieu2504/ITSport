@@ -27,7 +27,9 @@ import util.JDBCConnection;
 public class ProductDAO {
 
     private final String BASE_GET_PRODUCT_WITH_IMAGE
-            = "SELECT p.*, i.file_name AS img_url FROM Product p LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN' where p.status = 1";
+            = "SELECT p.*, i.file_name AS img_url FROM Product p LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN' where p.status = 1   ";
+    private final String BASE_GET_PRODUCT_WITH_IMAGE_For_Admin
+            = "SELECT p.*, i.file_name AS img_url FROM Product p LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN' where  ";
 
     private final String GET_PRODUCT = "select * from [Product] ";
     private final String INSERT_PRODUCT = "INSERT INTO [Product] ";
@@ -141,8 +143,8 @@ public class ProductDAO {
 
     public List<ProductDTO> getAllProductForUser() {
         List<ProductDTO> listP = new ArrayList<>();
-        
-        String sql = GET_PRODUCT + " where status = 1" ;
+
+        String sql = GET_PRODUCT + " where status = 1";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -196,7 +198,7 @@ public class ProductDAO {
     }
 
     public ProductDTO getProductById(long product_id) {
-        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " and product_id = ?";
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE_For_Admin + "  product_id = ?";
 
 //        String sql = GET_PRODUCT + " WHERE product_id = ?";
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -217,6 +219,27 @@ public class ProductDAO {
     public Boolean deleteProductByProductId(String StrProductId) {
         String sql = DELETE_PRODUCT + "WHERE product_id = ?";
         Long productId = Long.parseLong(StrProductId);
+        deleteProductVariantByProductId(StrProductId);
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, productId);
+                int success = ps.executeUpdate();
+            if (success > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public Boolean deleteProductVariantByProductId(String StrProductId) {
+        String sql = "DELETE FROM ProductVariant"
+                + " WHERE product_id = ?";
+        Long productId = Long.parseLong(StrProductId);
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -231,7 +254,7 @@ public class ProductDAO {
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return false;
     }
 
     public boolean updateProduct(ProductDTO product) {

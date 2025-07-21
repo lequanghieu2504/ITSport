@@ -81,7 +81,6 @@ public class PageService {
 
             HttpSession session = request.getSession();
             ClientDTO client = (ClientDTO) session.getAttribute("client");
-
             if (client != null) {
                 int cart_id = client.getCart_id();
                 int cartSize = cartDAO.getCartSize(cart_id);
@@ -166,8 +165,8 @@ public class PageService {
         try {
             String url = "admin/adminDashboard.jsp";
 
-            String StrProductId = request.getParameter("productId");
-            Long product_id = Long.parseLong(StrProductId);
+            Long product_id = (Long) request.getAttribute("productId");
+
             ProductDTO productDTO = productDAO.getProductById(product_id);
 
             if (productDTO != null) {
@@ -243,7 +242,7 @@ public class PageService {
                 ProductDTO productDTO = productDAO.getProductById(productId);
 
                 if (productDTO != null) {
-                    request.setAttribute("section", "CreateDetailProduct");
+                    request.setAttribute("section", "createVariant");
                     request.setAttribute("product", productDTO);
                 } else {
                     request.getSession().setAttribute("message", "khong tim thay san pham");
@@ -516,5 +515,4 @@ public class PageService {
 
     }
 
-    
 }

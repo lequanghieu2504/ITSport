@@ -25,7 +25,7 @@ public class UserService {
     private final UserDAO userDAO = new UserDAO();
     private final UserBuyingInforDAO userBuyingInforDAO = new UserBuyingInforDAO();
     private final BuyingDAO buyingDAO = new BuyingDAO();
-     
+
     public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("Vào handleLogin rồi");
 
@@ -87,9 +87,8 @@ public class UserService {
 
             UserDTO newUser = new UserDTO();
             newUser.setUsername(username);
-            newUser.setFullName(fullName);
             newUser.setPassword(hashPassword);
-            newUser.setRole(Role.CLIENT); // default role
+            newUser.setRole(Role.ADMIN); // default role
 
             boolean success = userDAO.insertUser(newUser);
 
@@ -149,13 +148,12 @@ public class UserService {
         }
     }
 
-
     public void handleGetUserOrder(HttpServletRequest request, HttpServletResponse response) {
         try {
             UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
             long userId = userDTO.getUser_id();
             List<UserOrderDTO> listUserOrderDTOs = buyingDAO.getUserBuying(userId);
-            
+
             request.setAttribute("userOrders", listUserOrderDTOs);
             request.getRequestDispatcher("User/order.jsp").forward(request, response);
         } catch (ServletException ex) {
@@ -163,18 +161,17 @@ public class UserService {
         } catch (IOException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
     }
 
     public void cancelOrderStatusByUserId(HttpServletRequest request, HttpServletResponse response) {
-        String strBuyingId =  request.getParameter("buyingId");
+        String strBuyingId = request.getParameter("buyingId");
         long buyingId = Long.parseLong(strBuyingId);
         UserDTO userDTO = (UserDTO) request.getSession().getAttribute("user");
         long userId = userDTO.getUser_id();
-        
-        buyingDAO.updateStatusByUser(userId,buyingId);
-        
+
+        buyingDAO.updateStatusByUser(userId, buyingId);
+
         try {
             request.getRequestDispatcher("MainController?action=myOrders").forward(request, response);
         } catch (ServletException ex) {
@@ -182,6 +179,88 @@ public class UserService {
         } catch (IOException ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+
+    public void checkAndCreateUserByEmail(HttpServletRequest request, HttpServletResponse response, String email) throws IOException {
+        try {
+            boolean isExitEmail = userDAO.exitsEmail(email);
+
+            if (isExitEmail) {
+                UserDTO userDTO = userDAO.getUserByEmail(email);
+                System.out.println("Email đã tồn tại: " + userDTO.getUsername());
+                request.getSession().setAttribute("user", userDTO);
+                ClientDTO clientDTO = userDAO.getClientByUserId(userDTO.getUser_id());
+                System.out.println(userDTO.getUser_id());
+                request.getSession().setAttribute("client", clientDTO);
+                System.out.println("User in session: " + request.getSession().getAttribute("user"));
+                System.out.println("Client in session: " + request.getSession().getAttribute("client"));
+
+            } else {
+                String userName = generateUserName(email);
+                String tempPassword = ""; // vì dùng OTP
+
+                UserDTO newUser = new UserDTO();
+                newUser.setEmail(email);
+                newUser.setUsername(userName);
+                newUser.setPassword(tempPassword);
+                newUser.setRole(Role.CLIENT);
+
+                boolean success = userDAO.insertUser(newUser);
+
+                if (success) {
+                    long user_id = userDAO.getUserIdByUsername(userName);
+                    int cart_id = CartDAO.createCart();
+                    String fullName = generateFullName(email);//viet di
+                    ClientDTO client = new ClientDTO();
+                    client.setUser_id(user_id);
+                    client.setCart_id(cart_id);
+                    client.setFull_name(fullName);
+                    client.setPhone_number("N/A");
+                    client.setAddress("N/A");
+
+                    ClientDAO.insertClient(client);
+
+                    System.out.println("✅ Tạo user + client OTP thành công: " + userName);
+                    request.getSession().setAttribute("user", newUser);
+                    ClientDTO clientDTO = userDAO.getClientByUserId(user_id);
+                    request.getSession().setAttribute("client", clientDTO);
+                } else {
+                    System.out.println("❌ Không thể tạo user mới bằng email OTP.");
+                    request.getSession().setAttribute("message", "Đăng nhập OTP thất bại!");
+                    response.sendRedirect("login.jsp");
+                    return; // chặn chạy tiếp!
+                }
+            }
+
+            // ✅ Sau tất cả, chuyển tới HomePage
+            response.sendRedirect("MainController?action=loadForHomePage");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.getSession().setAttribute("message", "Lỗi hệ thống khi xử lý OTP!");
+            response.sendRedirect("login.jsp");
+        }
+    }
+
+    public static String generateUserName(String email) {
+        if (email != null && email.contains("@")) {
+            String prefix = email.substring(0, email.indexOf("@"));
+            String randomNumber = String.valueOf((int) (Math.random() * 10000));
+            return prefix + randomNumber;
+        } else {
+            long timestamp = System.currentTimeMillis() % 100000;
+            return "user" + timestamp;
+        }
+    }
+
+    public String generateFullName(String email) {
+        // Cắt phần trước @ làm tên
+        if (email != null && email.contains("@")) {
+            String prefix = email.substring(0, email.indexOf("@"));
+            return prefix.substring(0, 1).toUpperCase() + prefix.substring(1);
+        }
+        return "Guest User";
+    }
+
 }

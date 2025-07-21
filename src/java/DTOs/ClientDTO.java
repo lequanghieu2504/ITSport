@@ -3,7 +3,7 @@ package DTOs;
 public class ClientDTO {
 
     private int client_id;
-    private int user_id;
+    private long user_id;
     private int cart_id;
     private String full_name;
     private String phone_number;
@@ -29,11 +29,11 @@ public class ClientDTO {
         this.client_id = client_id;
     }
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 

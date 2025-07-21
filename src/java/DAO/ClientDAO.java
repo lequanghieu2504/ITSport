@@ -41,7 +41,7 @@ public class ClientDAO {
     public static boolean insertClient(ClientDTO client) {
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(INSERT_CLIENT)) {
 
-            ps.setInt(1, client.getUser_id());
+            ps.setLong(1, client.getUser_id());
             ps.setInt(2, client.getCart_id());
             ps.setString(3, client.getFull_name());
             ps.setString(4, client.getPhone_number());

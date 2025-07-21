@@ -121,8 +121,23 @@
 
 <div class="profile-page">
 
-    <!-- Tổng quan -->
+    <!-- ✅ Nếu KHÔNG có đơn hàng -->
+    <c:if test="${empty userOrders}">
+        <div class="profile-container text-center">
+            <div class="profile-header justify-content-center">
+                <i class="fa fa-box-open"></i>
+                <h2>Bạn chưa có đơn hàng nào!</h2>
+            </div>
+            <p>Hãy tiếp tục mua sắm để sở hữu những sản phẩm yêu thích nhé!</p>
+            <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage" class="btn btn-danger">
+                Tiếp tục mua sắm
+            </a>
+        </div>
+    </c:if>
+
+    <!-- Nếu CÓ đơn hàng -->
     <c:if test="${not empty userOrders}">
+        <!-- Tổng quan -->
         <div class="profile-container">
             <div class="profile-header">
                 <i class="fa fa-history"></i>
@@ -135,10 +150,8 @@
                 </div>
             </div>
         </div>
-    </c:if>
 
-    <!-- PENDING -->
-    <c:if test="${not empty userOrders}">
+        <!-- PENDING -->
         <div class="profile-container">
             <div class="profile-header">
                 <i class="fa fa-clock"></i>
@@ -159,10 +172,8 @@
                 </c:forEach>
             </div>
         </div>
-    </c:if>
 
-    <!-- CONFIRMED / SHIPPING -->
-    <c:if test="${not empty userOrders}">
+        <!-- CONFIRMED / SHIPPING -->
         <div class="profile-container">
             <div class="profile-header">
                 <i class="fa fa-truck"></i>
@@ -183,10 +194,8 @@
                 </c:forEach>
             </div>
         </div>
-    </c:if>
 
-    <!-- SUCCESS -->
-    <c:if test="${not empty userOrders}">
+        <!-- SUCCESS -->
         <div class="profile-container">
             <div class="profile-header">
                 <i class="fa fa-check-circle"></i>

@@ -195,7 +195,7 @@ public class ProductService {
     public void handleDeleteProduct(HttpServletRequest request, HttpServletResponse response) {
         try {
             String StrProductId = request.getParameter("StrProductId");
-            String url = "admin/adminDashboard";
+            String url = "MainController?action=loadForListProductForm";
             Boolean deleteSuccess = productDAO.deleteProductByProductId(StrProductId);
 
             request.setAttribute("section", "product");

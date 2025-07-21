@@ -51,7 +51,7 @@
                 <div class="profile-info">
                     <div class="info-item">
                         <i class="fa fa-id-badge"></i>
-                        <span><strong>Họ và tên:</strong> ${sessionScope.user.fullName}</span>
+                        <span><strong>Họ và tên:</strong> ${sessionScope.client.full_name}</span>
                     </div>
 
                     <div class="info-item">

@@ -22,10 +22,11 @@
         <nav class="main-nav d-none d-lg-block">
             <ul class="nav-list list-unstyled d-flex mb-0">
                 <li><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
-                <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68"
-                    target="_blank" rel="noopener noreferrer">
-                   Map
-                    </a></li>
+                <li>
+                    <a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68" target="_blank" rel="noopener noreferrer">
+                        Map
+                    </a>
+                </li>
                 <li><a href="${pageContext.request.contextPath}/aboutUs.jsp">Về chúng tôi</a></li>
                 <li><a href="${pageContext.request.contextPath}/policy.jsp">Chính sách mua hàng</a></li>
             </ul>
@@ -39,32 +40,55 @@
 
         <!-- Icons & Auth -->
         <div class="d-flex align-items-center ml-3">
-            <!-- Cart -->
-            <a href="MainController?action=viewCart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
-                <i class="fa fa-shopping-cart icon-item"></i>
-                <c:if test="${sessionScope.cartSize > 0}">
-                    <span id="cart-size" class="cart-badge">${sessionScope.cartSize}</span>
-                </c:if>
-            </a>
+
+            <!-- ✅ GÓI CHUNG: Chỉ hiện nếu KHÔNG phải Admin -->
+            <c:if test="${empty sessionScope.user || sessionScope.user.role ne 'ADMIN'}">
+
+                <!-- Cart -->
+                <a href="MainController?action=viewCart" class="icon-wrapper position-relative mr-3" title="Giỏ hàng">
+                    <i class="fa fa-shopping-cart icon-item"></i>
+                    <c:if test="${sessionScope.cartSize > 0}">
+                        <span id="cart-size" class="cart-badge">${sessionScope.cartSize}</span>
+                    </c:if>
+                </a>
+
+            </c:if>
 
             <!-- User Dropdown + Welcome -->
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
-                    <!-- Câu chào -->
-                    <span class="mr-2 text-white">Xin chào, ${sessionScope.user.fullName}</span>
+
+                    <!-- Xin chào -->
+                    <span class="mr-2 text-white">Xin chào, ${sessionScope.client.full_name}</span>
 
                     <!-- Dropdown User Icon -->
                     <div class="dropdown">
-                        <a class="icon-wrapper dropdown-toggle text-decoration-none text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="icon-wrapper dropdown-toggle text-decoration-none text-white" href="#" id="userDropdown"
+                           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user icon-item"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="MainController?action=profile">Tài khoản cá nhân</a>
-                            <a class="dropdown-item" href="MainController?action=myOrders">Đơn hàng của tôi</a>
-                            <div class="dropdown-divider"></div>
+
+                            <!-- ✅ Chỉ hiện Profile & Orders nếu KHÔNG phải Admin -->
+                            <c:if test="${sessionScope.user.role ne 'ADMIN'}">
+                                <a class="dropdown-item" href="MainController?action=profile">Tài khoản cá nhân</a>
+                                <a class="dropdown-item" href="MainController?action=myOrders">Đơn hàng của tôi</a>
+                                <div class="dropdown-divider"></div>
+                            </c:if>
+
+                            <!-- ✅ Nếu là Admin thì thêm Dashboard -->
+                            <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                                <a class="dropdown-item" href="admin/adminDashboard.jsp">
+                                    <i class="fa fa-tools"></i> Quản trị Dashboard
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            </c:if>
+
+                            <!-- Logout luôn hiện -->
                             <a class="dropdown-item" href="MainController?action=logout">Đăng xuất</a>
                         </div>
                     </div>
+
                 </c:when>
                 <c:otherwise>
                     <!-- Nếu chưa login -->
@@ -93,9 +117,7 @@
             <ul class="list-unstyled mb-0 text-center">
                 <li class="py-1"><a href="MainController?action=loadForHomePage">Trang chủ</a></li>
                 <li><a href="https://maps.app.goo.gl/eLA7Sn7EmN4czyP68"
-                    target="_blank" rel="noopener noreferrer">
-                   Map
-                    </a></li>
+                    target="_blank" rel="noopener noreferrer">Map</a></li>
                 <li class="py-1"><a href="${pageContext.request.contextPath}/aboutUs.jsp">Về chúng tôi</a></li>
                 <li class="py-1"><a href="${pageContext.request.contextPath}/policy.jsp">Chính sách mua hàng</a></li>
                 <li class="py-1"><a href="MainController?action=login">Login</a></li>

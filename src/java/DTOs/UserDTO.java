@@ -12,16 +12,16 @@ import Enums.Role;
  */
 public class UserDTO {
         private Long user_id;
-        private String fullName;
+//        private String fullName;
         private String username;
         private String password;
         private String email;
         private Role role;
 
-    public UserDTO(Long user_id, String username,String fullName, String password, String email, Role role) {
+    public UserDTO(Long user_id, String username, String password, String email, Role role) {
         this.user_id = user_id;
         this.username = username;
-        this.fullName = fullName;
+//        this.fullName = fullName;
         this.password = password;
         this.email = email;
         this.role = role;
@@ -70,12 +70,12 @@ public class UserDTO {
         this.role = role;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-        
+//    public String getFullName() {
+//        return fullName;
+//    }
+//
+//    public void setFullName(String fullName) {
+//        this.fullName = fullName;
+//    }
+//        
 }

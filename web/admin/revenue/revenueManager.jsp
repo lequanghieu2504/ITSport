@@ -4,10 +4,11 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ApexCharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body class="p-4">
     <h1>Admin Dashboard</h1>
@@ -47,7 +48,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title">Biểu Đồ Doanh Thu Theo Ngày</h5>
-            <canvas id="dailyRevenueChart" height="100"></canvas>
+            <div id="dailyRevenueChart"></div>
         </div>
     </div>
 
@@ -55,7 +56,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title">Top 5 Sản Phẩm Bán Chạy</h5>
-            <canvas id="topProductChart" height="100"></canvas>
+            <div id="topProductChart"></div>
         </div>
     </div>
 
@@ -86,9 +87,9 @@
         </div>
     </div>
 
-    <!-- Script Chart.js -->
+    <!-- Script ApexCharts -->
     <script>
-        // Doanh thu theo ngày
+        // Data từ server
         const dailyLabels = [
             <c:forEach var="d" items="${dailyRevenue}" varStatus="loop">
                 '<c:out value="${d.orderDate}" />'<c:if test="${!loop.last}">,</c:if>
@@ -100,26 +101,6 @@
             </c:forEach>
         ];
 
-        const ctx1 = document.getElementById('dailyRevenueChart').getContext('2d');
-        const dailyRevenueChart = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: dailyLabels,
-                datasets: [{
-                    label: 'Doanh Thu (VNĐ)',
-                    data: dailyData,
-                    fill: false,
-                    borderColor: 'rgba(75,192,192,1)',
-                    backgroundColor: 'rgba(75,192,192,0.2)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
-
-        // Top sản phẩm bán chạy
         const topProductLabels = [
             <c:forEach var="p" items="${topProducts}" varStatus="loop">
                 '<c:out value="${p.productName}" />'<c:if test="${!loop.last}">,</c:if>
@@ -131,28 +112,67 @@
             </c:forEach>
         ];
 
-        const ctx2 = document.getElementById('topProductChart').getContext('2d');
-        const topProductChart = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: topProductLabels,
-                datasets: [{
-                    label: 'Số Lượng Bán',
-                    data: topProductData,
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
+        // Biểu đồ Doanh Thu Theo Ngày - Area Chart
+        var optionsDaily = {
+            chart: {
+                type: 'area',
+                height: 350
             },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            series: [{
+                name: 'Doanh Thu (VNĐ)',
+                data: dailyData
+            }],
+            xaxis: {
+                categories: dailyLabels
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            colors: ['#00E396'],
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.4,
+                    opacityTo: 0.1,
+                    stops: [0, 90, 100]
                 }
             }
-        });
+        };
+
+        var chartDaily = new ApexCharts(document.querySelector("#dailyRevenueChart"), optionsDaily);
+        chartDaily.render();
+
+        // Biểu đồ Top 5 Sản Phẩm Bán Chạy - Bar Chart
+        var optionsTopProduct = {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            series: [{
+                name: 'Số Lượng Bán',
+                data: topProductData
+            }],
+            xaxis: {
+                categories: topProductLabels
+            },
+            colors: ['#008FFB'],
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: false
+                }
+            },
+            dataLabels: {
+                enabled: true
+            }
+        };
+
+        var chartTopProduct = new ApexCharts(document.querySelector("#topProductChart"), optionsTopProduct);
+        chartTopProduct.render();
     </script>
 </body>
 </html>
