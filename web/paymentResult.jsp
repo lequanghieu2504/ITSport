@@ -61,7 +61,7 @@
                 Trang sẽ tự động chuyển về trang chủ sau <span id="countdown">10</span> giây.
             </p>
             <!-- Nút Trở về trang chủ -->
-            <a href="http://localhost:8080/ITSport_1.2/" 
+            <a href="${pageContext.request.contextPath}/" 
                class="btn btn-primary mt-3">
                 <i class="fas fa-home"></i> Trở về trang chủ
             </a>
@@ -77,7 +77,7 @@
                 seconds--;
                 if (seconds <= 0) {
                     clearInterval(interval);
-                    window.location.href = 'http://localhost:8080/ITSport_1.2/';
+                    window.location.href = '${pageContext.request.contextPath}/';
                 } else {
                     countdownElem.textContent = seconds;
                 }
