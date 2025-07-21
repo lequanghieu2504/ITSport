@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="Group 20250517-08:55:04">
+<<<<<<< HEAD
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Filter/AuthFilter.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BrandController.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/PageController.java</file>
@@ -14,6 +15,30 @@
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/ProductController.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/BuyingService.java</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/auth.jsp</file>
+=======
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/listProduct.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/PageController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/assets/css/homepage.css</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/UpdateProductForm.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/ProductVariantDetailForm.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/common/popup.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/ProductService.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/CreateProductVariantForm.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/adminDashboard.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/ProductController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/auth.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Filter/AuthFilter.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/revenue/revenueManager.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BrandController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/checkout.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/category/listCategory.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/createProductForm.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Controller/BuyingController.java</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/product/ProductDetail.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/brand/listBrand.jsp</file>
+            <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/src/java/Service/BuyingService.java</file>
+>>>>>>> searchFeature
         </group>
     </open-files>
 </project-private>

@@ -94,6 +94,7 @@ public class PageService {
             request.setAttribute("productListP", productListP);
             request.getSession().setAttribute("listB",listB);
 
+
             // lay thong tin het thi forward toi trang home de load len
             request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
         } catch (ServletException ex) {

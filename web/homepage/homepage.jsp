@@ -32,7 +32,9 @@
         <jsp:include page="banner.jsp"/>
         <jsp:include page="/homepage/filter.jsp"/>
 
-     
+
+       
+
 
         <!-- SẢN PHẨM MỚI -->
         <div class="newproduct-wrapper section-wrapper">

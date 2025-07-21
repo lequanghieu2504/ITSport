@@ -2,10 +2,12 @@ package Service;
 
 import DAO.BrandDAO;
 import DAO.CartDAO;
+import DAO.CategoryDAO;
 import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
+import DTOs.CategoryDTO;
 import DTOs.ClientDTO;
 import DTOs.ImageDTO;
 import DTOs.ProductDTO;
@@ -21,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,7 @@ public class ProductService {
     private ImageService imageService;
     private static final ImageDAO imageDAO = new ImageDAO();
     private static final ProductVariantDAO PRODUCT_VARIANT_DAO = new ProductVariantDAO();
+    private static final CategoryDAO CATEGORY_DAO = new CategoryDAO();
 
     public ProductService(ServletContext context) {
         this.imageService = new ImageService(context);
@@ -129,24 +133,35 @@ public class ProductService {
         request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
-    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String strCategoryId = request.getParameter("cid");
-        Long category_id = null;
+        String strBrandId = request.getParameter("brand");
+        List<ProductDTO> listP = new ArrayList<>();
+        String keyword = request.getParameter("keyword");
+
         try {
-            category_id = Long.parseLong(strCategoryId);
+            Long category_id = Long.parseLong(strCategoryId);
+            if (strBrandId != null && !strBrandId.isEmpty()) {
+                Long brand_id = Long.parseLong(strBrandId);
+                listP = productDAO.getProductsByCategoryAndBrand(category_id, brand_id);
+            } else {
+                listP = productDAO.getProductsByCategoryId(category_id);
+            }
+
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+
+            request.setAttribute("keyword", keyword);
+            request.setAttribute("listBrand", listB);
+            request.setAttribute("cid", strCategoryId);
+            request.setAttribute("listP", listP);
+            request.getRequestDispatcher("category.jsp").forward(request, response);
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
-            return;
         }
-
-        List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
-        List<BrandDTO> listB = brandDAO.getAllBrand();
-
-        request.setAttribute("listBrand", listB);
-        request.setAttribute("cid", strCategoryId);
-        request.setAttribute("listP", listP);
-        request.getRequestDispatcher("category.jsp").forward(request, response);
     }
 
     public void handleInsertProductAdvanced(HttpServletRequest request, HttpServletResponse response) {
@@ -271,8 +286,22 @@ public class ProductService {
         }
     }
 
-    public void handleProductByBrand(HttpServletRequest request, HttpServletResponse response) {
-  String strBrandId = request.getParameter("bid");
+    public void handleSearchProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+
+        List<ProductDTO> listP = productDAO.searchByName(keyword);
+        List<BrandDTO> listBrand = brandDAO.getAllBrand();
+
+        request.setAttribute("listBrand", listBrand);
+        request.setAttribute("listP", listP);
+        request.setAttribute("keyword", keyword);
+        request.getRequestDispatcher("category.jsp").forward(request, response);
+    }
+
+    public void handleGetByBrandId(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String strBrandId = request.getParameter("bid");
         String keyword = request.getParameter("keyword");
 
         try {
@@ -281,9 +310,13 @@ public class ProductService {
             // Lấy sản phẩm theo Brand ID
             List<ProductDTO> listP = productDAO.getProductsByBrandId(brand_id);
 
+            // Lấy danh sách Brand và Category để render menu ngang
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+            List<CategoryDTO> listC = CATEGORY_DAO.getAllCategories();
 
             request.setAttribute("keyword", keyword);
- 
+            request.setAttribute("listBrand", listB);
+            request.setAttribute("listC", listC);
 
             request.setAttribute("bid", strBrandId);  // để biết người dùng đang lọc theo brand
             request.setAttribute("listP", listP);
@@ -292,12 +325,37 @@ public class ProductService {
             request.getRequestDispatcher("category.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
-      try {
-          e.printStackTrace();
-          response.sendRedirect("error.jsp");
-      } catch (IOException ex) {
-          Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
-      }
+
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
+    }
+
+    public void handleProductByBrand(HttpServletRequest request, HttpServletResponse response) {
+        String strBrandId = request.getParameter("bid");
+        String keyword = request.getParameter("keyword");
+
+        try {
+            Long brand_id = Long.parseLong(strBrandId);
+
+            // Lấy sản phẩm theo Brand ID
+            List<ProductDTO> listP = productDAO.getProductsByBrandId(brand_id);
+
+            request.setAttribute("keyword", keyword);
+
+            request.setAttribute("bid", strBrandId);  // để biết người dùng đang lọc theo brand
+            request.setAttribute("listP", listP);
+
+            // Dùng lại form chung
+            request.getRequestDispatcher("category.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            try {
+                e.printStackTrace();
+                response.sendRedirect("error.jsp");
+            } catch (IOException ex) {
+                Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (ServletException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
