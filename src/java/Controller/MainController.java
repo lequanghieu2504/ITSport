@@ -20,23 +20,23 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 @MultipartConfig
 public class MainController extends HttpServlet {
-
+    
     private static final String DEFAULT_ACTION = "loadForHomePage";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         String url = "/PageController";
         String action = request.getAttribute("action") != null
                 ? (String) request.getAttribute("action")
                 : request.getParameter("action");
-
+        
         if (action == null || action.trim().isEmpty()) {
             action = DEFAULT_ACTION;
             request.setAttribute("action", action);
         }
-
+        
         try {
             if (isUserAction(action)) {
                 url = "/UserController";
@@ -116,9 +116,9 @@ public class MainController extends HttpServlet {
                 || "loadForListCategory".equalsIgnoreCase(action)
                 || "loadForListBrand".equalsIgnoreCase(action)
                 || "loadForRevenue".equalsIgnoreCase(action);
-
+        
     }
-
+    
     private boolean isProductAction(String action) {
         return "insertProduct".equalsIgnoreCase(action)
                 || "toggleStatus".equalsIgnoreCase(action)
@@ -126,9 +126,11 @@ public class MainController extends HttpServlet {
                 || "createVariant".equalsIgnoreCase(action)
                 || "updateProduct".equalsIgnoreCase(action)
                 || "productByCategory".equalsIgnoreCase(action)
-                || "GetProductDetail".equalsIgnoreCase(action);
+                || "GetProductDetail".equalsIgnoreCase(action)
+                || "searchProduct".equalsIgnoreCase(action)
+                || "searchSuggestion".equalsIgnoreCase(action);
     }
-
+    
     private boolean isUserBuyingInforAction(String action) {
         return "create".equals(action)
                 || "update".equals(action)
@@ -138,16 +140,16 @@ public class MainController extends HttpServlet {
                 || "updateUserBuyingInfor".equalsIgnoreCase(action)
                 || "deleteUserBuyingInfor".equalsIgnoreCase(action);
     }
-
+    
     private boolean isUserAction(String action) {
         return "login".equals(action)
                 || "logout".equals(action)
                 || "register".equals(action)
-                ||"profile".equalsIgnoreCase(action)
-                ||"myOrders".equalsIgnoreCase(action)
-                ||"CancelOrderStatuByUser".equalsIgnoreCase(action);
+                || "profile".equalsIgnoreCase(action)
+                || "myOrders".equalsIgnoreCase(action)
+                || "CancelOrderStatuByUser".equalsIgnoreCase(action);
     }
-
+    
     private boolean isImageAction(String action) {
         return "updateMainProductImage".equalsIgnoreCase(action)
                 || "insertMainProductImage".equalsIgnoreCase(action)
@@ -159,14 +161,14 @@ public class MainController extends HttpServlet {
                 || "uploadBrandImage".equalsIgnoreCase(action)
                 || "deleteBrandImage".equalsIgnoreCase(action);
     }
-
+    
     private boolean isBuyingAction(String action) {
         return "buyNow".equals(action)
                 || "checkout".equalsIgnoreCase(action)
                 || "cartCheckout".equals(action)
                 || "UpdateBuyingStatus".equalsIgnoreCase(action);
     }
-
+    
     private boolean isCartAction(String action) {
         return "addToCart".equalsIgnoreCase(action)
                 || "removeFromCart".equalsIgnoreCase(action)
@@ -175,14 +177,14 @@ public class MainController extends HttpServlet {
                 || "getCartSize".equalsIgnoreCase(action)
                 || "updateQuantity".equalsIgnoreCase(action);
     }
-
+    
     private boolean isCategoryaAction(String action) {
         return "deleteCategory".equalsIgnoreCase(action)
                 || "addCategory".equalsIgnoreCase(action);
     }
-
+    
     private boolean isBrandAction(String action) {
         return "addBrand".equalsIgnoreCase(action);
     }
-
+    
 }

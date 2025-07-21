@@ -116,8 +116,8 @@ public class ProductMapper {
             dto.setStatus(rs.getInt("status") == 1);
             dto.setCategory_id(rs.getInt("category_id"));
             dto.setBrand_id(rs.getInt("brand_id"));
-            dto.setCategory_name(rs.getString("category_name"));
-            dto.setBrand_name(rs.getString("brand_name"));
+            dto.setCategory_name(rs.getString("name"));
+            dto.setBrand_name(rs.getString("name"));
             System.out.println(dto.getProduct_id());
             System.out.println(dto.getProduct_name());
             

@@ -141,8 +141,8 @@ public class ProductDAO {
 
     public List<ProductDTO> getAllProductForUser() {
         List<ProductDTO> listP = new ArrayList<>();
-        
-        String sql = GET_PRODUCT + " where status = 1" ;
+
+        String sql = GET_PRODUCT + " where status = 1";
 
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -280,12 +280,6 @@ public class ProductDAO {
         return result;
     }
 
-    public static void main(String[] args) {
-        ProductDAO dao = new ProductDAO();
-        ProductDTO product = dao.getProductById(1);
-        System.out.println(product);
-    }
-
     public List<TopProductDTO> getTopProducts() {
         List<TopProductDTO> listTopProduct = new ArrayList<>();
         String sql = "SELECT "
@@ -348,4 +342,47 @@ public class ProductDAO {
         }
         return null;
     }
+
+    public List<ProductDTO> searchByName(String keyword) {
+        List<ProductDTO> list = new ArrayList<>();
+        String sql = "SELECT p.*, c.category_id, c.name, b.brand_id, b.name\n"
+                + "                FROM Product p \n"
+                + "                JOIN Categories c ON p.category_id = c.category_id \n"
+                + "                JOIN Brand b ON p.brand_id = b.brand_id \n"
+                + "                WHERE p.product_name LIKE ?";
+
+        try {
+            Connection conn = JDBCConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO product = ProductMapper.toProductDTOFromRequestWithName(rs);
+                if (product != null) {
+                    list.add(product);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        ProductDAO productDAO = new ProductDAO();
+
+        // Test với từ khóa tìm kiếm
+        String keyword = "ÁO";  // Thay đổi tùy ý
+
+        List<ProductDTO> results = productDAO.searchByName(keyword);
+
+        if (results.isEmpty()) {
+            System.out.println("Không tìm thấy sản phẩm nào với từ khóa: " + keyword);
+        } else {
+            for (ProductDTO product : results) {
+                System.out.println(product);
+            }
+        }
+    }
+
 }
