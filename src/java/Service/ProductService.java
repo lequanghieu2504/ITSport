@@ -271,4 +271,38 @@ public class ProductService {
         }
     }
 
+    public void handleProductByBrand(HttpServletRequest request, HttpServletResponse response) {
+  String strBrandId = request.getParameter("bid");
+        String keyword = request.getParameter("keyword");
+
+        try {
+            Long brand_id = Long.parseLong(strBrandId);
+
+            // Lấy sản phẩm theo Brand ID
+            List<ProductDTO> listP = productDAO.getProductsByBrandId(brand_id);
+
+
+            request.setAttribute("keyword", keyword);
+ 
+
+            request.setAttribute("bid", strBrandId);  // để biết người dùng đang lọc theo brand
+            request.setAttribute("listP", listP);
+
+            // Dùng lại form chung
+            request.getRequestDispatcher("category.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+      try {
+          e.printStackTrace();
+          response.sendRedirect("error.jsp");
+      } catch (IOException ex) {
+          Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+      }
+        } catch (ServletException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

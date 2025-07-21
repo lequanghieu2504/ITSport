@@ -5,22 +5,93 @@
     <head>
         <title>Danh sách Brand</title>
         <style>
-            .brand {
-                border: 1px solid #ccc;
-                padding: 10px;
-                margin-bottom: 10px;
+            :root {
+                --primary-color: #4e73df;
+                --success-color: #1cc88a;
+                --danger-color: #e74a3b;
+                --dark-bg: #121212;
+                --card-bg: #1e1e1e;
+                --text-color: #f0f0f0;
+                --border-color: #333;
             }
-            .add-brand-form {
-                border: 2px dashed #2c3e50;
+
+            body {
+                background: var(--dark-bg);
+                color: var(--text-color);
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                padding: 40px;
+            }
+
+            h1 {
+                color: var(--primary-color);
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .brand {
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
                 padding: 15px;
                 margin-bottom: 20px;
-                background: #f9f9f9;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+            .brand img {
+                border-radius: 8px;
+                border: 2px solid var(--border-color);
+            }
+
+            .add-brand-form {
+                background: var(--card-bg);
+                border: 2px dashed var(--primary-color);
+                padding: 20px;
+                margin-bottom: 30px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+            label {
+                display: block;
+                margin: 8px 0 4px;
+            }
+
+            input[type="text"],
+            input[type="file"] {
+                width: 100%;
+                padding: 8px 12px;
+                margin-bottom: 10px;
+                border: 2px solid var(--border-color);
+                border-radius: 6px;
+                background: #2a2a2a;
+                color: var(--text-color);
+            }
+
+            button {
+                background: var(--primary-color);
+                color: #fff;
+                border: none;
+                padding: 10px 18px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            button:hover {
+                background: #224abe;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            }
+
+            form {
+                margin-top: 10px;
             }
         </style>
+
     </head>
     <body>
 
-        <h1>Danh sách Brand</h1>
 
         <!-- ✅ Form thêm Brand mới -->
         <div class="add-brand-form">

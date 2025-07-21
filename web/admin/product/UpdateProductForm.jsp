@@ -11,9 +11,19 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
-            body {
-                background: #f8f9fa;
+            :root {
+                --bg-color: #121212;
+                --card-bg: #1e1e1e;
+                --text-color: #f0f0f0;
+                --border-color: #333;
+                --primary-color: #4e73df;
             }
+
+            body {
+                background: var(--bg-color);
+                color: var(--text-color);
+            }
+
             .page-header {
                 background: linear-gradient(135deg, #4e73df, #224abe);
                 color: #fff;
@@ -21,9 +31,54 @@
                 text-align: center;
                 margin-bottom: 30px;
             }
+
             .page-header h1 {
                 margin: 0;
                 font-weight: 700;
+            }
+
+            .card {
+                background-color: var(--card-bg);
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+            }
+
+            .form-label,
+            .form-check-label {
+                color: var(--text-color);
+            }
+
+            .form-control,
+            .form-select {
+                background-color: #2a2a2a;
+                color: var(--text-color);
+                border: 1px solid var(--border-color);
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                background-color: #2a2a2a;
+                color: var(--text-color);
+            }
+
+            .btn-primary {
+                background-color: var(--primary-color);
+                border: none;
+            }
+
+            .btn-secondary {
+                background-color: #6c757d;
+                border: none;
+            }
+
+            .btn-success {
+                background-color: #198754;
+                border: none;
+            }
+
+            .btn-danger {
+                background-color: #dc3545;
+                border: none;
             }
         </style>
     </head>

@@ -23,18 +23,24 @@
                 --warning-color: #f6c23e;
                 --danger-color: #e74a3b;
                 --dark-color: #5a5c69;
+
+                --bg-dark: #121212;
+                --card-dark: #1e1e1e;
+                --border-dark: #333;
+                --text-dark: #f0f0f0;
             }
 
             body {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: var(--bg-dark);
                 min-height: 100vh;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                color: var(--text-dark);
             }
 
             .main-wrapper {
-                background: white;
+                background: var(--card-dark);
                 border-radius: 15px;
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
                 margin: 20px auto;
                 overflow: hidden;
                 max-width: 1400px;
@@ -62,12 +68,13 @@
             }
 
             .stat-card {
-                background: white;
+                background: var(--card-dark);
                 border-radius: 10px;
                 padding: 20px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
                 border-left: 4px solid var(--primary-color);
                 transition: transform 0.3s ease;
+                color: var(--text-dark);
             }
 
             .stat-card:hover {
@@ -82,10 +89,14 @@
             }
 
             .table-wrapper {
-                background: white;
+                background: var(--card-dark);
                 border-radius: 10px;
                 overflow: hidden;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .table {
+                color: var(--text-dark);
             }
 
             .table thead th {
@@ -102,7 +113,7 @@
             }
 
             .table tbody tr:hover {
-                background-color: #f8f9fc;
+                background-color: #2a2a2a;
             }
 
             .category-img {
@@ -110,7 +121,7 @@
                 height: 50px;
                 object-fit: cover;
                 border-radius: 8px;
-                border: 2px solid #e3e6f0;
+                border: 2px solid var(--border-dark);
             }
 
             .action-btn {
@@ -124,21 +135,23 @@
 
             .action-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
             }
 
             .form-section {
-                background: white;
+                background: var(--card-dark);
                 border-radius: 10px;
                 padding: 30px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 border-top: 4px solid var(--success-color);
                 margin-top: 30px;
             }
 
             .form-control {
                 border-radius: 8px;
-                border: 2px solid #e3e6f0;
+                border: 2px solid var(--border-dark);
+                background: #2a2a2a;
+                color: var(--text-dark);
                 transition: all 0.3s ease;
             }
 
@@ -154,11 +167,12 @@
                 font-weight: 600;
                 padding: 12px 30px;
                 transition: all 0.3s ease;
+                color: white;
             }
 
             .btn-primary:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 15px rgba(78, 115, 223, 0.3);
+                box-shadow: 0 8px 15px rgba(78, 115, 223, 0.4);
             }
 
             .status-badge {
@@ -186,6 +200,9 @@
 
             .search-container input {
                 padding-left: 40px;
+                background: #2a2a2a;
+                border: 2px solid var(--border-dark);
+                color: var(--text-dark);
             }
 
             .search-container i {
@@ -210,27 +227,22 @@
             .alert {
                 border-radius: 10px;
                 border: none;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                background: var(--card-dark);
+                color: var(--text-dark);
             }
 
             .modal-content {
                 border-radius: 15px;
                 border: none;
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                background: var(--card-dark);
+                color: var(--text-dark);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             }
 
-            .modal-header {
-                border-bottom: none;
-                padding: 25px 25px 15px;
-            }
-
-            .modal-body {
-                padding: 15px 25px;
-            }
-
+            .modal-header,
             .modal-footer {
-                border-top: none;
-                padding: 15px 25px 25px;
+                border: none;
             }
 
             @media (max-width: 768px) {
@@ -248,16 +260,13 @@
                 }
             }
         </style>
+
     </head>
     <body>
 
         <div class="container-fluid">
             <div class="main-wrapper">
-                <!-- Header -->
-                <div class="header-section">
-                    <h1><i class="bi bi-folder-fill"></i> Quản lý Danh mục</h1>
-                    <p class="mb-0">Quản lý và tổ chức các danh mục sản phẩm</p>
-                </div>
+            
 
                 <!-- Content -->
                 <div class="content-area">
@@ -644,122 +653,122 @@
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
         <script>
-                                                                    $(document).ready(function () {
-                                                                        // Initialize DataTable
-                                                                        $('#categoryTable').DataTable({
-                                                                            responsive: true,
-                                                                            pageLength: 10,
-                                                                            order: [[0, 'asc']],
-                                                                            columnDefs: [
-                                                                                {orderable: false, targets: [5]}
-                                                                            ],
-                                                                            language: {
-                                                                                "lengthMenu": "Hiển thị _MENU_ mục",
-                                                                                "zeroRecords": "Không tìm thấy dữ liệu",
-                                                                                "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                                                                                "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
-                                                                                "infoFiltered": "(được lọc từ _MAX_ mục)",
-                                                                                "search": "Tìm kiếm:",
-                                                                                "paginate": {
-                                                                                    "first": "Đầu",
-                                                                                    "last": "Cuối",
-                                                                                    "next": "Tiếp",
-                                                                                    "previous": "Trước"
-                                                                                }
+                                                                $(document).ready(function () {
+                                                                    // Initialize DataTable
+                                                                    $('#categoryTable').DataTable({
+                                                                        responsive: true,
+                                                                        pageLength: 10,
+                                                                        order: [[0, 'asc']],
+                                                                        columnDefs: [
+                                                                            {orderable: false, targets: [5]}
+                                                                        ],
+                                                                        language: {
+                                                                            "lengthMenu": "Hiển thị _MENU_ mục",
+                                                                            "zeroRecords": "Không tìm thấy dữ liệu",
+                                                                            "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                                                                            "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                                                                            "infoFiltered": "(được lọc từ _MAX_ mục)",
+                                                                            "search": "Tìm kiếm:",
+                                                                            "paginate": {
+                                                                                "first": "Đầu",
+                                                                                "last": "Cuối",
+                                                                                "next": "Tiếp",
+                                                                                "previous": "Trước"
                                                                             }
-                                                                        });
-
-                                                                        // Search functionality
-                                                                        $('#searchInput').on('keyup', function () {
-                                                                            $('#categoryTable').DataTable().search(this.value).draw();
-                                                                        });
-
-                                                                        // Auto-hide alerts
-                                                                        setTimeout(function () {
-                                                                            $('.alert').fadeOut('slow');
-                                                                        }, 5000);
-
-                                                                        // Form validation
-                                                                        $('#addForm').on('submit', function (e) {
-                                                                            const categoryName = $('input[name="category_name"]').val().trim();
-                                                                            if (categoryName.length < 2) {
-                                                                                e.preventDefault();
-                                                                                alert('Tên danh mục phải có ít nhất 2 ký tự');
-                                                                                return false;
-                                                                            }
-                                                                        });
+                                                                        }
                                                                     });
 
-                                                                    // Edit category function
-                                                                    function editCategory(id, name, parentId, imageUrl) {
-                                                                        $('#editId').val(id);
-                                                                        $('#editName').val(name);
-                                                                        $('#editParent').val(parentId);
-                                                                        $('#editImage').val(imageUrl || '');
-                                                                        $('#editModal').modal('show');
-                                                                    }
+                                                                    // Search functionality
+                                                                    $('#searchInput').on('keyup', function () {
+                                                                        $('#categoryTable').DataTable().search(this.value).draw();
+                                                                    });
 
-                                                                    // Add image function
-                                                                    function addImage(categoryId) {
-                                                                        $('#addImageId').val(categoryId);
-                                                                        $('#addImageModal').modal('show');
-                                                                    }
+                                                                    // Auto-hide alerts
+                                                                    setTimeout(function () {
+                                                                        $('.alert').fadeOut('slow');
+                                                                    }, 5000);
 
-                                                                    // Delete image function
-                                                                    function deleteImage(categoryId, imageId) {
-                                                                        if (confirm('Bạn có chắc chắn muốn xóa hình ảnh này?')) {
-                                                                            const form = document.createElement('form');
-                                                                            form.method = 'post';
-                                                                            form.action = 'MainController';
-
-                                                                            const actionInput = document.createElement('input');
-                                                                            actionInput.type = 'hidden';
-                                                                            actionInput.name = 'action';
-                                                                            actionInput.value = 'deleteImageCategory';
-
-                                                                            const categoryInput = document.createElement('input');
-                                                                            categoryInput.type = 'hidden';
-                                                                            categoryInput.name = 'category_id';
-                                                                            categoryInput.value = categoryId;
-
-                                                                            const imageIdInput = document.createElement('input');
-                                                                            imageIdInput.type = 'hidden';
-                                                                            imageIdInput.name = 'StrImageId';
-                                                                            imageIdInput.value = imageId;
-
-                                                                            form.appendChild(actionInput);
-                                                                            form.appendChild(categoryInput);
-                                                                            form.appendChild(imageIdInput);
-
-                                                                            document.body.appendChild(form);
-                                                                            form.submit();
+                                                                    // Form validation
+                                                                    $('#addForm').on('submit', function (e) {
+                                                                        const categoryName = $('input[name="category_name"]').val().trim();
+                                                                        if (categoryName.length < 2) {
+                                                                            e.preventDefault();
+                                                                            alert('Tên danh mục phải có ít nhất 2 ký tự');
+                                                                            return false;
                                                                         }
+                                                                    });
+                                                                });
+
+                                                                // Edit category function
+                                                                function editCategory(id, name, parentId, imageUrl) {
+                                                                    $('#editId').val(id);
+                                                                    $('#editName').val(name);
+                                                                    $('#editParent').val(parentId);
+                                                                    $('#editImage').val(imageUrl || '');
+                                                                    $('#editModal').modal('show');
+                                                                }
+
+                                                                // Add image function
+                                                                function addImage(categoryId) {
+                                                                    $('#addImageId').val(categoryId);
+                                                                    $('#addImageModal').modal('show');
+                                                                }
+
+                                                                // Delete image function
+                                                                function deleteImage(categoryId, imageId) {
+                                                                    if (confirm('Bạn có chắc chắn muốn xóa hình ảnh này?')) {
+                                                                        const form = document.createElement('form');
+                                                                        form.method = 'post';
+                                                                        form.action = 'MainController';
+
+                                                                        const actionInput = document.createElement('input');
+                                                                        actionInput.type = 'hidden';
+                                                                        actionInput.name = 'action';
+                                                                        actionInput.value = 'deleteImageCategory';
+
+                                                                        const categoryInput = document.createElement('input');
+                                                                        categoryInput.type = 'hidden';
+                                                                        categoryInput.name = 'category_id';
+                                                                        categoryInput.value = categoryId;
+
+                                                                        const imageIdInput = document.createElement('input');
+                                                                        imageIdInput.type = 'hidden';
+                                                                        imageIdInput.name = 'StrImageId';
+                                                                        imageIdInput.value = imageId;
+
+                                                                        form.appendChild(actionInput);
+                                                                        form.appendChild(categoryInput);
+                                                                        form.appendChild(imageIdInput);
+
+                                                                        document.body.appendChild(form);
+                                                                        form.submit();
                                                                     }
+                                                                }
 
-                                                                    // Delete category function
-                                                                    function deleteCategory(categoryId) {
-                                                                        if (confirm('Bạn có chắc chắn muốn xóa danh mục này?\nLưu ý: Việc xóa danh mục có thể ảnh hưởng đến các sản phẩm liên quan.')) {
-                                                                            const form = document.createElement('form');
-                                                                            form.method = 'post';
-                                                                            form.action = 'CategoryController';
+                                                                // Delete category function
+                                                                function deleteCategory(categoryId) {
+                                                                    if (confirm('Bạn có chắc chắn muốn xóa danh mục này?\nLưu ý: Việc xóa danh mục có thể ảnh hưởng đến các sản phẩm liên quan.')) {
+                                                                        const form = document.createElement('form');
+                                                                        form.method = 'post';
+                                                                        form.action = 'CategoryController';
 
-                                                                            const actionInput = document.createElement('input');
-                                                                            actionInput.type = 'hidden';
-                                                                            actionInput.name = 'action';
-                                                                            actionInput.value = 'delete';
+                                                                        const actionInput = document.createElement('input');
+                                                                        actionInput.type = 'hidden';
+                                                                        actionInput.name = 'action';
+                                                                        actionInput.value = 'delete';
 
-                                                                            const idInput = document.createElement('input');
-                                                                            idInput.type = 'hidden';
-                                                                            idInput.name = 'category_id';
-                                                                            idInput.value = categoryId;
+                                                                        const idInput = document.createElement('input');
+                                                                        idInput.type = 'hidden';
+                                                                        idInput.name = 'category_id';
+                                                                        idInput.value = categoryId;
 
-                                                                            form.appendChild(actionInput);
-                                                                            form.appendChild(idInput);
+                                                                        form.appendChild(actionInput);
+                                                                        form.appendChild(idInput);
 
-                                                                            document.body.appendChild(form);
-                                                                            form.submit();
-                                                                        }
+                                                                        document.body.appendChild(form);
+                                                                        form.submit();
                                                                     }
+                                                                }
         </script>
         <jsp:include page="/common/popup.jsp" />
 
