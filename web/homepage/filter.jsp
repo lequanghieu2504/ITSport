@@ -12,6 +12,44 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            .category-menu-wrapper {
+                background-color: #1a1a1a;
+                padding: 8px 0;
+            }
+
+            .container.category-menu {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 16px;
+            }
+
+            .category-menu-item, .brand-menu-item {
+                text-decoration: none;
+                background-color: #2b2b2b;
+                color: #ffffff;
+                padding: 5px 14px;
+                border-radius: 16px;
+                font-size: 14px;
+                transition: all 0.2s ease;
+                box-shadow: none;
+            }
+
+            .category-menu-item:hover,
+            .brand-menu-item:hover {
+                background-color: #3a3a3a;
+                color: #ffffff;
+                box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.3);
+                transform: translateY(-1px);
+            }
+
+            .category-menu-item p,
+            .brand-menu-item p {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
     </head>
     <body>
         <div class="category-menu-wrapper">
