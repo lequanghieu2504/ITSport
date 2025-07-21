@@ -91,7 +91,7 @@
                                         <input type="hidden" name="product_id" value="${item.product.product_id}"/>
                                         <input type="hidden" name="variant_id" value="${item.variant.product_variant_id}"/>
                                         <button type="submit"
-                                                class="btn btn-outline-secondary btn-sm mt-2 mt-md-0">
+                                                class="btn btn-delete btn-sm mt-2 mt-md-0">
                                             <i class="fas fa-trash"></i> Xóa
                                         </button>
                                     </form>

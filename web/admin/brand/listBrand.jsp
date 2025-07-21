@@ -72,7 +72,7 @@
                 box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             }
 
-            /* ✅ Mỗi brand item */
+            /* Mỗi brand item */
             .brand {
                 background-color: var(--card-bg);
                 border: 1px solid var(--border-color);
@@ -94,7 +94,7 @@
                 margin-top: 8px;
             }
 
-            /* ✅ Sidebar chỉnh nhẹ */
+            /* Sidebar chỉnh nhẹ */
             .sidebar {
                 background-color: #1a1a1a;
                 color: #ddd;
@@ -115,8 +115,6 @@
         </style>
     </head>
     <body>
-
-
         <!-- Form thêm Brand mới -->
         <div class="add-brand-form">
             <h3>Thêm Brand Mới</h3>
@@ -133,7 +131,7 @@
             </form>
         </div>
 
-        <!-- ✅ Danh sách Brand -->
+        <!-- Danh sách Brand -->
         <c:forEach var="brand" items="${brandList}">
             <div class="brand">
                 <h3>${brand.brand_name}</h3>
