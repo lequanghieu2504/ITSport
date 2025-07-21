@@ -1,4 +1,5 @@
 package util;
+
 import java.util.Properties;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
@@ -30,6 +31,7 @@ public class MailUtils {
                 Message.RecipientType.TO, InternetAddress.parse(toEmail));
         message.setSubject(subject);
         message.setText(content);
+        message.setContent(content, "text/html; charset=UTF-8");
 
         // Gửi
         Transport.send(message);
