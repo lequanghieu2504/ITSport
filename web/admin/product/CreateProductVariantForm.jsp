@@ -12,100 +12,164 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
-            :root {
-                --bg-color: #121212;
-                --card-bg: #1e1e1e;
-                --text-color: #f0f0f0;
-                --border-color: #333;
-                --primary-color: #4e73df;
-            }
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:w:wght@300;400;600;700&display=swap');
+    :root {
+        --bg-color: #121212;
+        --card-bg: #1a1a1a;
+        --text-color: #fff;
+        --border-color: #2e2e2e;
+        --primary-color: #e52b50;    /* đỏ rượu mạnh mẽ */
+        --secondary-color: #1f1f1f;  /* nền tối */
+        --accent-color: #f5a623;     /* cam nổi bật */
+        --shadow-color: rgba(0, 0, 0, 0.7);
+    }
 
-            body {
-                background: var(--bg-color);
-                color: var(--text-color);
-            }
+    /* Toàn trang */
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Oswald', sans-serif;
+        line-height: 1.6;
+    }
 
-            .header-section {
-                background: linear-gradient(135deg, #4e73df, #224abe);
-                color: #fff;
-                padding: 30px 0;
-                text-align: center;
-                margin-bottom: 30px;
-            }
+    /* Header section */
+    .header-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        padding: 40px 0;
+        text-align: center;
+        color: #fff;
+        box-shadow: 0 4px 10px var(--shadow-color);
+    }
+    .header-section h1 {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+    .header-section p {
+        font-size: 1rem;
+        opacity: 0.8;
+        margin-top: 8px;
+    }
 
-            .header-section h1 {
-                font-weight: 700;
-            }
+    /* Thẻ card */
+    .card {
+        background-color: var(--card-bg);
+        border: 2px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 8px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px var(--shadow-color);
+    }
+    .card-title {
+        font-weight: 600;
+        font-size: 1.25rem;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
 
-            .card {
-                background-color: var(--card-bg);
-                border: 1px solid var(--border-color);
-                color: var(--text-color);
-            }
+    /* Bảng thông tin */
+    .table {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+    }
+    .table thead {
+        background-color: var(--secondary-color);
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #1f1f1f;
+    }
+    .table-striped tbody tr:hover {
+        background-color: #2a2a2a;
+    }
 
-            .table {
-                background-color: var(--card-bg);
-                color: var(--text-color);
-            }
+    /* Badge trạng thái */
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.4em 0.75em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .badge.bg-success {
+        background-color: #28a745 !important;
+    }
+    .badge.bg-secondary {
+        background-color: #6c757d !important;
+    }
 
-            .table thead {
-                background-color: #343a40;
-            }
+    /* Form control */
+    .form-control, .form-select {
+        background-color: #2a2a2a;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 0.25rem;
+        transition: border-color 0.3s ease;
+    }
+    .form-control:focus, .form-select:focus {
+        background-color: #2a2a2a;
+        border-color: var(--primary-color);
+        box-shadow: none;
+        color: var(--text-color);
+    }
+    label.form-label {
+        font-weight: 500;
+    }
 
-            .table-striped tbody tr:nth-of-type(odd) {
-                background-color: #1a1a1a;
-            }
+    /* Buttons */
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        text-transform: uppercase;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+    .btn-success {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+    .btn-success:hover {
+        background-color: #138496;
+        border-color: #138496;
+    }
+    .btn-secondary {
+        background-color: #343a40;
+        border-color: #343a40;
+    }
+    .btn-secondary:hover {
+        background-color: #23272b;
+        border-color: #23272b;
+    }
 
-            .table-striped tbody tr:hover {
-                background-color: #2a2a2a;
-            }
+    /* Nút xoá */
+    .delete-btn {
+        background-color: #dc3545;
+        border: none;
+        box-shadow: 0 2px 6px var(--shadow-color);
+        transition: transform 0.2s ease;
+    }
+    .delete-btn:hover {
+        transform: scale(1.1);
+    }
 
-            .badge {
-                font-size: 0.9rem;
-            }
+    /* Ảnh upload */
+    input[type="file"] {
+        padding: 0.3rem;
+    }
 
-            .delete-btn {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                background: red;
-                border: none;
-                color: #fff;
-                font-weight: bold;
-                border-radius: 50%;
-                width: 24px;
-                height: 24px;
-                line-height: 20px;
-                text-align: center;
-                cursor: pointer;
-            }
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header-section h1 { font-size: 2rem; }
+        .header-section p { font-size: 0.9rem; }
+    }
+</style>
 
-            .form-control {
-                background-color: #2a2a2a;
-                color: var(--text-color);
-                border: 1px solid var(--border-color);
-            }
-
-            .form-control:focus {
-                background-color: #2a2a2a;
-                color: var(--text-color);
-            }
-
-            .btn-primary {
-                background-color: var(--primary-color);
-                border: none;
-            }
-
-            .btn-success {
-                background-color: #198754;
-                border: none;
-            }
-
-            .btn-secondary {
-                background-color: #6c757d;
-                border: none;
-            }
-        </style>
 
         <script>
             function updateSizeOptions() {

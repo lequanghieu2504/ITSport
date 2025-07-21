@@ -11,107 +11,218 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
-            :root {
-                --bg-color: #121212;
-                --card-bg: #1e1e1e;
-                --text-color: #f0f0f0;
-                --border-color: #333;
-                --primary-color: #4e73df;
-            }
+          @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&display=swap');
 
-            body {
-                background: var(--bg-color);
-                color: var(--text-color);
-            }
+          :root {
+            --bg-page: #121212;
+            --card-bg: #181818;
+            --text-light: #e0e0e0;
+            --text-faint: #bbb;
+            --accent-red: #b30000;
+            --accent-red-dark: #800000;
+            --shadow: rgba(0, 0, 0, 0.8);
+            --radius: 6px;
+          }
 
-            .header-section {
-                background: linear-gradient(135deg, #4e73df, #224abe);
-                color: #fff;
-                padding: 30px 0;
-                text-align: center;
-                margin-bottom: 30px;
-            }
+          /* Reset & Base */
+          *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0; padding: 0;
+          }
+          body {
+            background: var(--bg-page);
+            color: var(--text-light);
+            font-family: 'Oswald', sans-serif;
+            line-height: 1.5;
+          }
+          a {
+            color: var(--accent-red);
+            text-decoration: none;
+            transition: color .2s;
+          }
+          a:hover {
+            color: var(--accent-red-dark);
+          }
 
+          /* Header */
+          .header-section {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark));
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 30px;
+          }
+          .header-section h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+          }
+
+          /* Thẻ card */
+          .card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px var(--shadow);
+            margin-bottom: 1.5rem;
+          }
+          .card-body {
+            padding: 1.5rem;
+          }
+          .card-title {
+            color: var(--accent-red);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+          }
+
+          /* Tables */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+          }
+          thead {
+            background: var(--accent-red-dark);
+          }
+          thead th {
+            padding: 12px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            border: none;
+          }
+          tbody tr {
+            background: var(--card-bg);
+            transition: background .3s;
+          }
+          tbody tr:nth-child(odd) {
+            background: #202020;
+          }
+          tbody tr:hover {
+            background: #2a2a2a;
+          }
+          tbody td {
+            padding: 12px;
+            border-top: 1px solid #222;
+            color: var(--text-faint);
+          }
+          tbody td a {
+            color: inherit;
+          }
+          tbody td a:hover {
+            color: var(--accent-red);
+            text-decoration: underline;
+          }
+
+          /* Badge */
+          .badge {
+            background: var(--accent-red);
+            color: #fff;
+            text-transform: uppercase;
+            font-size: .8rem;
+          }
+
+          /* Form controls */
+          .form-control,
+          .form-select {
+            background: #202020;
+            color: var(--text-light);
+            border: 1px solid #333;
+            border-radius: var(--radius);
+            transition: border-color .2s;
+          }
+          .form-control:focus,
+          .form-select:focus {
+            border-color: var(--accent-red);
+            box-shadow: none;
+            outline: none;
+          }
+
+          /* Buttons */
+          .btn-primary,
+          .btn-success {
+            background: var(--accent-red);
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: var(--radius);
+            transition: background .2s;
+          }
+          .btn-primary:hover,
+          .btn-success:hover {
+            background: var(--accent-red-dark);
+          }
+          .btn-secondary {
+            background: #333;
+            border: none;
+            color: var(--text-light);
+          }
+          .btn-secondary:hover {
+            background: #444;
+          }
+
+          /* Delete button */
+          .delete-btn {
+            background: var(--accent-red);
+            color: #fff;
+            border: none;
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            font-weight: bold;
+            line-height: 20px;
+            text-align: center;
+            transition: background .2s;
+          }
+          .delete-btn:hover {
+            background: var(--accent-red-dark);
+          }
+
+          /* Floating add-variant button */
+          .add-product-btn {
+            position: fixed;
+            bottom: 25px; right: 25px;
+            background: var(--accent-red);
+            color: #fff;
+            width: 55px; height: 55px;
+            font-size: 26px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: background .2s, transform .2s;
+            z-index: 1000;
+          }
+          .add-product-btn:hover {
+            background: var(--accent-red-dark);
+            transform: scale(1.1);
+          }
+
+          /* Override text đen trên nền đen */
+          .card-body * {
+            color: var(--text-light) !important;
+          }
+
+          /* Responsive */
+          @media (max-width: 768px) {
             .header-section h1 {
-                font-weight: 700;
+              font-size: 1.6rem;
             }
-
-            .card {
-                background-color: var(--card-bg);
-                border: 1px solid var(--border-color);
-                color: var(--text-color);
+            thead th, tbody td {
+              padding: 8px;
+              font-size: .9rem;
             }
-
-            .table {
-                background-color: var(--card-bg);
-                color: var(--text-color);
+            .add-product-btn {
+              width: 50px; height: 50px;
+              font-size: 24px;
+              bottom: 15px; right: 15px;
             }
-
-            .table thead {
-                background-color: #343a40;
-            }
-
-            .table-striped tbody tr:nth-of-type(odd) {
-                background-color: #1a1a1a;
-            }
-
-            .table-striped tbody tr:hover {
-                background-color: #2a2a2a;
-            }
-
-            .badge {
-                font-size: 0.9rem;
-            }
-
-            .delete-btn {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                background: red;
-                border: none;
-                color: #fff;
-                font-weight: bold;
-                border-radius: 50%;
-                width: 24px;
-                height: 24px;
-                line-height: 20px;
-                text-align: center;
-                cursor: pointer;
-            }
-
-            .form-control {
-                background-color: #2a2a2a;
-                color: var(--text-color);
-                border: 1px solid var(--border-color);
-            }
-
-            .form-control:focus {
-                background-color: #2a2a2a;
-                color: var(--text-color);
-            }
-
-            .btn-primary {
-                background-color: var(--primary-color);
-                border: none;
-            }
-
-            .btn-success {
-                background-color: #198754;
-                border: none;
-            }
-
-            .btn-secondary {
-                background-color: #6c757d;
-                border: none;
-            }
+          }
         </style>
     </head>
     <body>
-
-        <!-- Header -->
-        <div class="header-section">
-            <h1><i class="bi bi-box-seam"></i> Chi Tiết Sản Phẩm</h1>
-        </div>
 
         <div class="container mb-5">
 
@@ -137,7 +248,8 @@
                 <div class="row">
                     <c:forEach var="img" items="${productMainImages}">
                         <div class="col-md-3 mb-3">
-                            <img src="${pageContext.request.contextPath}/${img.file_name}" alt="Main Image" class="img-thumbnail w-100">
+                            <img src="${pageContext.request.contextPath}/${img.file_name}"
+                                 alt="Main Image" class="img-thumbnail w-100">
                         </div>
                     </c:forEach>
                 </div>
@@ -180,7 +292,8 @@
                     <div class="row mb-3">
                         <c:forEach var="img" items="${variantImageMap[v.product_variant_id]}">
                             <div class="col-md-3 position-relative mb-3">
-                                <img src="${pageContext.request.contextPath}/${img.file_name}" class="img-thumbnail w-100">
+                                <img src="${pageContext.request.contextPath}/${img.file_name}"
+                                     class="img-thumbnail w-100">
                                 <form action="${pageContext.request.contextPath}/MainController"
                                       method="post" style="position: absolute; top: 5px; right: 5px;">
                                     <input type="hidden" name="action" value="DeleteProductVariantImage">
@@ -214,7 +327,6 @@
                class="btn btn-success me-2">
                 <i class="bi bi-plus-circle"></i> Thêm Biến Thể
             </a>
-
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm"
                class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Quay Lại Danh Sách
@@ -225,6 +337,5 @@
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <jsp:include page="/common/popup.jsp" />
-
     </body>
 </html>

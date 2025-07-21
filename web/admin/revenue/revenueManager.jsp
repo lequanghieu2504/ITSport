@@ -14,86 +14,139 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
         <style>
-            :root {
-                --primary-color: #8B0000;
-                --bg-color: #121212;
-                --card-bg: #1c1c1c;
-                --text-color: #f0f0f0;
-                --muted-text: #aaa;
-                --thead-bg: #222;
-                --row-hover: #2a2a2a;
-                --row-even: #181818;
-                --border-color: #333;
-            }
+:root {
+    --primary-color: #E53935;        /* đỏ nổi bật */
+    --bg-color: #121212;             /* nền chính */
+    --card-bg: #1E1E1E;              /* nền thẻ nhạt hơn chút */
+    --text-color: #ECEFF1;           /* chữ sáng */
+    --muted-text: #200826;           /* chữ phụ */
+    --thead-bg: #2A2A2A;             /* header bảng */
+    --row-even: #242424;             /* hàng chẵn */
+    --row-hover: #333333;            /* hover */
+    --border-color: #424242;         /* viền */
+    --accent-color: #00E676;         /* highlight chart */
+    --accent2-color: #1E88E5;        /* highlight nút/tiêu đề */
+    --radius: 0.75rem;
+    --transition: 0.25s ease;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+}
 
-            body {
-                background-color: var(--bg-color);
-                color: var(--text-color);
-                font-family: 'Roboto', sans-serif;
-            }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-            h1, h5, h3 {
-                color: var(--primary-color);
-            }
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    padding: 2rem;
+    line-height: 1.5;
+}
 
-            .card {
-                background-color: var(--card-bg);
-                border: none;
-                color: var(--text-color);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            }
+h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-            .card-title {
-                color: var(--primary-color);
-            }
+/* CARD */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), box-shadow var(--transition);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+.card-body {
+    padding: 1.5rem;
+}
+.card-title {
+    color: var(--accent2-color);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+.card-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--accent2-color);
+    margin-top: 0.3rem;
+    border-radius: 2px;
+}
 
-            .table {
-                background-color: var(--card-bg);
-                color: var(--text-color);
-            }
+/* TABLE */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: var(--card-bg);
+}
+.table thead th {
+    background: var(--thead-bg);
+    color: var(--text-color);
+    padding: 1rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    border: none;
+}
+.table tbody tr {
+    transition: background var(--transition);
+}
+.table tbody tr:nth-child(even) {
+    background: var(--row-even);
+}
+.table tbody tr:hover {
+    background: var(--row-hover);
+}
+.table td {
+    padding: 0.75rem 1rem;
+    color: var(--muted-text);
+    border-bottom: 1px solid var(--border-color);
+}
 
-            .table thead,
-            .table thead th {
-                background-color: var(--thead-bg) !important;
-                color: var(--text-color) !important;
-            }
+/* ApexCharts */
+#dailyRevenueChart,
+#topProductChart {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1rem;
+    min-height: 360px;
+    margin-top: 1rem;
+}
 
-            .table tbody tr {
-                background-color: var(--card-bg) !important;
-                transition: background-color 0.2s ease;
-            }
+/* LINKS & BUTTONS */
+a, button {
+    transition: color var(--transition), background var(--transition);
+}
+button:hover, a:hover {
+    opacity: 0.9;
+}
 
-            .table tbody tr:nth-child(even) {
-                background-color: var(--row-even) !important;
-            }
-
-            .table tbody tr:hover {
-                background-color: var(--row-hover) !important;
-            }
-
-            .table-bordered th,
-            .table-bordered td {
-                border-color: var(--border-color) !important;
-            }
-
-            .table td,
-            .table th {
-                color: var(--text-color) !important;
-            }
-            .table tbody,
-            .table tbody tr,
-            .table tbody td {
-                background-color: var(--card-bg) !important;
-                color: var(--text-color) !important;
-            }
-
-            .table tbody tr:nth-child(even) td {
-                background-color: var(--row-even) !important;
-            }
-
-            .table tbody tr:hover td {
-                background-color: var(--row-hover) !important;
-            }
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    body { padding: 1rem; }
+    h1 { font-size: 2rem; }
+    .card-body { padding: 1rem; }
+    .table thead th,
+    .table td { padding: 0.6rem 0.8rem; }
+}
 
         </style>
     </head>

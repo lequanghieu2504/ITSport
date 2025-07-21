@@ -11,88 +11,139 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
-            :root {
-                --wine-red: #800020;
-                --wine-hover: #a00030;
-                --text-light: #fff;
-                --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                --border-radius: 8px;
-            }
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&display=swap');
 
-            body {
-                background: #f8f9fa;
-                font-family: 'Roboto', sans-serif;
-            }
+  :root {
+    --bg-page: #121212;
+    --card-bg: #1e1e1e;
+    --text-light: #f0f0f0;
+    --accent-red: #e52b50;
+    --accent-orange: #f5a623;
+    --input-bg: #2a2a2a;
+    --border-color: #333;
+    --shadow: rgba(0, 0, 0, 0.7);
+    --radius: 8px;
+  }
 
-            .page-header {
-                background: var(--wine-red);
-                color: var(--text-light);
-                padding: 25px 0;
-                text-align: center;
-                margin-bottom: 30px;
-                box-shadow: var(--shadow);
-                border-bottom-left-radius: var(--border-radius);
-                border-bottom-right-radius: var(--border-radius);
-            }
+  /* --- NEW OVERRIDES --- */
+  label, 
+  h1, h5, p, span, .form-check-label {
+    color: var(--text-light);
+  }
 
-            .page-header h1 {
-                margin: 0;
-                font-weight: 700;
-                font-size: 28px;
-            }
+  .form-select,
+  .form-select option {
+    background-color: var(--input-bg) !important;
+    color: var(--text-light)   !important;
+  }
 
-            .card {
-                border-radius: var(--border-radius);
-                box-shadow: var(--shadow);
-                border: none;
-            }
+  ::placeholder {
+    color: #777;
+    opacity: 1;
+  }
+  /* --- END OVERRIDES --- */
 
-            .card-title {
-                color: var(--wine-red);
-                font-weight: 600;
-            }
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-light);
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.5;
+  }
 
-            .btn-success {
-                background-color: var(--wine-red);
-                border-color: var(--wine-red);
-            }
 
-            .btn-success:hover {
-                background-color: var(--wine-hover);
-                border-color: var(--wine-hover);
-            }
+  a { color: var(--accent-orange); text-decoration: none; }
+  a:hover { color: var(--accent-red); }
 
-            .btn-secondary {
-                background-color: #6c757d;
-                border: none;
-            }
+  /* Header */
+  .page-header {
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--shadow);
+    border-bottom-left-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+    margin-bottom: 30px;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+  }
 
-            .btn-secondary:hover {
-                opacity: 0.9;
-            }
-            .table {
-                background-color: #ffffff;
-            }
-            .table thead {
-                background-color: #343a40;
-                color: #ffffff;
-            }
-            .table-striped tbody tr:nth-of-type(odd) {
-                background-color: #f2f2f2;
-            }
-            .table-striped tbody tr:hover {
-                background-color: #e9ecef;
-            }
-            .table td, .table th {
-                vertical-align: middle;
-            }
-        </style>
+  /* Card */
+  .card {
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 10px var(--shadow);
+  }
+  .card-title {
+    color: var(--accent-red);
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+
+  /* Form controls */
+  .form-control, .form-select {
+    background-color: var(--input-bg);
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    transition: border-color 0.3s ease;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: var(--accent-red);
+    box-shadow: none;
+    background-color: var(--input-bg);
+    color: var(--text-light);
+  }
+  label.form-label {
+    font-weight: 500;
+  }
+  .form-check-label {
+    color: var(--text-light);
+  }
+
+  /* Buttons */
+  .btn-success {
+    background-color: var(--accent-red);
+    border-color: var(--accent-red);
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+  }
+  .btn-success:hover {
+    background-color: var(--accent-orange);
+    border-color: var(--accent-orange);
+  }
+  .btn-secondary {
+    background-color: #343a40;
+    border: none;
+    color: #ddd;
+  }
+  .btn-secondary:hover {
+    background-color: #2a2a2a;
+    color: #fff;
+    opacity: 0.9;
+  }
+
+  /* File input */
+  input[type="file"] {
+    background-color: var(--input-bg);
+    border-radius: var(--radius);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header h1 { font-size: 1.6rem; }
+    .card-body { padding: 1rem; }
+  }
+</style>
+
     </head>
     <body>
-
-        <div class="page-header">
-            <h1><i class="bi bi-plus-square"></i> Create New Product</h1>
-        </div>
 
         <div class="container mb-5">
 

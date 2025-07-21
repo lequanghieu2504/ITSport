@@ -11,76 +11,144 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
-            :root {
-                --bg-color: #121212;
-                --card-bg: #1e1e1e;
-                --text-color: #f0f0f0;
-                --border-color: #333;
-                --primary-color: #4e73df;
-            }
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&display=swap');
 
-            body {
-                background: var(--bg-color);
-                color: var(--text-color);
-            }
+  :root {
+    --bg-page: #121212;
+    --card-bg: #1e1e1e;
+    --text-light: #e0e0e0;
+    --text-faint: #bbb;
+    --accent-red: #b30000;
+    --accent-red-dark: #800000;
+    --shadow: rgba(0, 0, 0, 0.8);
+    --radius: 6px;
+  }
 
-            .page-header {
-                background: linear-gradient(135deg, #4e73df, #224abe);
-                color: #fff;
-                padding: 25px 0;
-                text-align: center;
-                margin-bottom: 30px;
-            }
+  /* Reset & Base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+  }
+  body {
+    background: var(--bg-page);
+    color: var(--text-light);
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.5;
+    padding-bottom: 40px;
+  }
+  a {
+    color: var(--accent-red);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  a:hover {
+    color: var(--accent-red-dark);
+  }
 
-            .page-header h1 {
-                margin: 0;
-                font-weight: 700;
-            }
+  /* Header */
+  .page-header {
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark));
+    color: #fff;
+    padding: 25px 0;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 30px;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
 
-            .card {
-                background-color: var(--card-bg);
-                color: var(--text-color);
-                border: 1px solid var(--border-color);
-            }
+  /* Card */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid #222;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  .card-body {
+    padding: 1.5rem;
+  }
+  .card-title {
+    color: var(--accent-red);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
 
-            .form-label,
-            .form-check-label {
-                color: var(--text-color);
-            }
+  /* Labels & Inputs */
+  .form-label,
+  .form-check-label {
+    color: var(--text-light);
+    font-weight: 500;
+  }
+  .form-control,
+  .form-select {
+    background: var(--card-bg);
+    color: var(--text-light);
+    border: 1px solid #333;
+    border-radius: var(--radius);
+    transition: border-color .2s;
+  }
+  .form-control:focus,
+  .form-select:focus {
+    border-color: var(--accent-red);
+    outline: none;
+    box-shadow: none;
+  }
 
-            .form-control,
-            .form-select {
-                background-color: #2a2a2a;
-                color: var(--text-color);
-                border: 1px solid var(--border-color);
-            }
+  /* Buttons */
+  .btn-primary,
+  .btn-success {
+    background: var(--accent-red);
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: var(--radius);
+    padding: .5rem 1rem;
+    transition: background .2s;
+  }
+  .btn-primary:hover,
+  .btn-success:hover {
+    background: var(--accent-red-dark);
+  }
+  .btn-secondary {
+    background: #333;
+    border: none;
+    color: var(--text-light);
+    transition: background .2s;
+  }
+  .btn-secondary:hover {
+    background: #444;
+  }
+  .btn-danger {
+    background: #660000;
+    border: none;
+    color: #fff;
+    transition: background .2s;
+  }
+  .btn-danger:hover {
+    background: #990000;
+  }
 
-            .form-control:focus,
-            .form-select:focus {
-                background-color: #2a2a2a;
-                color: var(--text-color);
-            }
+  /* Responsive */
+  @media (max-width: 576px) {
+    .page-header h1 {
+      font-size: 1.6rem;
+    }
+    .card-body {
+      padding: 1rem;
+    }
+    .btn-primary, .btn-secondary, .btn-success {
+      font-size: .9rem;
+      padding: .5rem .75rem;
+    }
+  }
+</style>
 
-            .btn-primary {
-                background-color: var(--primary-color);
-                border: none;
-            }
-
-            .btn-secondary {
-                background-color: #6c757d;
-                border: none;
-            }
-
-            .btn-success {
-                background-color: #198754;
-                border: none;
-            }
-
-            .btn-danger {
-                background-color: #dc3545;
-                border: none;
-            }
-        </style>
     </head>
     <body>
 
