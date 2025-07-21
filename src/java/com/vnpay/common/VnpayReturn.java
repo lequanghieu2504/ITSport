@@ -2,6 +2,7 @@ package com.vnpay.common;
 
 import DAO.BuyingDAO;
 import DAO.CartItemDAO;
+import DTOs.BuyNowInforDTO;
 import DTOs.ItemDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,12 +72,11 @@ public class VnpayReturn extends HttpServlet {
                     if (session != null) {
                         // Lấy danh sách items đã checkout từ session
                         @SuppressWarnings("unchecked")
-                        List<ItemDTO> boughtItems = (List<ItemDTO>) session.getAttribute("cartInfos");
+                        List<BuyNowInforDTO> boughtItems = (List<BuyNowInforDTO>) session.getAttribute("cartInfos");
                         if (boughtItems != null) {
-                            for (ItemDTO it : boughtItems) {
+                            for (BuyNowInforDTO it : boughtItems) {
                                 cartItemDao.deleteCartItemByCartItemId(it.getCartItemId());
                             }
-                            // Xóa attribute cartInfos sau khi xóa
                             session.removeAttribute("cartInfos");
                         }
                     }
