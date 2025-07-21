@@ -2,6 +2,7 @@ package Service;
 
 import DAO.BrandDAO;
 import DAO.CartDAO;
+import DAO.CategoryDAO;
 import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
@@ -37,7 +38,7 @@ public class ProductService {
     private ImageService imageService;
     private static final ImageDAO imageDAO = new ImageDAO();
     private static final ProductVariantDAO PRODUCT_VARIANT_DAO = new ProductVariantDAO();
-
+    private static final CategoryDAO CATEGORY_DAO = new CategoryDAO();
     public ProductService(ServletContext context) {
         this.imageService = new ImageService(context);
     }
@@ -295,6 +296,37 @@ public class ProductService {
         request.setAttribute("listP", listP);
         request.setAttribute("keyword", keyword);
         request.getRequestDispatcher("category.jsp").forward(request, response);
+    }
+
+    public void handleGetByBrandId(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String strBrandId = request.getParameter("bid");
+        String keyword = request.getParameter("keyword");
+
+        try {
+            Long brand_id = Long.parseLong(strBrandId);
+
+            // Lấy sản phẩm theo Brand ID
+            List<ProductDTO> listP = productDAO.getProductsByBrandId(brand_id);
+
+            // Lấy danh sách Brand và Category để render menu ngang
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+            List<CategoryDTO> listC = CATEGORY_DAO.getAllCategories();
+
+            request.setAttribute("keyword", keyword);
+            request.setAttribute("listBrand", listB);
+            request.setAttribute("listC", listC);
+
+            request.setAttribute("bid", strBrandId);  // để biết người dùng đang lọc theo brand
+            request.setAttribute("listP", listP);
+
+            // Dùng lại form chung
+            request.getRequestDispatcher("category.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
     }
 
 }

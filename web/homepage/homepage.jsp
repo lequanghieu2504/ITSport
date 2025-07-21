@@ -31,9 +31,10 @@
         <jsp:include page="/common/header.jsp"/>
         <jsp:include page="banner.jsp"/>
 
-        <!-- MENU DANH MỤC NGANG -->
+        <!-- MENU DANH MỤC + BRAND NGANG -->
         <div class="category-menu-wrapper">
             <div class="container category-menu">
+                <!-- Category -->
                 <c:choose>
                     <c:when test="${not empty listC}">
                         <c:forEach var="c" items="${listC}">
@@ -46,8 +47,23 @@
                         <p class="ml-3">Không có danh mục nào.</p>
                     </c:otherwise>
                 </c:choose>
+
+                <!-- Brand -->
+                <c:choose>
+                    <c:when test="${not empty listB}">
+                        <c:forEach var="b" items="${listB}">
+                            <a href="MainController?action=productByBrand&bid=${b.brand_id}" class="brand-menu-item">
+                                <p>${b.brand_name}</p>
+                            </a>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="ml-3">Không có thương hiệu nào.</p>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
+
 
         <!-- SẢN PHẨM MỚI -->
         <div class="newproduct-wrapper section-wrapper">

@@ -433,4 +433,8 @@ public class ProductDAO {
             System.out.println("ID: " + c.getCategory_id() + ", Name: " + c.getCategory_name());
         }
     }
+
+    public List<ProductDTO> getProductsByBrandId(Long brand_id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

@@ -60,6 +60,9 @@ public class ProductController extends HttpServlet {
         } else if ("searchProduct".equalsIgnoreCase(action)) {
             productService.handleSearchProduct(request, response);
         }
+        else if("productByBrand".equalsIgnoreCase(action)){
+            productService.handleGetByBrandId(request,response);
+        }
 
     }
 
