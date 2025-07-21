@@ -14,106 +14,95 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
         <!-- DataTables -->
         <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css"/>
 
         <style>
             :root {
-                --primary-color: #4e73df;
-                --secondary-color: #858796;
-                --success-color: #1cc88a;
-                --warning-color: #f6c23e;
-                --danger-color: #e74a3b;
-                --dark-color: #5a5c69;
-
-                --bg-dark: #121212;
-                --card-dark: #1e1e1e;
-                --border-dark: #333;
-                --text-dark: #f0f0f0;
+                --wine-red: #800020;
+                --wine-red-dark: #5a0017;
+                --background: #fefefe;
+                --card-bg: #fff5f8;
+                --border-radius: 12px;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                --text-dark: #222;
+                --text-light: #fff;
+                --accent: #c72c48;
+                --success: #28a745;
+                --info: #17a2b8;
+                --warning: #ffc107;
+                --danger: #dc3545;
             }
 
             body {
-                background: var(--bg-dark);
-                min-height: 100vh;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-family: 'Segoe UI', sans-serif;
+                background-color: var(--background);
                 color: var(--text-dark);
+                margin: 0;
+                padding: 0;
             }
 
             .main-wrapper {
-                background: var(--card-dark);
-                border-radius: 15px;
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-                margin: 20px auto;
-                overflow: hidden;
+                background: white;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                margin: 24px auto;
                 max-width: 1400px;
+                overflow: hidden;
             }
 
             .header-section {
-                background: linear-gradient(135deg, var(--primary-color), #224abe);
-                color: white;
-                padding: 30px 0;
+                background: linear-gradient(135deg, var(--wine-red), var(--wine-red-dark));
+                color: var(--text-light);
                 text-align: center;
+                padding: 36px 0;
             }
 
             .header-section h1 {
-                font-size: 2.5rem;
+                font-size: 2.4rem;
                 font-weight: 700;
-                margin-bottom: 10px;
+                margin-bottom: 6px;
             }
 
             .content-area {
                 padding: 30px;
             }
 
-            .stats-row {
-                margin-bottom: 30px;
-            }
-
             .stat-card {
-                background: var(--card-dark);
-                border-radius: 10px;
+                background: var(--card-bg);
+                border-left: 5px solid var(--wine-red);
                 padding: 20px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-                border-left: 4px solid var(--primary-color);
-                transition: transform 0.3s ease;
-                color: var(--text-dark);
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                transition: transform 0.2s ease;
             }
 
             .stat-card:hover {
-                transform: translateY(-5px);
+                transform: scale(1.02);
             }
 
             .stat-number {
-                font-size: 2rem;
-                font-weight: 700;
-                color: var(--primary-color);
-                margin-bottom: 5px;
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: var(--wine-red);
             }
 
             .table-wrapper {
-                background: var(--card-dark);
-                border-radius: 10px;
+                background: #fff;
+                border-radius: var(--border-radius);
                 overflow: hidden;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            }
-
-            .table {
-                color: var(--text-dark);
+                box-shadow: var(--shadow);
             }
 
             .table thead th {
-                background: var(--primary-color);
-                color: white;
+                background-color: var(--wine-red-dark);
+                color: var(--text-light);
+                text-transform: uppercase;
                 font-weight: 600;
                 border: none;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .table tbody tr {
-                transition: all 0.3s ease;
             }
 
             .table tbody tr:hover {
-                background-color: #2a2a2a;
+                background-color: #fceef1;
             }
 
             .category-img {
@@ -121,7 +110,7 @@
                 height: 50px;
                 object-fit: cover;
                 border-radius: 8px;
-                border: 2px solid var(--border-dark);
+                border: 2px solid #ddd;
             }
 
             .action-btn {
@@ -129,50 +118,47 @@
                 padding: 6px 12px;
                 border-radius: 6px;
                 font-size: 0.875rem;
-                font-weight: 500;
-                transition: all 0.3s ease;
+                transition: all 0.2s ease;
             }
 
             .action-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
 
             .form-section {
-                background: var(--card-dark);
-                border-radius: 10px;
+                background: var(--card-bg);
                 padding: 30px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-                border-top: 4px solid var(--success-color);
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                border-top: 4px solid var(--accent);
                 margin-top: 30px;
             }
 
             .form-control {
                 border-radius: 8px;
-                border: 2px solid var(--border-dark);
-                background: #2a2a2a;
-                color: var(--text-dark);
-                transition: all 0.3s ease;
+                border: 2px solid #eee;
+                transition: all 0.2s ease;
             }
 
             .form-control:focus {
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+                border-color: var(--wine-red);
+                box-shadow: 0 0 0 0.2rem rgba(128, 0, 32, 0.25);
             }
 
             .btn-primary {
-                background: linear-gradient(135deg, var(--primary-color), #224abe);
+                background: linear-gradient(to right, var(--wine-red), var(--wine-red-dark));
                 border: none;
                 border-radius: 8px;
-                font-weight: 600;
-                padding: 12px 30px;
-                transition: all 0.3s ease;
-                color: white;
+                font-weight: bold;
+                color: var(--text-light);
+                padding: 10px 24px;
+                transition: all 0.2s ease;
             }
 
             .btn-primary:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 8px 15px rgba(78, 115, 223, 0.4);
+                box-shadow: 0 8px 20px rgba(128, 0, 32, 0.3);
             }
 
             .status-badge {
@@ -183,26 +169,22 @@
             }
 
             .status-active {
-                background: var(--success-color);
+                background: var(--success);
                 color: white;
             }
 
             .status-inactive {
-                background: var(--secondary-color);
+                background: #999;
                 color: white;
             }
 
             .search-container {
                 position: relative;
                 max-width: 300px;
-                margin-bottom: 20px;
             }
 
             .search-container input {
                 padding-left: 40px;
-                background: #2a2a2a;
-                border: 2px solid var(--border-dark);
-                color: var(--text-dark);
             }
 
             .search-container i {
@@ -210,7 +192,7 @@
                 left: 15px;
                 top: 50%;
                 transform: translateY(-50%);
-                color: var(--secondary-color);
+                color: #999;
             }
 
             .breadcrumb {
@@ -220,29 +202,19 @@
             }
 
             .breadcrumb-item a {
-                color: var(--primary-color);
+                color: var(--wine-red);
                 text-decoration: none;
             }
 
             .alert {
-                border-radius: 10px;
+                border-radius: var(--border-radius);
                 border: none;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-                background: var(--card-dark);
-                color: var(--text-dark);
+                box-shadow: var(--shadow);
             }
 
             .modal-content {
-                border-radius: 15px;
-                border: none;
-                background: var(--card-dark);
-                color: var(--text-dark);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            }
-
-            .modal-header,
-            .modal-footer {
-                border: none;
+                border-radius: var(--border-radius);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             }
 
             @media (max-width: 768px) {
@@ -255,18 +227,21 @@
                 }
 
                 .action-btn {
-                    padding: 4px 8px;
                     font-size: 0.75rem;
+                    padding: 4px 8px;
                 }
             }
         </style>
-
     </head>
     <body>
 
         <div class="container-fluid">
             <div class="main-wrapper">
-            
+                <!-- Header -->
+                <div class="header-section">
+                    <h1><i class="bi bi-folder-fill"></i> Quản lý Danh mục</h1>
+                    <p class="mb-0">Quản lý và tổ chức các danh mục sản phẩm</p>
+                </div>
 
                 <!-- Content -->
                 <div class="content-area">
@@ -652,124 +627,6 @@
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-        <script>
-                                                                $(document).ready(function () {
-                                                                    // Initialize DataTable
-                                                                    $('#categoryTable').DataTable({
-                                                                        responsive: true,
-                                                                        pageLength: 10,
-                                                                        order: [[0, 'asc']],
-                                                                        columnDefs: [
-                                                                            {orderable: false, targets: [5]}
-                                                                        ],
-                                                                        language: {
-                                                                            "lengthMenu": "Hiển thị _MENU_ mục",
-                                                                            "zeroRecords": "Không tìm thấy dữ liệu",
-                                                                            "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                                                                            "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
-                                                                            "infoFiltered": "(được lọc từ _MAX_ mục)",
-                                                                            "search": "Tìm kiếm:",
-                                                                            "paginate": {
-                                                                                "first": "Đầu",
-                                                                                "last": "Cuối",
-                                                                                "next": "Tiếp",
-                                                                                "previous": "Trước"
-                                                                            }
-                                                                        }
-                                                                    });
-
-                                                                    // Search functionality
-                                                                    $('#searchInput').on('keyup', function () {
-                                                                        $('#categoryTable').DataTable().search(this.value).draw();
-                                                                    });
-
-                                                                    // Auto-hide alerts
-                                                                    setTimeout(function () {
-                                                                        $('.alert').fadeOut('slow');
-                                                                    }, 5000);
-
-                                                                    // Form validation
-                                                                    $('#addForm').on('submit', function (e) {
-                                                                        const categoryName = $('input[name="category_name"]').val().trim();
-                                                                        if (categoryName.length < 2) {
-                                                                            e.preventDefault();
-                                                                            alert('Tên danh mục phải có ít nhất 2 ký tự');
-                                                                            return false;
-                                                                        }
-                                                                    });
-                                                                });
-
-                                                                // Edit category function
-                                                                function editCategory(id, name, parentId, imageUrl) {
-                                                                    $('#editId').val(id);
-                                                                    $('#editName').val(name);
-                                                                    $('#editParent').val(parentId);
-                                                                    $('#editImage').val(imageUrl || '');
-                                                                    $('#editModal').modal('show');
-                                                                }
-
-                                                                // Add image function
-                                                                function addImage(categoryId) {
-                                                                    $('#addImageId').val(categoryId);
-                                                                    $('#addImageModal').modal('show');
-                                                                }
-
-                                                                // Delete image function
-                                                                function deleteImage(categoryId, imageId) {
-                                                                    if (confirm('Bạn có chắc chắn muốn xóa hình ảnh này?')) {
-                                                                        const form = document.createElement('form');
-                                                                        form.method = 'post';
-                                                                        form.action = 'MainController';
-
-                                                                        const actionInput = document.createElement('input');
-                                                                        actionInput.type = 'hidden';
-                                                                        actionInput.name = 'action';
-                                                                        actionInput.value = 'deleteImageCategory';
-
-                                                                        const categoryInput = document.createElement('input');
-                                                                        categoryInput.type = 'hidden';
-                                                                        categoryInput.name = 'category_id';
-                                                                        categoryInput.value = categoryId;
-
-                                                                        const imageIdInput = document.createElement('input');
-                                                                        imageIdInput.type = 'hidden';
-                                                                        imageIdInput.name = 'StrImageId';
-                                                                        imageIdInput.value = imageId;
-
-                                                                        form.appendChild(actionInput);
-                                                                        form.appendChild(categoryInput);
-                                                                        form.appendChild(imageIdInput);
-
-                                                                        document.body.appendChild(form);
-                                                                        form.submit();
-                                                                    }
-                                                                }
-
-                                                                // Delete category function
-                                                                function deleteCategory(categoryId) {
-                                                                    if (confirm('Bạn có chắc chắn muốn xóa danh mục này?\nLưu ý: Việc xóa danh mục có thể ảnh hưởng đến các sản phẩm liên quan.')) {
-                                                                        const form = document.createElement('form');
-                                                                        form.method = 'post';
-                                                                        form.action = 'CategoryController';
-
-                                                                        const actionInput = document.createElement('input');
-                                                                        actionInput.type = 'hidden';
-                                                                        actionInput.name = 'action';
-                                                                        actionInput.value = 'delete';
-
-                                                                        const idInput = document.createElement('input');
-                                                                        idInput.type = 'hidden';
-                                                                        idInput.name = 'category_id';
-                                                                        idInput.value = categoryId;
-
-                                                                        form.appendChild(actionInput);
-                                                                        form.appendChild(idInput);
-
-                                                                        document.body.appendChild(form);
-                                                                        form.submit();
-                                                                    }
-                                                                }
-        </script>
         <jsp:include page="/common/popup.jsp" />
 
     </body>
