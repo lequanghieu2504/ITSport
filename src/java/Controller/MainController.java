@@ -56,7 +56,7 @@ public class MainController extends HttpServlet {
                 url = "/CategoryController";
             } else if (isBrandAction(action)) {
                 url = "/BrandController";
-            } else if (isVNPAYAction(action)){
+            } else if (isVNPAYAction(action)) {
                 url = "/payment";
             }
         } catch (Exception e) {
@@ -128,7 +128,9 @@ public class MainController extends HttpServlet {
                 || "createVariant".equalsIgnoreCase(action)
                 || "updateProduct".equalsIgnoreCase(action)
                 || "productByCategory".equalsIgnoreCase(action)
-                || "GetProductDetail".equalsIgnoreCase(action);
+                || "GetProductDetail".equalsIgnoreCase(action)
+                || "searchProduct".equalsIgnoreCase(action)
+                || "searchSuggestion".equalsIgnoreCase(action);
     }
 
     private boolean isUserBuyingInforAction(String action) {
@@ -145,9 +147,9 @@ public class MainController extends HttpServlet {
         return "login".equals(action)
                 || "logout".equals(action)
                 || "register".equals(action)
-                ||"profile".equalsIgnoreCase(action)
-                ||"myOrders".equalsIgnoreCase(action)
-                ||"CancelOrderStatuByUser".equalsIgnoreCase(action);
+                || "profile".equalsIgnoreCase(action)
+                || "myOrders".equalsIgnoreCase(action)
+                || "CancelOrderStatuByUser".equalsIgnoreCase(action);
     }
 
     private boolean isImageAction(String action) {
@@ -188,7 +190,7 @@ public class MainController extends HttpServlet {
     }
 
     private boolean isVNPAYAction(String action) {
-       return "payment".equalsIgnoreCase(action);
+        return "payment".equalsIgnoreCase(action);
     }
 
 //    private boolean isPAIDAction(String action) {

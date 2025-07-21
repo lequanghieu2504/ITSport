@@ -271,4 +271,20 @@ public class ProductService {
         }
     }
 
+    public void handleSearchProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+        List<ProductDTO> listS = productDAO.searchByName(keyword);
+
+        request.setAttribute("ListS", listS);
+        request.getRequestDispatcher("MainController?action=productByCategory").forward(request, response);
+    }
+
+    public void handleSearchSuggestion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+        List<ProductDTO> suggestions = productDAO.searchByName(keyword);
+
+        request.setAttribute("listS", suggestions);
+        request.getRequestDispatcher("common/suggestion.jsp").forward(request, response);
+    }
+
 }

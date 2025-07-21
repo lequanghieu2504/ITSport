@@ -32,10 +32,16 @@
         </nav>
 
         <!-- Search -->
-        <form action="search" method="get" class="search-bar d-none d-md-flex align-items-center">
-            <input type="text" name="txt" value="${txtS}" placeholder="Tìm kiếm..." class="form-control search-input" />
-            <button type="submit" class="btn btn-primary search-btn"><i class="fa fa-search"></i></button>
-        </form>
+        <div class="search-wrapper position-relative">
+            <form action="ProductController" method="get" class="search-bar d-none d-md-flex align-items-center">
+                <input type="hidden" name="action" value="searchProduct" />
+                <input type="text" id="searchInput" name="keyword" placeholder="Tìm kiếm..." class="form-control search-input" autocomplete="off"/>
+                <button type="submit" class="btn btn-primary search-btn"><i class="fa fa-search"></i></button>
+            </form>
+
+            <!-- Kết quả gợi ý -->
+            <div id="suggestionBox" class="suggestion-box"></div>
+        </div>
 
         <!-- Icons & Auth -->
         <div class="d-flex align-items-center ml-3">
@@ -104,3 +110,39 @@
         </nav>
     </div>
 </header>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const input = document.getElementById("searchInput");
+        const suggestionBox = document.getElementById("suggestionBox");
+
+        input.addEventListener("input", function () {
+            const keyword = input.value.trim();
+
+            if (keyword.length === 0) {
+                suggestionBox.innerHTML = "";
+                return;
+            }
+
+            const encodedKeyword = encodeURIComponent(keyword);
+            const url = `ProductController?action=searchSuggestion&keyword=${encodedKeyword}`;
+
+            fetch(url)
+                    .then(res => res.text())
+                    .then(data => {
+                        suggestionBox.innerHTML = data;
+                        suggestionBox.style.display = "block";
+                    })
+                    .catch(err => {
+                        console.error("Lỗi khi fetch suggestion:", err);
+                    });
+        });
+
+        // Ẩn suggestion khi click ra ngoài
+        document.addEventListener("click", (e) => {
+            if (!suggestionBox.contains(e.target) && e.target !== input) {
+                suggestionBox.innerHTML = "";
+                suggestionBox.style.display = "none";
+            }
+        });
+    });
+</script>
