@@ -190,10 +190,10 @@
                             <button type="submit" class="btn btn-primary btn-lg">
                                 Đặt hàng ngay
                             </button>
-                            <a href="MainController?action=viewDetailProduct&pid=${buyNowInfo.productId}"
-                               class="btn btn-secondary btn-lg ml-2">
+                            <a href="javascript:history.back()" class="btn btn-secondary btn-lg ml-2">
                                 Quay lại
                             </a>
+
                         </div>
                     </form>
                 </div>

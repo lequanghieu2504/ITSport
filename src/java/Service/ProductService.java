@@ -64,7 +64,7 @@ public class ProductService {
 
                     }
 
-                    url = "MainController?action=loadForProductCreateVariantForm";
+                    url = "MainController?action=loadForListProductForm";
                     request.setAttribute("productId", success);
                 } catch (IOException ex) {
                     Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);

@@ -102,11 +102,10 @@ public class BuyingService {
             buyNowInfo.setVariantId(productVariantDTO.getProduct_variant_id());
 
             // Lưu thông tin vào session
-            HttpSession session = req.getSession();
-            session.setAttribute("buyNowInfo", buyNowInfo);
-
+            req.getSession().setAttribute("buyNowInfo", buyNowInfo);
+            req.getSession().setAttribute("productId", productId);
             // Lấy danh sách địa chỉ của user (nếu đã đăng nhập)
-            UserDTO currentUser = (UserDTO) session.getAttribute("user");
+            UserDTO currentUser = (UserDTO) req.getSession().getAttribute("user");
             if (currentUser != null) {
                 List<UserBuyingInfoDTO> userBuyingInfoDTOs = userBuyingInforDAO.getUserBuyingInforByUserId(currentUser.getUser_id());
                 if (!(userBuyingInfoDTOs == null || userBuyingInfoDTOs.isEmpty())) {
@@ -459,11 +458,10 @@ public class BuyingService {
             session.removeAttribute("buyNowInfo");
             session.setAttribute("message", "Đặt hàng thành công!");
             req.getSession().setAttribute("buyingId", buyId);
-         
-            if(dto.getPaymentMethod().equals(PaymentMethod.VNPAY)){
+
+            if (dto.getPaymentMethod().equals(PaymentMethod.VNPAY)) {
                 req.getRequestDispatcher("/payment").forward(req, resp);
-            }
-            else{
+            } else {
                 resp.sendRedirect(req.getContextPath() + "/MainController?action=loadForHomePage");
             }
 
