@@ -1,91 +1,101 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Admin Dashboard</title>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
         <style>
+            :root {
+                --primary-color: #8B0000;
+                --bg-color: #121212;
+                --sidebar-bg: #1c1c1c;
+                --content-bg: #181818;
+                --text-color: #f0f0f0;
+                --muted-text: #aaa;
+                --hover-bg: #292929;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+
             html, body {
                 margin: 0;
                 padding: 0;
                 height: 100%;
-                font-family: Arial, sans-serif;
+                font-family: 'Roboto', sans-serif;
+                background: var(--bg-color);
+                color: var(--text-color);
             }
 
             body {
                 display: flex;
-                min-height: 100vh;  /* Luôn cao ít nh?t b?ng viewport */
+                min-height: 100vh;
             }
 
-            .sidebar {
-                width: 220px;
-                background-color: #2c3e50;
-                color: white;
-                flex-shrink: 0; /* Không co l?i */
-                padding: 20px;
-                box-sizing: border-box;
-            }
-
-            .sidebar a {
-                color: white;
-                text-decoration: none;
-                display: block;
-                padding: 10px;
-                margin-bottom: 5px;
-            }
-
-            .sidebar a:hover {
-                background-color: #34495e;
-            }
-
-            .content {
-                flex: 1; /* Fill ph?n còn l?i */
-                padding: 20px;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;  /* Luôn full cao nh? sidebar */
-            }
             .sidebar {
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 220px;
                 height: 100%;
-                background-color: #2c3e50;
-                color: white;
+                background: var(--sidebar-bg);
                 padding: 20px;
+                box-sizing: border-box;
+                box-shadow: var(--shadow);
+            }
+
+            .sidebar h3 {
+                color: var(--primary-color);
+                margin-bottom: 1.5rem;
+                font-weight: 700;
+            }
+
+            .sidebar a {
+                display: block;
+                text-decoration: none;
+                color: var(--text-color);
+                padding: 10px;
+                margin-bottom: 8px;
+                border-radius: 4px;
+                transition: background 0.3s;
+            }
+
+            .sidebar a:hover {
+                background: var(--hover-bg);
             }
 
             .content {
-                margin-left: 220px; /* d?ch n?i dung sang ph?i, tránh ?è sidebar */
-                padding: 20px;
-            }
-            body {
-                display: flex;
-                min-height: 100vh; /* ??m b?o body cao ít nh?t 100% viewport */
-                margin: 0;
-            }
-
-            .sidebar {
-                width: 220px;
-                background-color: #2c3e50;
-                color: white;
-                padding: 20px;
-            }
-
-            .content {
+                margin-left: 220px;
+                padding: 30px;
+                background: var(--content-bg);
                 flex: 1;
-                padding: 20px;
+                min-height: 100vh;
+                box-sizing: border-box;
             }
 
+            h2 {
+                color: var(--primary-color);
+            }
 
+            p {
+                color: var(--muted-text);
+            }
+
+            @media (max-width: 768px) {
+                .sidebar {
+                    width: 180px;
+                }
+                .content {
+                    margin-left: 180px;
+                    padding: 20px;
+                }
+            }
         </style>
     </head>
     <body>
 
         <div class="sidebar">
             <h3>Admin Menu</h3>
-              <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage">Homepage</a>
+            <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage">Homepage</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForRevenue">Revenue</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListBuying">Booking</a>
@@ -125,17 +135,14 @@
                 <c:when test="${section == 'listBrand'}">
                     <jsp:include page="brand/listBrand.jsp"/>
                 </c:when>
-
                 <c:when test="${section == 'revenue'}">
                     <jsp:include page="revenue/revenueManager.jsp"/>
-
                 </c:when>
                 <c:otherwise>
                     <h2>Welcome to the Admin Dashboard</h2>
                     <p>Select a section from the menu.</p>
                 </c:otherwise>
             </c:choose>
-
         </div>
 
     </body>

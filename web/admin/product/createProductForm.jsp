@@ -25,6 +25,22 @@
                 margin: 0;
                 font-weight: 700;
             }
+            .table {
+                background-color: #ffffff;
+            }
+            .table thead {
+                background-color: #343a40;
+                color: #ffffff;
+            }
+            .table-striped tbody tr:nth-of-type(odd) {
+                background-color: #f2f2f2;
+            }
+            .table-striped tbody tr:hover {
+                background-color: #e9ecef;
+            }
+            .table td, .table th {
+                vertical-align: middle;
+            }
         </style>
     </head>
     <body>
