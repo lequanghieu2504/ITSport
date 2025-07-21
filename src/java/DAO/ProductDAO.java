@@ -223,7 +223,7 @@ public class ProductDAO {
         try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setLong(1, productId);
-                int success = ps.executeUpdate();
+            int success = ps.executeUpdate();
             if (success > 0) {
                 return true;
             } else {
@@ -367,6 +367,23 @@ public class ProductDAO {
                 listStockDTOs.add(stockDTO);
             }
             return listStockDTOs;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<ProductDTO> getProductsByBrandId(Long brand_id) {
+        List<ProductDTO> listProduct = new ArrayList<>();
+        String sql = BASE_GET_PRODUCT_WITH_IMAGE + " and brand_id = ?";
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, brand_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO productDTO = ProductMapper.toProductDTOFromResultSet(rs);
+                listProduct.add(productDTO);
+            }
+            return listProduct;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
