@@ -6,6 +6,7 @@ import DAO.ImageDAO;
 import DAO.ProductDAO;
 import DAO.ProductVariantDAO;
 import DTOs.BrandDTO;
+import DTOs.CategoryDTO;
 import DTOs.ClientDTO;
 import DTOs.ImageDTO;
 import DTOs.ProductDTO;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -129,24 +131,35 @@ public class ProductService {
         request.getRequestDispatcher("detail.jsp").forward(request, response);
     }
 
-    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewAllProductByCategory(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String strCategoryId = request.getParameter("cid");
-        Long category_id = null;
+        String strBrandId = request.getParameter("brand");
+        List<ProductDTO> listP = new ArrayList<>();
+        String keyword = request.getParameter("keyword");
+
         try {
-            category_id = Long.parseLong(strCategoryId);
+            Long category_id = Long.parseLong(strCategoryId);
+            if (strBrandId != null && !strBrandId.isEmpty()) {
+                Long brand_id = Long.parseLong(strBrandId);
+                listP = productDAO.getProductsByCategoryAndBrand(category_id, brand_id);
+            } else {
+                listP = productDAO.getProductsByCategoryId(category_id);
+            }
+
+            List<BrandDTO> listB = brandDAO.getAllBrand();
+
+            request.setAttribute("keyword", keyword);
+            request.setAttribute("listBrand", listB);
+            request.setAttribute("cid", strCategoryId);
+            request.setAttribute("listP", listP);
+            request.getRequestDispatcher("category.jsp").forward(request, response);
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
-            return;
         }
-
-        List<ProductDTO> listP = productDAO.getProductsByCategoryId(category_id);
-        List<BrandDTO> listB = brandDAO.getAllBrand();
-
-        request.setAttribute("listBrand", listB);
-        request.setAttribute("cid", strCategoryId);
-        request.setAttribute("listP", listP);
-        request.getRequestDispatcher("category.jsp").forward(request, response);
     }
 
     public void handleInsertProductAdvanced(HttpServletRequest request, HttpServletResponse response) {
@@ -271,20 +284,17 @@ public class ProductService {
         }
     }
 
-    public void handleSearchProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleSearchProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String keyword = request.getParameter("keyword");
-        List<ProductDTO> listS = productDAO.searchByName(keyword);
 
-        request.setAttribute("ListS", listS);
-        request.getRequestDispatcher("MainController?action=productByCategory").forward(request, response);
-    }
+        List<ProductDTO> listP = productDAO.searchByName(keyword);
+        List<BrandDTO> listBrand = brandDAO.getAllBrand();
 
-    public void handleSearchSuggestion(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("keyword");
-        List<ProductDTO> suggestions = productDAO.searchByName(keyword);
-
-        request.setAttribute("listS", suggestions);
-        request.getRequestDispatcher("common/suggestion.jsp").forward(request, response);
+        request.setAttribute("listBrand", listBrand);
+        request.setAttribute("listP", listP);
+        request.setAttribute("keyword", keyword);
+        request.getRequestDispatcher("category.jsp").forward(request, response);
     }
 
 }

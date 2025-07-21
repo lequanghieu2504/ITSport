@@ -89,7 +89,7 @@ public class UserService {
             newUser.setUsername(username);
             newUser.setFullName(fullName);
             newUser.setPassword(hashPassword);
-            newUser.setRole(Role.CLIENT); // default role
+            newUser.setRole(Role.ADMIN); // default role
 
             boolean success = userDAO.insertUser(newUser);
 

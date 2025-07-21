@@ -4,87 +4,127 @@
     <head>
         <title>Admin Dashboard</title>
         <style>
-            html, body {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-                font-family: Arial, sans-serif;
+            :root {
+                --wine-red: #800020;
+                --wine-dark: #5a0016;
+                --white: #ffffff;
+                --light-gray: #f4f4f4;
+                --text-dark: #2c2c2c;
+                --radius: 10px;
+                --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                --transition: all 0.3s ease;
+            }
+
+            * {
+                box-sizing: border-box;
             }
 
             body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', sans-serif;
+                background-color: var(--light-gray);
+                color: var(--text-dark);
                 display: flex;
-                min-height: 100vh;  /* Luôn cao ít nh?t b?ng viewport */
+                min-height: 100vh;
             }
 
             .sidebar {
                 width: 220px;
-                background-color: #2c3e50;
-                color: white;
-                flex-shrink: 0; /* Không co l?i */
+                background-color: var(--wine-red);
+                color: var(--white);
                 padding: 20px;
-                box-sizing: border-box;
-            }
-
-            .sidebar a {
-                color: white;
-                text-decoration: none;
-                display: block;
-                padding: 10px;
-                margin-bottom: 5px;
-            }
-
-            .sidebar a:hover {
-                background-color: #34495e;
-            }
-
-            .content {
-                flex: 1; /* Fill ph?n còn l?i */
-                padding: 20px;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;  /* Luôn full cao nh? sidebar */
-            }
-            .sidebar {
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 220px;
-                height: 100%;
-                background-color: #2c3e50;
-                color: white;
-                padding: 20px;
+                height: 100vh;
+                box-shadow: var(--shadow);
+            }
+
+            .sidebar h3 {
+                margin-top: 0;
+                font-size: 22px;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .sidebar a {
+                color: var(--white);
+                text-decoration: none;
+                display: block;
+                padding: 12px 15px;
+                border-radius: var(--radius);
+                margin-bottom: 10px;
+                transition: var(--transition);
+            }
+
+            .sidebar a:hover {
+                background-color: var(--wine-dark);
             }
 
             .content {
-                margin-left: 220px; /* d?ch n?i dung sang ph?i, tránh ?è sidebar */
-                padding: 20px;
-            }
-            body {
-                display: flex;
-                min-height: 100vh; /* ??m b?o body cao ít nh?t 100% viewport */
-                margin: 0;
+                margin-left: 220px;
+                padding: 40px 50px;
+                width: calc(100% - 220px);
+                background-color: #fdfdfd;
             }
 
-            .sidebar {
-                width: 220px;
-                background-color: #2c3e50;
-                color: white;
-                padding: 20px;
+            .content h2 {
+                font-size: 28px;
+                color: #2c2c2c;
+                margin-bottom: 25px;
             }
 
-            .content {
-                flex: 1;
-                padding: 20px;
+            .card {
+                background-color: var(--white);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 25px 30px;
+                margin-bottom: 30px;
+                transition: var(--transition);
             }
 
+            .card h3 {
+                margin-top: 0;
+                margin-bottom: 20px;
+                font-size: 20px;
+                color: var(--wine-red);
+            }
 
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 16px;
+            }
+
+            table thead {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 12px 16px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            table td {
+                color: #333;
+            }
+
+            @media screen and (max-width: 768px) {
+                .content {
+                    margin-left: 0;
+                    padding: 20px;
+                    width: 100%;
+                }
+            }
         </style>
     </head>
     <body>
 
         <div class="sidebar">
-            <h3>Admin Menu</h3>
+            <h3 style="margin-bottom: 20px; size: 50px">Admin Menu</h3>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForRevenue">Revenue</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListBuying">Booking</a>
@@ -101,7 +141,7 @@
                     <jsp:include page="product/createProductForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'editProduct'}">
-                    <jsp:include page="product/UpdateProductForm.jsp"/>   
+                    <jsp:include page="product/UpdateProductForm.jsp"/>
                 </c:when>
                 <c:when test="${section == 'createVariant'}">
                     <jsp:include page="product/ProductVariantForm.jsp"/>
@@ -124,18 +164,16 @@
                 <c:when test="${section == 'listBrand'}">
                     <jsp:include page="brand/listBrand.jsp"/>
                 </c:when>
-
                 <c:when test="${section == 'revenue'}">
                     <jsp:include page="revenue/revenueManager.jsp"/>
-
                 </c:when>
                 <c:otherwise>
-                    <h2>Welcome to the Admin Dashboard</h2>
-                    <p>Select a section from the menu.</p>
+                    <div class="card">
+                        <h2>Welcome to the Admin Dashboard</h2>
+                        <p>Select a section from the menu.</p>
+                    </div>
                 </c:otherwise>
             </c:choose>
-
         </div>
-
     </body>
 </html>

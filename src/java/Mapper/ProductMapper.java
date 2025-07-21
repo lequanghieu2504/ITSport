@@ -36,10 +36,9 @@ public class ProductMapper {
         product.setCategory_id(category_id);
         product.setBrand_id(brand_id);
         product.setStatus(status);
-        if(url_Main_Product_Image==null||url_Main_Product_Image.trim().isEmpty()){
+        if (url_Main_Product_Image == null || url_Main_Product_Image.trim().isEmpty()) {
             product.setImg_url("images/default.jpg");
-        }
-        else{
+        } else {
             product.setImg_url(url_Main_Product_Image);
         }
         return product;
@@ -116,11 +115,11 @@ public class ProductMapper {
             dto.setStatus(rs.getInt("status") == 1);
             dto.setCategory_id(rs.getInt("category_id"));
             dto.setBrand_id(rs.getInt("brand_id"));
-            dto.setCategory_name(rs.getString("name"));
-            dto.setBrand_name(rs.getString("name"));
+            dto.setCategory_name(rs.getString("category_name"));
+            dto.setBrand_name(rs.getString("brand_name"));
             System.out.println(dto.getProduct_id());
             System.out.println(dto.getProduct_name());
-            
+
             return dto;
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);

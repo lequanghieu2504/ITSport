@@ -24,7 +24,14 @@ public class ProductController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         String action = request.getParameter("action");
+        String keyword = request.getParameter("keyword");
+
+        System.out.println(">>> [Controller] action: " + action);
+        System.out.println(">>> [Controller] keyword: " + keyword);
+
         if ("insertProduct".equalsIgnoreCase(action)) {
             productService.handleInsertProduct(request, response);
             return;
@@ -52,9 +59,6 @@ public class ProductController extends HttpServlet {
             productService.handleViewDetailForAdmin(request, response);
         } else if ("searchProduct".equalsIgnoreCase(action)) {
             productService.handleSearchProduct(request, response);
-        } else if ("searchSuggestion".equalsIgnoreCase(action)) {
-            productService.handleSearchSuggestion(request, response);
-            return;
         }
 
     }

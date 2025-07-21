@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTOs.CategoryDTO;
 import DTOs.ProductDTO;
 import DTOs.ProductVariantDTO;
 import DTOs.StockDTO;
@@ -346,11 +347,15 @@ public class ProductDAO {
 
     public List<ProductDTO> searchByName(String keyword) {
         List<ProductDTO> list = new ArrayList<>();
-        String sql = "SELECT p.*, c.category_id, c.name, b.brand_id, b.name\n"
-                + "                FROM Product p \n"
-                + "                JOIN Categories c ON p.category_id = c.category_id \n"
-                + "                JOIN Brand b ON p.brand_id = b.brand_id \n"
-                + "                WHERE p.product_name LIKE ?";
+        String sql = "SELECT p.*, \n"
+                + "       c.category_id AS category_id, \n"
+                + "       c.name AS category_name, \n"
+                + "       b.brand_id AS brand_id, \n"
+                + "       b.name AS brand_name\n"
+                + "FROM Product p \n"
+                + "JOIN Categories c ON p.category_id = c.category_id \n"
+                + "JOIN Brand b ON p.brand_id = b.brand_id \n"
+                + "WHERE p.product_name LIKE ?";
 
         try {
             Connection conn = JDBCConnection.getConnection();
@@ -369,21 +374,63 @@ public class ProductDAO {
         return list;
     }
 
-    public static void main(String[] args) {
-        ProductDAO productDAO = new ProductDAO();
+    public List<ProductDTO> getProductsByCategoryAndBrand(Long categoryId, Long brandId) {
 
-        // Test với từ khóa tìm kiếm
-        String keyword = "ÁO";  // Thay đổi tùy ý
+        List<ProductDTO> list = new ArrayList<>();
+        String sql = "SELECT p.*, c.name AS category_name, b.name AS brand_name "
+                + "FROM Product p "
+                + "JOIN Categories c ON p.category_id = c.category_id "
+                + "JOIN Brand b ON p.brand_id = b.brand_id "
+                + "WHERE p.category_id = ? AND p.brand_id = ?";
 
-        List<ProductDTO> results = productDAO.searchByName(keyword);
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, categoryId);
+            ps.setLong(2, brandId);
 
-        if (results.isEmpty()) {
-            System.out.println("Không tìm thấy sản phẩm nào với từ khóa: " + keyword);
-        } else {
-            for (ProductDTO product : results) {
-                System.out.println(product);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductDTO product = ProductMapper.toProductDTOFromRequestWithName(rs);
+                if (product != null) {
+                    list.add(product);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return list;
     }
 
+    public List<CategoryDTO> getCategoriesByKeyword(String keyword) {
+        List<CategoryDTO> list = new ArrayList<>();
+        String sql = "SELECT * FROM Categories WHERE name LIKE ?";
+
+        try ( Connection conn = JDBCConnection.getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                CategoryDTO category = new CategoryDTO();
+                category.setCategory_id(rs.getLong("category_id"));
+                category.setCategory_name(rs.getString("name"));
+                list.add(category);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static void main(String[] args) {
+        ProductDAO dao = new ProductDAO();
+
+        String keyword = "áo"; // Từ khóa để tìm kiếm
+
+        List<CategoryDTO> categories = dao.getCategoriesByKeyword(keyword);
+
+        for (CategoryDTO c : categories) {
+            System.out.println("ID: " + c.getCategory_id() + ", Name: " + c.getCategory_name());
+        }
+    }
 }

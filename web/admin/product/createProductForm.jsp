@@ -11,19 +11,64 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
+            :root {
+                --wine-red: #800020;
+                --wine-hover: #a00030;
+                --text-light: #fff;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                --border-radius: 8px;
+            }
+
             body {
                 background: #f8f9fa;
+                font-family: 'Roboto', sans-serif;
             }
+
             .page-header {
-                background: linear-gradient(135deg, #00b894, #0984e3);
-                color: #fff;
+                background: var(--wine-red);
+                color: var(--text-light);
                 padding: 25px 0;
                 text-align: center;
                 margin-bottom: 30px;
+                box-shadow: var(--shadow);
+                border-bottom-left-radius: var(--border-radius);
+                border-bottom-right-radius: var(--border-radius);
             }
+
             .page-header h1 {
                 margin: 0;
                 font-weight: 700;
+                font-size: 28px;
+            }
+
+            .card {
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                border: none;
+            }
+
+            .card-title {
+                color: var(--wine-red);
+                font-weight: 600;
+            }
+
+            .btn-success {
+                background-color: var(--wine-red);
+                border-color: var(--wine-red);
+            }
+
+            .btn-success:hover {
+                background-color: var(--wine-hover);
+                border-color: var(--wine-hover);
+            }
+
+            .btn-secondary {
+                background-color: #6c757d;
+                border: none;
+            }
+
+            .btn-secondary:hover {
+                opacity: 0.9;
             }
         </style>
     </head>
