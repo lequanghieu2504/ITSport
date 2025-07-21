@@ -11,97 +11,194 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
         <style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&display=swap');
 
-            :root {
-                --wine-red: #800020;
-                --wine-hover: #a00030;
-                --table-head: #61001a;
-                --text-light: #fff;
-                --border-radius: 8px;
-                --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            }
+  :root {
+    --bg-page: #0d0d0d;
+    --card-bg: #1a1a1a;
+    --text-light: #f0f0f0;
+    --accent-red: #b30000;
+    --accent-dark: #000;
+    --table-head: #2c0202;
+    --table-hover: #330000;
+    --shadow: rgba(0, 0, 0, 0.8);
+    --radius: 6px;
+  }
 
-            body {
-                background: #f8f9fa;
-                font-family: 'Roboto', sans-serif;
-            }
-            
-            a {
-                text-decoration: none;
-            }
+  /* Reset & base */
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg-page);
+    color: var(--text-light);
+    font-family: 'Oswald', sans-serif;
+    line-height: 1.5;
+  }
+  a { color: var(--accent-red); text-decoration: none; transition: color .2s; }
+  a:hover { color: #ff4d4d; }
 
-            .page-header {
-                background: var(--wine-red);
-                color: var(--text-light);
-                padding: 25px 0;
-                text-align: center;
-                margin-bottom: 30px;
-                box-shadow: var(--shadow);
-            }
+  /* Header */
+  .page-header {
+    background: linear-gradient(120deg, var(--accent-red), var(--accent-dark));
+    color: #fff;
+    padding: 25px 0;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--shadow);
+    margin-bottom: 30px;
+  }
+  .page-header h1 {
+    font-size: 2.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
 
-            .page-header h1 {
-                margin: 0;
-                font-weight: 700;
-                font-size: 28px;
-            }
+  /* Search */
+  #searchProductInput {
+    background: var(--card-bg);
+    color: var(--text-light);
+    border: 1px solid #330000;
+    border-radius: var(--radius);
+    padding: .5rem 1rem;
+    transition: border-color .2s;
+  }
+  #searchProductInput:focus {
+    border-color: var(--accent-red);
+    outline: none;
+  }
+  .input-group .btn-outline-secondary {
+    background: var(--card-bg);
+    border: 1px solid #330000;
+    color: var(--text-light);
+    transition: background .2s;
+  }
+  .input-group .btn-outline-secondary:hover {
+    background: var(--accent-red);
+    color: #fff;
+  }
 
-            .table-actions a {
-                margin-right: 8px;
-            }
+  /* Table container */
+  .table-responsive {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    margin-bottom: 1.5rem;
+  }
 
-            .add-product-btn {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                width: 55px;
-                height: 55px;
-                font-size: 26px;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
+  /* Table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .table thead {
+    background: linear-gradient(90deg, var(--accent-red), var(--accent-dark));
+  }
+  .table thead th {
+    padding: 12px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+  }
+  .table tbody tr {
+    background: var(--card-bg);
+    transition: background .3s;
+  }
+  .table tbody tr:nth-child(odd) {
+    background: #151515;
+  }
+  .table tbody tr:hover {
+    background: var(--table-hover);
+  }
+  .table td {
+    padding: 12px;
+    border-top: 1px solid #2a0000;
+    color: var(--text-light);
+  }
 
-                background-color: var(--wine-red);
-                border: none;
-                color: #fff;
-            }
+  /* Buttons */
+  .btn-primary, .btn-success {
+    background: var(--accent-red);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: .5rem 1rem;
+    border-radius: var(--radius);
+    transition: background .2s;
+  }
+  .btn-primary:hover, .btn-success:hover {
+    background: #ff1a1a;
+  }
+  .btn-danger {
+    background: #660000;
+    border: none;
+    color: #fff;
+    transition: background .2s;
+  }
+  .btn-danger:hover {
+    background: #990000;
+  }
 
-            .add-product-btn:hover {
-                background-color: var(--wine-hover);
-            }
+  /* Floating add */
+  .add-product-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent-red);
+    color: #fff;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: transform .2s, background .2s;
+    z-index: 1000;
+  }
+  .add-product-btn:hover {
+    background: #ff1a1a;
+    transform: scale(1.1);
+  }
 
-            .table thead {
-                background-color: var(--table-head);
-                color: #fff;
-            }
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header h1 { font-size: 1.8rem; }
+    .table thead th, .table td { padding: 8px; font-size: .9rem; }
+    .add-product-btn { width: 50px; height: 50px; font-size: 24px; }
+  }
+  
+  /* Table chữ xám, không còn trắng */
+.table td,
+.table thead th {
+  color: #bbb !important;
+}
 
-            .table td, .table th {
-                vertical-align: middle;
-            }
+/* Search input chữ trắng */
+#searchProductInput {
+  color: #fff !important;
+}
+
+/* Placeholder search input cũng trắng nhạt */
+#searchProductInput::placeholder {
+  color: #ddd !important;
+}
+
+/* Button tìm kiếm chữ trắng */
+.input-group .btn-outline-secondary,
+.input-group .btn-outline-secondary i {
+  color: #fff !important;
+}
+
+</style>
 
 
-            .btn-primary {
-                background-color: var(--wine-red);
-                border-color: var(--wine-red);
-            }
-
-            .btn-primary:hover {
-                background-color: var(--wine-hover);
-                border-color: var(--wine-hover);
-            }
-
-            .btn-danger:hover {
-                opacity: 0.9;
-            }
-
-        </style>
     </head>
     <body>
 
-        <div class="page-header">
-            <h1><i class="bi bi-list-ul"></i> Danh sách sản phẩm</h1>
-        </div>
+
 
         <div class="container mb-5">
 

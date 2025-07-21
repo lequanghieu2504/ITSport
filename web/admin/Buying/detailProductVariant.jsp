@@ -6,47 +6,143 @@
     <meta charset="UTF-8">
     <title>Chi Tiết Product Variant</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            background: #f8f9fc;
-        }
-        .header-section {
-            background: linear-gradient(135deg, #4e73df, #224abe);
-            color: #fff;
-            padding: 30px 0;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header-section h1 {
-            font-weight: 700;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
-        .table th {
-            width: 200px;
-        }
+      @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap');
+
+      :root {
+        --bg-page: #ffffff;
+        --card-bg: #f8f9fa;
+        --text-dark: #212529;
+        --text-muted: #6c757d;
+        --accent-red: #e74a3b;
+        --accent-red-dark: #c0392b;
+        --radius: 8px;
+        --shadow: rgba(0,0,0,0.1);
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg-page);
+        color: var(--text-dark);
+        font-family: 'Oswald', sans-serif;
+        line-height: 1.5;
+      }
+      a {
+        color: var(--accent-red);
+        text-decoration: none;
+        transition: color .2s;
+      }
+      a:hover {
+        color: var(--accent-red-dark);
+      }
+
+      /* Header */
+      .header-section {
+        background: linear-gradient(135deg, var(--accent-red-dark), var(--accent-red));
+        color: #fff;
+        padding: 2rem 1rem;
+        text-align: center;
+        border-radius: var(--radius);
+        box-shadow: 0 4px 12px var(--shadow);
+        margin-bottom: 2rem;
+      }
+      .header-section h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .header-section p {
+        color: rgba(255,255,255,0.8);
+        margin-top: .5rem;
+      }
+
+      /* Cards */
+      .card {
+        background: var(--card-bg);
+        border: none;
+        border-radius: var(--radius);
+        box-shadow: 0 4px 16px var(--shadow);
+        margin-bottom: 2rem;
+      }
+      .card-body {
+        padding: 1.5rem;
+      }
+      .card-title {
+        font-weight: 600;
+        color: var(--accent-red-dark);
+        margin-bottom: 1rem;
+      }
+
+      /* Tables */
+      .table-bordered {
+        border: 1px solid #dee2e6;
+      }
+      .table-bordered th,
+      .table-bordered td {
+        vertical-align: middle;
+        border: 1px solid #dee2e6;
+      }
+      .table th {
+        width: 200px;
+      }
+      .table-striped tbody tr:nth-of-type(odd) {
+        background-color: var(--bg-page);
+      }
+      .table-striped tbody tr:nth-of-type(even) {
+        background-color: var(--card-bg);
+      }
+      .table-striped tbody tr:hover {
+        background-color: var(--accent-red-light);
+        color: #fff;
+      }
+      .table th {
+        background: var(--accent-red);
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      /* Images */
+      .img-thumbnail {
+        border-radius: var(--radius);
+        box-shadow: 0 2px 8px var(--shadow);
+      }
+
+      /* Buttons */
+      .btn-secondary {
+        background: var(--accent-red);
+        border: none;
+        color: #fff;
+        border-radius: var(--radius);
+        transition: background .2s;
+      }
+      .btn-secondary:hover {
+        background: var(--accent-red-dark);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .header-section h1 { font-size: 2rem; }
+        .card-body, .table th, .table td { padding: .75rem; }
+      }
     </style>
 </head>
 <body>
 
     <!-- Header -->
-    <div class="header-section">
-        <h1><i class="bi bi-info-square-fill"></i> Chi Tiết Product Variant</h1>
-        <p>Thông tin chi tiết về biến thể sản phẩm</p>
-    </div>
 
     <div class="container mb-5">
-        <div class="card mb-4">
+        <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Thông Tin Variant</h5>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                     <tbody>
                         <tr>
                             <th>ID Variant</th>
@@ -78,10 +174,10 @@
         </div>
 
         <c:if test="${not empty productVariant.product}">
-            <div class="card mb-4">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Thông Tin Product Gốc</h5>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
                         <tbody>
                             <tr>
                                 <th>Product ID</th>
@@ -103,7 +199,7 @@
         </c:if>
 
         <c:if test="${not empty productVariant.listImage}">
-            <div class="card mb-4">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Hình Ảnh</h5>
                     <div class="row">
