@@ -131,6 +131,7 @@
         <div class="sidebar">
 
             <h3 style="margin-bottom: 20px; size: 50px">Admin Menu</h3>
+            <a href="${pageContext.request.contextPath}/MainController?action=loadForHomePage">HomePage</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForRevenue">Revenue</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListProductForm">Product</a>
             <a href="${pageContext.request.contextPath}/MainController?action=loadForListBuying">Booking</a>
