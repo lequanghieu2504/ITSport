@@ -5,7 +5,12 @@
         <group>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/WEB.xml</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/ProductVariantDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Filter/AuthFilter.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/ClientDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/ChatDAO.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/DAO/ChatEndpoint.java</file>
         </group>
     </open-files>
 </project-private>

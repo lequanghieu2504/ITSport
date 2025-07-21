@@ -455,7 +455,7 @@ public class BuyingService {
                 cartItemDAO.deleteCartItemByCartItemId(it.getCartItemId());
             }
 
-            conn.commit();  // ✅ Commit nếu không lỗi
+            conn.commit();  // Commit nếu không lỗi
 
             session.removeAttribute("buyNowInfo");
             session.setAttribute("message", "Đặt hàng thành công!");

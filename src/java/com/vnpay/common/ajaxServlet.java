@@ -6,6 +6,8 @@
 package com.vnpay.common;
 
 import DAO.BuyingDAO;
+import DAO.CartItemDAO;
+import DAO.ProductVariantDAO;
 import DAO.UserBuyingInforDAO;
 import DTOs.ItemDTO;
 import java.io.IOException;
@@ -150,10 +152,38 @@ if (pIds == null || vIds == null || qtys == null || prices == null ||
 
     BuyingDAO buyingDao = new BuyingDAO();
     // 4) Lưu xuống DB với status = PENDING
+    
+    ProductVariantDAO variantDAO = new ProductVariantDAO();
+    CartItemDAO cartItemDAO = new CartItemDAO();
+    HttpSession session = req.getSession();
+    
     long orderId;
     try (Connection conn = JDBCConnection.getConnection()) {
       conn.setAutoCommit(false);
       orderId = buyingDao.insertBuying(dto, conn);
+      
+       for (ItemDTO it : dto.getItems()) {
+            int stock = variantDAO.getStock(conn, it.getVariantId());
+            if (stock < it.getQuantity()) {
+                // Thông báo cho người dùng biết còn bao nhiêu
+                session.setAttribute("message", 
+                    "Sản phẩm mã variant " + it.getVariantId() +
+                    " chỉ còn " + stock + " chiếc. Vui lòng điều chỉnh lại số lượng.");
+                // Quay về trang giỏ hàng (hoặc checkout) tuỳ bạn
+                resp.sendRedirect(req.getContextPath() + "/MainController?action=viewCart");
+                return;
+            }
+            variantDAO.updateStock(conn, it.getVariantId(), stock - it.getQuantity());
+        }
+
+    // 2) Xóa cart items trong cùng conn
+    for (ItemDTO it : dto.getItems()) {
+        cartItemDAO.deleteByCartItemId(conn, it.getCartItemId());
+    }
+
+    // 3) Commit cả ba bước: insertBuying, updateStock, deleteCartItem
+    conn.commit();
+      
       conn.commit();
     } catch (Exception e) {
       throw new ServletException("Tạo order PENDING thất bại", e);

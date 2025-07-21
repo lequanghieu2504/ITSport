@@ -150,6 +150,20 @@ public class CartItemDAO {
         }
     }
 
+    /**
+    * Xóa Cart_Item trong cùng một transaction (dùng connection bên ngoài)
+    * @param conn        kết nối đang mở và setAutoCommit(false)
+    * @param cartItemId  id của cart_item cần xóa
+    * @return số bản ghi bị xoá (1 nếu thành công, 0 nếu không có)
+    * @throws SQLException
+    */
+   public int deleteByCartItemId(Connection conn, long cartItemId) throws SQLException {
+       String sql = "DELETE FROM Cart_Item WHERE cart_item_id = ?";
+       try (PreparedStatement ps = conn.prepareStatement(sql)) {
+           ps.setLong(1, cartItemId);
+           return ps.executeUpdate();
+       }
+   }
 
     public void deleteCartItemByCartItemId(long cartItemId) {
         String sql = "DELETE FROM Cart_Item WHERE cart_item_id = ?";
