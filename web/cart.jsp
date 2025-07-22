@@ -108,7 +108,7 @@
                         </c:forEach>
 
                         <!-- Form thanh toán (tách riêng) -->
-                        <form action="BuyingController" method="post" id="checkout-form">
+                        <form action="MainController" method="post" id="checkout-form">
                             <input type="hidden" name="action" value="cartCheckout"/>
                             <div class="cart-summary">
                                 Tổng cộng: <span id="cart-total">0₫</span>
