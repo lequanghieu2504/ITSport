@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -43,7 +44,9 @@
 
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
-                                <p class="product-price">${p.price}₫</p>
+                                <p class="product-price">
+                                <fmt:formatNumber value="${p.price}" pattern="#,###" />₫
+                            </p>
                                 <div class="product-actions">
                                     <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
                                         <input type="hidden" name="pid" value="${p.product_id}" />
@@ -70,7 +73,9 @@
                             <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
-                                <p class="product-price">${p.price}₫</p>
+                                <p class="product-price">
+                                <fmt:formatNumber value="${p.price}" pattern="#,###" />₫
+                            </p>
                                 <div class="product-actions">
                                     <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
                                         <input type="hidden" name="pid" value="${p.product_id}" />
@@ -97,7 +102,9 @@
                             <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
-                                <p class="product-price">${p.price}₫</p>
+                                <p class="product-price">
+                                <fmt:formatNumber value="${p.price}" pattern="#,###" />₫
+                            </p>
                                 <div class="product-actions">
 
                                     <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">
@@ -125,7 +132,9 @@
                             <img src="${pageContext.request.contextPath}/${p.img_url}" alt="${p.product_name}" />
                             <div class="product-info">
                                 <p class="product-name">${p.product_name}</p>
-                                <p class="product-price">${p.price}₫</p>
+                                <p class="product-price">
+                                <fmt:formatNumber value="${p.price}" pattern="#,###" />₫
+                            </p>
                                 <div class="product-actions">
 
                                     <form action="MainController?action=viewDetailProduct&pid=${p.product_id}" method="post">

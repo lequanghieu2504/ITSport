@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,7 +37,9 @@
                     <!-- Thông tin sản phẩm -->
                     <div class="col-md-6">
                         <h2>${product.product_name}</h2>
-                        <h4 class="text-danger">${product.price} &#8363;</h4>
+                        <h4 class="text-danger">
+                            <fmt:formatNumber value="${product.price}" pattern="#,###" /> đ
+                        </h4>
                         <p>${product.description}</p>
 
                         <!-- Cảnh báo nếu chưa chọn đủ màu/size -->
@@ -160,6 +163,7 @@
                                 <input type="hidden" name="StrColor" value="${selectedColor}"/>
                                 <input type="hidden" name="StrSize" value="${selectedSize}"/>
                                 <input type="hidden" name="StrQuantity" id="buyQuantity" value="1"/>
+                                <input type="hidden" name="quantity" value="${selectedVariant.quantity}" />
 
                                 <button type="submit"
                                         class="btn btn-buy btn-purchase"

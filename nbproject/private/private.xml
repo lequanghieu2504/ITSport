@@ -2,34 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/category/listCategory.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/DAO/ProductDAO.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/category.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/admin.css</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/product/UpdateProductForm.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/revenue/revenueManager.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/product/CreateProductVariantForm.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/product/ProductDetail.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/cart.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/product/listProduct.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/common/header.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/ProductService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/Buying/BuyingManager.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/product/ProductVariantDetailForm.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/ProductController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Service/UserService.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/homepage/homepage.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/util/JDBCConnection.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/adminDashboard.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Controller/UserController.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/cart.css</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/src/java/Filter/AuthFilter.java</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/assets/css/homepage.css</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/brand/listBrand.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/homepage/filter.jsp</file>
-            <file>file:/D:/Ky_4_SU25/PRJ301/ITSport/web/admin/product/createProductForm.jsp</file>
-        </group>
         <group name="Group 20250517-08:55:04">
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/admin/Buying/detailProductVariant.jsp</file>
             <file>file:/D:/FPTU/SU25/PRJ301/ITSport_1.2/web/policy.jsp</file>
@@ -140,6 +112,12 @@
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/User/Profile.jsp</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/loginByEmail.jsp</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/com/vnpay/common/ajaxServlet.java</file>
+        </group>
+        <group>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/WEB.xml</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
         </group>
     </open-files>
 </project-private>

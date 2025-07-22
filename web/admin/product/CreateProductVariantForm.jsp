@@ -18,59 +18,63 @@
             --panel: #1e1e1e;
             --text: #ffffff;
             --border: #2e2e2e;
-            --primary: #e52b50;
-            --accent: #f5a623;
+            --primary: #e52b50;  /* đỏ mạnh */
         }
 
         * { box-sizing: border-box; }
         body {
-            margin:0; padding:0;
+            margin: 0; padding: 0;
             background: var(--bg);
             color: var(--text);
             font-family: 'Oswald', sans-serif;
-            line-height:1.6;
+            line-height: 1.6;
         }
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            padding:3rem 1rem;
-            text-align:center;
+            background: var(--primary);
+            padding: 3rem 1rem;
+            text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.7);
         }
         .header h1 {
-            margin:0;
-            font-size:2.5rem;
-            text-transform:uppercase;
-            letter-spacing:2px;
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text);
         }
         .header p {
-            margin-top:.5rem;
-            opacity:.8;
+            margin-top: .5rem;
+            opacity: .8;
+            color: var(--text);
         }
         .container-main {
-            max-width:900px;
-            margin:2rem auto;
-            padding:0 1rem;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
         .card {
             background: var(--panel);
-            border:1px solid var(--border);
-            border-radius:.5rem;
+            border: 1px solid var(--border);
+            border-radius: .5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.7);
             transition: transform .3s, box-shadow .3s;
+            color: #fff;
         }
         .card:hover {
             transform: translateY(-4px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.7);
         }
         .card-title {
-            font-size:1.25rem;
-            font-weight:600;
-            border-bottom:2px solid var(--primary);
-            padding-bottom:.5rem;
-            margin-bottom:1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: .5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+            color: #fff;
         }
         .table {
-            margin-bottom:0;
+            margin-bottom: 0;
             background: var(--panel);
             color: var(--text);
         }
@@ -79,8 +83,9 @@
         }
         .table th, .table td {
             border-color: var(--border);
-            vertical-align:middle;
-            padding:.75rem 1rem;
+            vertical-align: middle;
+            padding: .75rem 1rem;
+            color: var(--text);
         }
         .table-striped tbody tr:nth-of-type(odd) {
             background: #1a1a1a;
@@ -89,69 +94,65 @@
             background: #2a2a2a;
         }
         .badge-status {
-            text-transform:uppercase;
-            font-weight:600;
-            padding:.4em .8em;
-        }
-        .badge-success { background:#28a745; }
-        .badge-secondary { background:#6c757d; }
-        .form-control, .form-select {
-            background: #2a2a2a;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: .4em .8em;
             color: var(--text);
-            border:1px solid var(--border);
-            border-radius:.25rem;
+        }
+        .badge-success { background: #28a745; }
+        .badge-secondary { background: #6c757d; }
+        .form-control, .form-select {
+            background: var(--panel);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: .25rem;
         }
         .form-control:focus, .form-select:focus {
             border-color: var(--primary);
-            box-shadow:none;
-            background:#2a2a2a;
+            box-shadow: none;
+            background: var(--panel);
         }
-        .form-label { font-weight:500; }
+        .form-label { font-weight: 500; color: var(--text); }
         .btn-primary {
             background: var(--primary);
-            border:none;
-            text-transform:uppercase;
-            font-weight:600;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 600;
             transition: background .3s;
         }
         .btn-primary:hover {
-            background: var(--accent);
+            background: #c41b3a;
         }
         .btn-success {
-            background:#17a2b8;
-            border:none;
+            background: #17a2b8;
+            border: none;
         }
         .btn-success:hover {
-            background:#138496;
+            background: #138496;
         }
         .btn-secondary {
-            background:#343a40;
-            border:none;
+            background: #343a40;
+            border: none;
         }
         .btn-secondary:hover {
-            background:#23272b;
+            background: #23272b;
         }
         .delete-btn {
-            background:#dc3545;
-            border:none;
-            color:#fff;
+            background: #dc3545;
+            border: none;
+            color: var(--text);
             transition: transform .2s;
         }
         .delete-btn:hover {
-            transform:scale(1.1);
+            transform: scale(1.1);
         }
-        input[type="file"] { padding:.3rem; }
+        input[type="file"] { padding: .3rem; color: var(--text); }
         @media (max-width:768px) {
             .header h1 { font-size:2rem; }
         }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1><i class="bi bi-box-seam"></i> Chi Tiết Sản Phẩm</h1>
-        <p>Thông tin & Tạo biến thể</p>
-    </div>
 
     <div class="container-main">
 
@@ -164,8 +165,8 @@
                 <p><strong>Mô tả:</strong> ${product.description}</p>
                 <p><strong>Giá:</strong> ${product.price} đ</p>
                 <p><strong>Trạng thái:</strong>
-                    <span class="badge badge-status ${product.status ? 'badge-success' : 'badge-secondary'}">
-                        ${product.status ? 'Hoạt động' : 'Không hoạt động'}
+                    <span class="badge-status ${product.status?'badge-success':'badge-secondary'}">
+                        ${product.status?'Hoạt động':'Không hoạt động'}
                     </span>
                 </p>
             </div>
@@ -182,8 +183,8 @@
                     <div class="mb-3">
                         <label class="form-label">Kiểu Size</label>
                         <select id="sizeType" class="form-select" onchange="updateSizeOptions()">
-                            <option value="text">Chữ (S, M, L…)</option>
-                            <option value="number">Số (36, 38…)</option>
+                            <option value="text">Chữ (S,M,L…)</option>
+                            <option value="number">Số (36,38…)</option>
                         </select>
                     </div>
 
@@ -216,7 +217,7 @@
 
         <!-- Back Button -->
         <a href="${pageContext.request.contextPath}/MainController?action=LoadViewProductDetail&StrProductId=${product.product_id}"
-           class="btn btn-secondary">
+           class="btn btn-secondary mb-5">
             <i class="bi bi-arrow-left"></i> Quay Lại
         </a>
 
@@ -229,15 +230,17 @@
             const t = document.getElementById('sizeType').value;
             const sel = document.getElementById('size');
             sel.innerHTML = '';
-            const opts = t==='text' ? ['S','M','L','XL','XXL'] : ['36','38','40','42','44'];
-            opts.forEach(v=>{
+            const opts = t === 'text'
+                ? ['S','M','L','XL','XXL']
+                : ['36','38','40','42','44'];
+            opts.forEach(v => {
                 const o = document.createElement('option');
-                o.value=v; o.textContent=v;
+                o.value = v; o.textContent = v;
                 sel.appendChild(o);
             });
         }
         window.onload = updateSizeOptions;
     </script>
-    <jsp:include page="/common/popup.jsp"/>
+    <jsp:include page="/common/popup.jsp" />
 </body>
 </html>

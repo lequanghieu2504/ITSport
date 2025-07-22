@@ -88,7 +88,7 @@ public class UserService {
             UserDTO newUser = new UserDTO();
             newUser.setUsername(username);
             newUser.setPassword(hashPassword);
-            newUser.setRole(Role.ADMIN); // default role
+            newUser.setRole(Role.CLIENT); // default role
 
             boolean success = userDAO.insertUser(newUser);
 

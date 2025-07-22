@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -49,9 +50,9 @@
                                 </div>
                                 <!-- Giá -->
                                 <div class="col-2">
-                                    <div class="product-price" data-price="${item.product.price}">
-                                        ${item.product.price}₫
-                                    </div>
+                                    <div class="product-price" data-price="<c:out value='${item.product.price}'/>">
+    <fmt:formatNumber value="${item.product.price}" pattern="#,###" />₫
+</div>
                                 </div>
                                 <!-- Số lượng -->
                                 <div class="col-2">

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -157,7 +158,9 @@ button:hover, a:hover {
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Tổng Doanh Thu</h5>
-                <h3><strong><c:out value="${totalRevenue}" /> VNĐ</strong></h3>
+                <h3><strong>
+                    <fmt:formatNumber value="${totalRevenue}" pattern="#,###" /> VNĐ
+                </strong></h3>
             </div>
         </div>
 
