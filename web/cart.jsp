@@ -43,7 +43,7 @@
                                     <div class="product-name">${item.product.product_name}</div>
                                     <c:if test="${not empty item.variant}">
                                         <div class="text-muted small">
-                                            Size: ${item.variant.size} | Màu: ${item.variant.color}
+                                            Size: ${iztem.variant.size} | Màu: ${item.variant.color}
                                         </div>
                                     </c:if>
                                 </div>

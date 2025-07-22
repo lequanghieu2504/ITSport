@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import util.AuthUntil;
 
 /**
  *
@@ -40,7 +41,13 @@ public class BrandController extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("addBrand".equalsIgnoreCase(action)) {
+            if(AuthUntil.isAdmin(request.getSession())){
             brandService.handleAddBrand(request, response);
+            }
+            else{
+                request.getRequestDispatcher("MainController?action=loadForHomePage");
+                return;
+            }
         }
 
     }

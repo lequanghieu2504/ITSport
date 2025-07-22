@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import util.AuthUntil;
 
 @WebServlet(name = "ProductController", urlPatterns = {"/ProductController"})
 public class ProductController extends HttpServlet {
@@ -23,9 +24,9 @@ public class ProductController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      request.setCharacterEncoding("UTF-8");
-    response.setContentType("text/html;charset=UTF-8");
-    response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
         String keyword = request.getParameter("keyword");
@@ -34,22 +35,37 @@ public class ProductController extends HttpServlet {
         System.out.println(">>> [Controller] keyword: " + keyword);
 
         if ("insertProduct".equalsIgnoreCase(action)) {
-            productService.handleInsertProduct(request, response);
-            return;
-        } else if ("toggleStatus".equalsIgnoreCase(action)) {
-            productService.handleToggleStatus(request, response);
-            return;
-        } else if ("deleteProduct".equalsIgnoreCase(action)) {
-            productService.handleDeleteProduct(request, response);
-            return;
-        } else if ("createVariant".equalsIgnoreCase(action)) {
-            productVariantService.handleCreateProductVariant(request, response);
-            return;
-        } else if ("updateProduct".equalsIgnoreCase(action)) {
-            productService.handleUpdateProduct(request, response);
-            return;
+            if (AuthUntil.isAdmin(request.getSession())) {
 
+                productService.handleInsertProduct(request, response);
+                return;
+            }
+        } else if ("toggleStatus".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                productService.handleToggleStatus(request, response);
+                return;
+            }
+        } else if ("deleteProduct".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                productService.handleDeleteProduct(request, response);
+                return;
+            }
+        } else if ("createVariant".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                productVariantService.handleCreateProductVariant(request, response);
+                return;
+            }
+        } else if ("updateProduct".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                productService.handleUpdateProduct(request, response);
+                return;
+            }
         } else if ("viewDetailProduct".equalsIgnoreCase(action)) {
+
             productService.handleViewDetailProduct(request, response);
             return;
 
@@ -60,12 +76,9 @@ public class ProductController extends HttpServlet {
             productService.handleViewDetailForAdmin(request, response);
         } else if ("searchProduct".equalsIgnoreCase(action)) {
             productService.handleSearchProduct(request, response);
+        } else if ("productByBrand".equalsIgnoreCase(action)) {
+            productService.handleGetByBrandId(request, response);
         }
-        else if("productByBrand".equalsIgnoreCase(action)){
-            productService.handleGetByBrandId(request,response);
-        }
- 
-            
 
     }
 

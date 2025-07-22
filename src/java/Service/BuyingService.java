@@ -103,7 +103,7 @@ public class BuyingService {
 
             // Lưu thông tin vào session
             req.getSession().setAttribute("buyNowInfo", buyNowInfo);
-            req.getSession().setAttribute("productId", productId);
+            req.getSession().setAttribute("productId                                 ", productId);
             // Lấy danh sách địa chỉ của user (nếu đã đăng nhập)
             UserDTO currentUser = (UserDTO) req.getSession().getAttribute("user");
             if (currentUser != null) {
