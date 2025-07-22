@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import util.AuthUntil;
 
 /**
  *
@@ -39,9 +40,9 @@ public class PageController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         request.setCharacterEncoding("UTF-8");
-    response.setContentType("text/html;charset=UTF-8");
-    response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         System.out.println("vo duoc pageController");
         String action = request.getAttribute("action") != null
                 ? (String) request.getAttribute("action")
@@ -51,42 +52,66 @@ public class PageController extends HttpServlet {
             pageService.loadForHomePage(request, response);
             return;
         } else if ("loadForCreateForm".equalsIgnoreCase(action)) {
-            pageService.loadForCreateForm(request, response);
-            return;
+            if (AuthUntil.isAdmin(request.getSession())) {
+                pageService.loadForCreateForm(request, response);
+                return;
+            }
         } else if ("loadForListProductForm".equalsIgnoreCase(action)) {
-            pageService.loadForListProduct(request, response);
-            return;
+            if (AuthUntil.isAdmin(request.getSession())) {
+                pageService.loadForListProduct(request, response);
+                return;
+            }
         } else if ("loadEditForm".equalsIgnoreCase(action)) {
-            pageService.loadEditForm(request, response);
-            return;
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.loadEditForm(request, response);
+                return;
+            }
         } else if ("loadForProductCreateVariantForm".equalsIgnoreCase(action)) {
-            pageService.handleCreateForCreateProductVariantForm(request, response);
-            return;
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.handleCreateForCreateProductVariantForm(request, response);
+                return;
+            }
         } else if ("LoadViewProductDetail".equalsIgnoreCase(action)) {
             pageService.LoadViewProductDetail(request, response);
             return;
         } else if ("LoadForcreateVariantForm".equalsIgnoreCase(action)) {
-            pageService.LoadForcreateVariantForm(request, response);
-            return;
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.LoadForcreateVariantForm(request, response);
+                return;
+            }
         } else if ("viewDetailProduct".equalsIgnoreCase(action)) {
             pageService.handleViewDetailProduct(request, response);
             return;
+        } else if ("loadForListBuying".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.handleLoadListBuyingForAdmin(request, response);
+                return;
+            }
+        } else if ("loadForListCategory".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.handleLoadForCategory(request, response);
+                return;
+            }
+        } else if ("loadForListBrand".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.handleLoadForBrandList(request, response);
+                return;
+            }
+        } else if ("loadForRevenue".equalsIgnoreCase(action)) {
+            if (AuthUntil.isAdmin(request.getSession())) {
+
+                pageService.handleForRevenuePage(request, response);
+                return;
+            }
         }
-        else if("loadForListBuying".equalsIgnoreCase(action)){
-            pageService.handleLoadListBuyingForAdmin(request,response);
-            return;
-        }
-        else if("loadForListCategory".equalsIgnoreCase(action)){
-            pageService.handleLoadForCategory(request,response);
-            return;
-        }
-        else if("loadForListBrand".equalsIgnoreCase(action)){
-            pageService.handleLoadForBrandList(request,response);
-            return;
-        }
-        else if("loadForRevenue".equalsIgnoreCase(action)){
-            pageService.handleForRevenuePage(request,response);
-            return;
+        else{
+            request.getRequestDispatcher("MainController?action=loadForHomePage").forward(request, response);
         }
     }
 

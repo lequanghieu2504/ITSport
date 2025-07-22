@@ -92,12 +92,19 @@ public class PageService {
             request.setAttribute("listAo", listAo);
             request.setAttribute("listQ", listQ);
             request.setAttribute("productListP", productListP);
+<<<<<<< HEAD
             request.getSession().setAttribute("listB",listB);
             request.getSession().removeAttribute("buyNowInfo");
             request.getSession().removeAttribute("cartInfos");
 
             request.getSession().removeAttribute("cartCheckoutInfo");
+=======
+            request.getSession().setAttribute("listB", listB);
+            request.getSession().removeAttribute("buyNowInfo");
+            request.getSession().removeAttribute("cartInfos");
+>>>>>>> 76eb1f7775e7a67910125ebd9d20f5c1273f4f14
 
+            request.getSession().removeAttribute("cartCheckoutInfo");
             // lay thong tin het thi forward toi trang home de load len
             request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
         } catch (ServletException ex) {
