@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import util.AuthUntil;
 
 /**
  *
@@ -25,11 +26,11 @@ public class MainController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         request.setCharacterEncoding("UTF-8");
-    response.setContentType("text/html;charset=UTF-8");
-    response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
-        String url = "/PageController";
+        String url = "/MainController?action=LoadForHomePage";
         String action = request.getAttribute("action") != null
                 ? (String) request.getAttribute("action")
                 : request.getParameter("action");
@@ -51,11 +52,15 @@ public class MainController extends HttpServlet {
             } else if (isBuyingAction(action)) {
                 url = "/BuyingController";
             } else if (isImageAction(action)) {
-                url = "/ImageController";
+                if (AuthUntil.isAdmin(request.getSession())) {
+                    url = "/ImageController";
+                }
             } else if (isCartAction(action)) {
                 url = "/CartController";
             } else if (isCategoryaAction(action)) {
+                if(AuthUntil.isAdmin(request.getSession())){
                 url = "/CategoryController";
+                }
             } else if (isBrandAction(action)) {
                 url = "/BrandController";
             } else if (isVNPAYAction(action)) {
@@ -134,7 +139,7 @@ public class MainController extends HttpServlet {
                 || "productByCategory".equalsIgnoreCase(action)
                 || "GetProductDetail".equalsIgnoreCase(action)
                 || "searchProduct".equalsIgnoreCase(action)
-                ||"productByBrand".equalsIgnoreCase(action);
+                || "productByBrand".equalsIgnoreCase(action);
     }
 
     private boolean isUserBuyingInforAction(String action) {

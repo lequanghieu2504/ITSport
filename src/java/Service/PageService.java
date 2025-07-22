@@ -98,6 +98,7 @@ public class PageService {
 
             request.getSession().removeAttribute("cartCheckoutInfo");
 
+            request.getSession().removeAttribute("cartCheckoutInfo");
             // lay thong tin het thi forward toi trang home de load len
             request.getRequestDispatcher("/homepage/homepage.jsp").forward(request, response);
         } catch (ServletException ex) {
