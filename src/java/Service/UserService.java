@@ -263,4 +263,48 @@ public class UserService {
         return "Guest User";
     }
 
+    UserDTO getUserByEmail(String email) {
+        return userDAO.getUserByEmail(email);
+    }
+
+    public void updatePassword(HttpServletRequest request, HttpServletResponse response) {
+        String newPassword = request.getParameter("StrNewPassword");
+        String confirmPassword = request.getParameter("StrConfirmPassword");
+
+        try {
+            // Kiểm tra mật khẩu có trùng nhau không
+            if (newPassword == null || confirmPassword == null || !newPassword.equals(confirmPassword)) {
+                request.setAttribute("error", "Mật khẩu không khớp!");
+                request.getRequestDispatcher("updatePasswordForm.jsp").forward(request, response);
+                return;
+            }
+
+            // Lấy thông tin người dùng từ session (giả sử đã đăng nhập)
+           String email = (String) request.getSession().getAttribute("otp_email");
+           UserDTO userDTO = getUserByEmail(email);
+            // Gọi DAO để cập nhật mật khẩu
+            UserDAO dao = new UserDAO();
+            String hashPassword = PasswordUtils.hashPassword(newPassword);
+            boolean success = dao.updatePassword(userDTO.getUser_id(), hashPassword);
+
+            if (success) {
+                request.setAttribute("message", "Cập nhật mật khẩu thành công!");
+                request.setAttribute("userName", userDTO.getUsername());
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", "Lỗi khi cập nhật mật khẩu!");
+                request.getRequestDispatcher("updatePasswordForm.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Đã xảy ra lỗi!");
+            try {
+                request.getRequestDispatcher("updatePasswordForm.jsp.jsp").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

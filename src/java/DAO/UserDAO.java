@@ -169,4 +169,16 @@ public class UserDAO {
         return null;
     }
 
+    public boolean updatePassword(Long user_id, String newPassword) {
+            String sql = "update [User] set password = ? where user_id = ?";
+            try(Connection conn = JDBCConnection.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)){
+                ps.setString(1, newPassword);
+                ps.setLong(2, user_id);
+                return ps.executeUpdate() > 0;
+            } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
 }

@@ -1,0 +1,103 @@
+:root {
+    --footer-bg: #1a1a1a;
+    --footer-text: #f1f1f1;
+    --footer-muted: #999;
+    --footer-accent: #8b0000; /* Đỏ rượu vang */
+    --footer-hover: #b22222;
+    --footer-border: #333;
+    --transition: all 0.3s ease;
+}
+
+.sports-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    font-size: 0.95rem;
+    padding: 0 10.5rem;
+}
+
+.footer-brand {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--footer-accent);
+    letter-spacing: 1px;
+}
+
+.footer-desc {
+    color: var(--footer-muted);
+    margin-top: 0.75rem;
+    line-height: 1.6;
+}
+
+.footer-heading {
+    color: var(--footer-text);
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--footer-muted);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--footer-accent);
+}
+
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    color: var(--footer-muted);
+}
+
+.footer-contact li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-contact i {
+    margin-right: 8px;
+    color: var(--footer-accent);
+}
+
+.footer-divider {
+    border-top: 1px solid var(--footer-border);
+}
+
+.footer-backtop {
+    color: var(--footer-accent);
+    font-weight: bold;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-backtop:hover {
+    color: var(--footer-hover);
+    text-decoration: underline;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icon {
+    color: var(--footer-accent);
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+.social-icon:hover {
+    color: var(--footer-hover);
+    transform: scale(1.2);
+}

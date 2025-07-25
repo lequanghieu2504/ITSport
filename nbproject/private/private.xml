@@ -60,14 +60,18 @@
         </group>
         <group>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
-            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/WEB.xml</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/web.xml</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
         </group>
         <group>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/AuthUntil.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/CartService.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Service/PageService.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/cart.jsp</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/web/WEB-INF/web.xml</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/MainController.java</file>
+            <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/Controller/PageController.java</file>
             <file>file:/D:/FU_25SU/PRJ301/Assigments/ITSport/src/java/util/JDBCConnection.java</file>
         </group>
     </open-files>

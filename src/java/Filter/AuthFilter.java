@@ -55,9 +55,12 @@ public class AuthFilter implements Filter {
                 || action.equals("login")
                 || action.equals("register")
                 || action.equals("loadForHomePage")
-                || action.equals("sendMailToGetOTP")
+                || action.equals("sendMailToGetOTPtoLogin")
+                || action.equals("sendMailToGetOTPToForgotPassword")
+                || action.equals("OTPForGotPassWord")
                 || action.equals("OTPToLogin")
                 || action.equals("viewDetailProduct")
+                || action.equals("updatePassword")
                 ) {
             chain.doFilter(request, response);
             return;

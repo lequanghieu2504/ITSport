@@ -1,0 +1,114 @@
+/* File: assets/css/about.css */
+
+/* Toàn trang */
+body {
+  background-color: #f8f9fa;  /* nền nhạt nhẹ */
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  color: #333;
+}
+
+/* Tiêu đề chính */
+main h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+/* Các section */
+main section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  transition: transform .2s;
+}
+
+main section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Tiêu đề cấp 2 trong section */
+main section h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #34495e;
+}
+
+/* Đoạn văn */
+main section p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Danh sách */
+main section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+main section ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+main section ul li::before {
+  content: "\f058";            /* FontAwesome check-circle */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #27ae60;
+}
+
+/* Khối giá trị cốt lõi (cards) */
+main .row > .col-md-4 {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+main .row i.fa {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+main .row h5 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+/* Liên hệ */
+main section:last-child ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+main section:last-child ul li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+main section:last-child a {
+  color: #2980b9;
+  text-decoration: none;
+}
+
+main section:last-child a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  main h1 {
+    font-size: 2rem;
+  }
+  main section {
+    padding: 1.5rem;
+  }
+}

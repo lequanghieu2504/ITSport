@@ -45,7 +45,7 @@ public class CartService {
         response.getWriter().write("{\"success\":true, \"cartSize\":" + cartSize + "}");
     }
 
-    public void handleViewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewCart(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession();
         session.removeAttribute("buyNowInfo");
 
@@ -53,7 +53,11 @@ public class CartService {
         ClientDTO client = (ClientDTO) session.getAttribute("client");
 
         if (user == null || client == null) {
-            response.sendRedirect("MainController?action=loadForHomePage");
+            try {
+                response.sendRedirect("MainController?action=loadForHomePage");
+            } catch (IOException ex) {
+                Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return;
         }
 
@@ -63,7 +67,13 @@ public class CartService {
 
         request.setAttribute("cartSize", cartSize);
         request.setAttribute("listCartItem", cartItems);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+        try {
+            request.getRequestDispatcher("cart.jsp").forward(request, response);
+        } catch (ServletException ex) {
+            Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CartService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void handleRemoveFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {

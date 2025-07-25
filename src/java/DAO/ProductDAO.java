@@ -387,17 +387,19 @@ public class ProductDAO {
 
     public List<ProductDTO> searchByName(String keyword) {
         List<ProductDTO> list = new ArrayList<>();
-        String sql = "SELECT \n"
-                + "    p.*, \n"
-                + "    i.file_name AS img_url, \n"
-                + "    c.category_id AS category_id,\n"
-                + "    c.name AS category_name,\n"
-                + "    b.brand_id AS brand_id,\n"
-                + "    b.name AS brand_name\n"
+        String sql = "SELECT\n"
+                + "    p.*,\n"
+                + "    m.file_name AS main_img_url,\n"
+                + "    c.category_id   AS category_id,\n"
+                + "    c.name          AS category_name,\n"
+                + "    b.brand_id      AS brand_id,\n"
+                + "    b.name          AS brand_name\n"
                 + "FROM Product p\n"
-                + "LEFT JOIN image i ON p.product_id = i.target_id AND i.target_type = 'PRODUCT_MAIN'\n"
+                + "LEFT JOIN image m\n"
+                + "    ON m.target_id   = p.product_id\n"
+                + "   AND m.target_type = 'PRODUCT_MAIN'\n"
                 + "JOIN Categories c ON p.category_id = c.category_id\n"
-                + "JOIN Brand b ON p.brand_id = b.brand_id\n"
+                + "JOIN Brand      b ON p.brand_id     = b.brand_id\n"
                 + "WHERE p.status = 1\n"
                 + "  AND p.product_name LIKE ?";
 

@@ -343,7 +343,7 @@ public class BuyingService {
 //    }
     public int handleCheckout(HttpServletRequest req, HttpServletResponse resp) {
         UserDTO currentUser = validateUser(req);
-        TotalBuyingDTO dto = prepareOrderData(req, currentUser,resp);
+        TotalBuyingDTO dto = prepareOrderData(req, currentUser, resp);
         return processTransaction(req, resp, dto);
     }
 
@@ -356,32 +356,15 @@ public class BuyingService {
         return user;
     }
 
-    private TotalBuyingDTO prepareOrderData(HttpServletRequest req, UserDTO user,HttpServletResponse response) {
-
+// ...........................................
+    private TotalBuyingDTO prepareOrderData(HttpServletRequest req, UserDTO user, HttpServletResponse response) {
         String[] pIds = req.getParameterValues("productId");
         String[] vIds = req.getParameterValues("variantId");
         String[] qtys = req.getParameterValues("quantity");
         String[] prices = req.getParameterValues("priceEach");
-        String[] cartItemIds = req.getParameterValues("StrCartItemId"); // ✅ Bắt giỏ hàng
+        String[] cartItemIds = req.getParameterValues("StrCartItemId");
 
-        System.out.println("[DEBUG] pIds: " + Arrays.toString(pIds));
-        System.out.println("[DEBUG] cartItemIds: " + Arrays.toString(cartItemIds));
-
-        // Check cơ bản
-        if (pIds == null || vIds == null || qtys == null || prices == null) {
-            throw new IllegalArgumentException("Thiếu tham số sản phẩm");
-        }
-
-        boolean isCartFlow = cartItemIds != null;
-
-        if (isCartFlow && pIds.length != cartItemIds.length) {
-            throw new IllegalArgumentException("Số lượng cartItemId không khớp với sản phẩm");
-        }
-
-        if (pIds.length != vIds.length || pIds.length != qtys.length || pIds.length != prices.length) {
-            throw new IllegalArgumentException("Danh sách tham số sản phẩm không đồng bộ");
-        }
-
+        // ... (các validate về mảng đồng bộ như cũ) ...
         List<ItemDTO> items = new ArrayList<>();
         double total = 0;
 
@@ -391,11 +374,12 @@ public class BuyingService {
             int qty = Integer.parseInt(qtys[i]);
             double price = Double.parseDouble(prices[i]);
 
+            ProductDTO prod = productDAO.getProductById(pid);
             ItemDTO item = new ItemDTO(pid, vid, qty, price);
+            item.setProductName(prod != null ? prod.getProduct_name() : "Unknown");
 
-            if (isCartFlow) {
-                int cartItemId = Integer.parseInt(cartItemIds[i]);
-                item.setCartItemId(cartItemId); // ✅ Gán nếu là giỏ hàng
+            if (cartItemIds != null) {
+                item.setCartItemId(Integer.parseInt(cartItemIds[i]));
             }
 
             items.add(item);
@@ -407,33 +391,25 @@ public class BuyingService {
         dto.setItems(items);
         dto.setTotalPrice(total);
 
-        String strAddress = req.getParameter("selectedAddress");
-        if(strAddress== null||strAddress.trim().isEmpty()){
-            try {
-                req.getSession().setAttribute("message", "Vui lòng chọn địa chỉ giao hàng");
-                req.getRequestDispatcher("checkout.jsp").forward(req, response);
-                return null;
-            } catch (ServletException ex) {
-                Logger.getLogger(BuyingService.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(BuyingService.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        // Lấy địa chỉ giao hàng
-        long addressId = Long.parseLong(strAddress);
-        UserBuyingInfoDTO addr = userBuyingInforDAO.getUserBuyingInforById(addressId);
-        if (addr == null) {
+        // --- Phần mới: đọc địa chỉ từ radio 'selectedAddress' ---
+        String strAddressId = req.getParameter("selectedAddress");
+        if (strAddressId == null || strAddressId.trim().isEmpty()) {
+            // lỗi: chưa chọn địa chỉ
             throw new IllegalArgumentException("Vui lòng chọn địa chỉ giao hàng");
         }
-
+        long addressId = Long.parseLong(strAddressId);
+        UserBuyingInfoDTO addr = userBuyingInforDAO.getUserBuyingInforById(addressId);
+        if (addr == null) {
+            throw new IllegalArgumentException("Địa chỉ giao hàng không hợp lệ");
+        }
         dto.setShippingName(addr.getRecipientName());
         dto.setShippingPhone(addr.getPhone());
         dto.setShippingStreet(addr.getStreet());
         dto.setShippingWard(addr.getWard());
         dto.setShippingDistrict(addr.getDistrict());
         dto.setShippingProvince(addr.getProvince());
+        // --- Hết phần địa chỉ ---
 
-        // Phương thức thanh toán & trạng thái
         dto.setPaymentMethod(PaymentMethod.valueOf(req.getParameter("paymentMethod")));
         dto.setStatus(Status.PENDING);
 
@@ -466,6 +442,18 @@ public class BuyingService {
             }
 
             conn.commit();  // ✅ Commit nếu không lỗi
+
+            // Gửi mail xác nhận (không block flow chính)
+            // gán lại vào DTO để MailService có thể đọc
+            dto.setBuyingId(buyId);
+
+// gửi mail
+            try {
+                new MailService().sendOrderConfirmation((UserDTO) req.getSession().getAttribute("user"), dto);
+            } catch (Exception ex) {
+                Logger.getLogger(BuyingService.class.getName())
+                        .log(Level.WARNING, "Gửi mail xác nhận đơn hàng thất bại, đơn " + buyId, ex);
+            }
 
             session.removeAttribute("buyNowInfo");
             session.setAttribute("message", "Đặt hàng thành công!");

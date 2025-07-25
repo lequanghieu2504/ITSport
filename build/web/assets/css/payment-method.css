@@ -1,0 +1,45 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jul 19, 2025, 1:18:10 PM
+    Author     : hieuh
+*/
+
+/* assets/css/payment-methods.css */
+
+body {
+  background: #f5f5f5;
+}
+
+main h1 {
+  color: #34495e;
+}
+
+.qr-box {
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.qr-box img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.bg-white h5 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.bg-white ul li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+section small {
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+

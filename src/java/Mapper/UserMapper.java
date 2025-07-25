@@ -26,7 +26,10 @@ public class UserMapper {
             String username = rs.getString("username");
             String password = rs.getString("password");
             Role role = Role.valueOf(rs.getString("role"));
-
+            String mail = rs.getString("email");
+            if(mail!=null){
+                userDTO.setEmail(mail);
+            }
             userDTO.setUser_id(user_id);
             userDTO.setUsername(username);
             userDTO.setPassword(password);

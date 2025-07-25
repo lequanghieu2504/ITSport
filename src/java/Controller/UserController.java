@@ -69,6 +69,9 @@ public class UserController extends HttpServlet {
         } else if ("CancelOrderStatuByUser".equalsIgnoreCase(action)) {
             userService.cancelOrderStatusByUserId(request, response);
         }
+        else if("updatePassword".equalsIgnoreCase(action)){
+            userService.updatePassword(request,response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

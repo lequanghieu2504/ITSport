@@ -1,0 +1,35 @@
+:root {
+    --wine-red: #800020;
+    --wine-red-dark: #5a0017;
+    --background: #fefefe;
+    --card-bg: #fff5f8;
+    --border-radius: 12px;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --text-dark: #222;
+    --text-light: #fff;
+    --accent: #c72c48;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--background);
+    margin: 0;
+    padding: 0;
+    color: var(--text-dark);
+}
+
+/* Header */
+.header {
+    background-color: var(--wine-red);
+    padding: 16px 24px;
+    color: var(--text-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}

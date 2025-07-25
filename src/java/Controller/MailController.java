@@ -34,11 +34,17 @@ public class MailController extends HttpServlet {
     response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         
-        if("sendMailToGetOTP".equalsIgnoreCase(action)){
+        if("sendMailToGetOTPtoLogin".equalsIgnoreCase(action)){
             mailService.sendMailToGetOTP(request,response);
         }
         else if("OTPToLogin".equalsIgnoreCase(action)){
             mailService.verifyOTPToLogin(request, response);
+        }
+        else if("sendMailToGetOTPToForgotPassword".equalsIgnoreCase(action)){
+            mailService.sendMailToGetOTPToForgotPassword(request, response);
+        }
+        else if("OTPForGotPassWord".equalsIgnoreCase(action)){
+            mailService.verifyOTPToForgotPassword(request, response);
         }
             
         

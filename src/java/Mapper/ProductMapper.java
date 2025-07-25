@@ -117,7 +117,7 @@ public class ProductMapper {
             dto.setBrand_id(rs.getInt("brand_id"));
             dto.setCategory_name(rs.getString("category_name"));
             dto.setBrand_name(rs.getString("brand_name"));
-//            dto.setImg_url(rs.getString("img_url"));
+//            dto.setImg_url(rs.getString("main_img_url"));
             System.out.println(dto.getProduct_id());
             System.out.println(dto.getProduct_name());
 

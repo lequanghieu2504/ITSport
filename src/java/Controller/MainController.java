@@ -58,14 +58,15 @@ public class MainController extends HttpServlet {
             } else if (isCartAction(action)) {
                 url = "/CartController";
             } else if (isCategoryaAction(action)) {
-                if(AuthUntil.isAdmin(request.getSession())){
-                url = "/CategoryController";
+                if (AuthUntil.isAdmin(request.getSession())) {
+                    url = "/CategoryController";
                 }
             } else if (isBrandAction(action)) {
                 url = "/BrandController";
             } else if (isVNPAYAction(action)) {
                 url = "/payment";
             } else if (isMailAction(action)) {
+                System.out.println("vao duoc day roi");
                 url = "/MailController";
             }
         } catch (Exception e) {
@@ -158,6 +159,7 @@ public class MainController extends HttpServlet {
                 || "register".equals(action)
                 || "profile".equalsIgnoreCase(action)
                 || "myOrders".equalsIgnoreCase(action)
+                || "updatePassword".equalsIgnoreCase(action)
                 || "CancelOrderStatuByUser".equalsIgnoreCase(action);
     }
 
@@ -206,7 +208,9 @@ public class MainController extends HttpServlet {
 //        return "vnpayReturn".equalsIgnoreCase(action);
 //    }
     private boolean isMailAction(String action) {
-        return "sendMailToGetOTP".equalsIgnoreCase(action)
-                || "OTPToLogin".equalsIgnoreCase(action);
+        return "sendMailToGetOTPtoLogin".equalsIgnoreCase(action)
+                || "OTPToLogin".equalsIgnoreCase(action)
+                || "OTPForGotPassWord".equalsIgnoreCase(action)
+                || "sendMailToGetOTPToForgotPassword".equalsIgnoreCase(action);
     }
 }
